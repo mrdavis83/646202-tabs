@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music – Bridgestone Firestone Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+      --accent:#e8292d; --accent2:#1e3a5f;
+      --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+      --green:#16a34a; --amber:#d97706; --red:#dc2626;
+      --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: var(--bg);
+      font-family: var(--font);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin: 0 0 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent2);
+      margin: 0 0 14px 0;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .page-subtitle {
+      font-size: 0.82rem;
+      color: var(--text3);
+      margin: 0;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      padding: 18px 20px;
+      margin-bottom: 18px;
+    }
+
+    /* Volume reminder banner */
+    .volume-banner {
+      background: linear-gradient(135deg, var(--accent2) 0%, #2d5a8e 100%);
+      color: #fff;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    }
+
+    /* Now Playing badge */
+    .now-playing {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 18px;
+    }
+
+    .now-playing-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 1.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .now-playing-label {
+      font-size: 0.75rem;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 600;
+    }
+
+    .now-playing-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+
+    /* YouTube embed */
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      border-radius: 6px;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Layout grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Playlist list */
+    .playlist-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .playlist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface2);
+      transition: background .15s, border-color .15s;
+      cursor: pointer;
+    }
+
+    .playlist-item:hover {
+      background: #e0e9f5;
+      border-color: var(--accent2);
+    }
+
+    .playlist-item.active {
+      background: #dbeafe;
+      border-color: var(--accent2);
+    }
+
+    .playlist-item .play-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: transform .15s;
+    }
+
+    .playlist-item:hover .play-icon,
+    .playlist-item.active .play-icon {
+      transform: scale(1.2);
+    }
+
+    .playlist-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .playlist-item-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .playlist-item-id {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: background .15s, border-color .15s, color .15s;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: var(--surface2);
+    }
+
+    .btn-primary {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+
+    .btn-primary:hover {
+      background: #16325a;
+      border-color: #16325a;
+    }
+
+    .btn-danger {
+      color: var(--red);
+      border-color: var(--red);
+      background: transparent;
+      padding: 5px 10px;
+      font-size: 0.78rem;
+    }
+
+    .btn-danger:hover {
+      background: #fee2e2;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.78rem;
+    }
+
+    /* Add Playlist form */
+    .add-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .form-input {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--font);
+      font-size: 0.875rem;
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+      width: 100%;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent2);
+      box-shadow: 0 0 0 3px rgba(30,58,95,.12);
+    }
+
+    .form-input::placeholder {
+      color: var(--text3);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .error-msg {
+      font-size: 0.78rem;
+      color: var(--red);
+      display: none;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    /* Toggle add form */
+    .toggle-add-btn {
+      width: 100%;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      color: var(--text3);
+      font-size: 0.875rem;
+      padding: 18px 0 8px;
+    }
+
+    /* Section header with action */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <div>
+      <h1>🎵 Store Music</h1>
+      <p class="page-subtitle">Manage in-store playlists & audio</p>
+    </div>
+  </div>
+
+  <!-- Volume Reminder -->
+  <div class="volume-banner">
+    🔊 Use store speakers — keep it professional
+  </div>
+
+  <!-- Now Playing -->
+  <div class="now-playing" id="nowPlayingBar">
+    <div class="now-playing-dot" id="npDot"></div>
+    <div>
+      <div class="now-playing-label">Now Playing</div>
+      <div class="now-playing-name" id="npName">Classic Rock</div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+
+    <!-- Left: YouTube Player -->
+    <div class="card" style="padding-bottom: 20px;">
+      <h2>▶ Player</h2>
+      <div class="video-wrapper">
+        <iframe
+          id="ytPlayer"
+          src="https://www.youtube.com/embed/videoseries?list=PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG&autoplay=0&enablejsapi=1&origin=https://646202.com"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="Store Music Player"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- Right: Playlists -->
+    <div class="card">
+      <div class="section-header">
+        <h2>📋 Saved Playlists</h2>
+      </div>
+
+      <ul class="playlist-list" id="playlistList"></ul>
+
+      <div class="empty-state" id="emptyState" style="display:none;">
+        No playlists saved yet. Add one below!
+      </div>
+
+      <!-- Toggle Add Form Button -->
+      <button class="btn btn-primary toggle-add-btn" id="toggleAddBtn" onclick="toggleAddForm()">
+        ＋ Add Playlist
+      </button>
+
+      <!-- Add Playlist Form (hidden by default) -->
+      <div class="add-form" id="addForm" style="display:none;">
+        <div style="font-size:0.9rem;font-weight:600;color:var(--accent2);">New Playlist</div>
+        <div class="form-row">
+          <label class="form-label" for="inputName">Playlist Name</label>
+          <input class="form-input" id="inputName" type="text" placeholder="e.g. Jazz Classics" maxlength="60">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="inputUrl">YouTube URL or Playlist ID</label>
+          <input class="form-input" id="inputUrl" type="text" placeholder="e.g. PLxxxxxxxx or full URL">
+          <div class="error-msg" id="formError">Please enter both a name and a valid playlist ID/URL.</div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="savePlaylist()">💾 Save</button>
+          <button class="btn" onclick="toggleAddForm()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+<script>
+  /* ─────────────────────────────────────────
+     Constants
+  ───────────────────────────────────────── */
+  const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
+  const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
+  const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
+  const SMS_FROM       = '+15852572886';
+  const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
+  const PHONEBOOK_URL  = '/data/phonebook.json';
+  const TRIAGE_URL     = '/data/triage.json';
+  const ARTICLES_URL   = '/data/articles.json';
+
+  const STORAGE_KEY = 'music646202';
+
+  /* ─────────────────────────────────────────
+     Default playlists
+  ───────────────────────────────────────── */
+  const DEFAULT_PLAYLISTS = [
+    { id: 'classic-rock', name: 'Classic Rock',  plId: 'PLx0sYbCqOb8TBPRdmBHs5Iftvv9TPboYG' },
+    { id: 'country',      name: 'Country',       plId: 'PLU-9bGoKmN-Tq_BVFPFCf6YsArZrk3YO4' },
+    { id: 'hip-hop',      name: 'Hip Hop',       plId: 'PLH6pfBXQXHEC2uDmDy-aHCTM82hsu4eZ6' },
+    { id: 'workout',      name: 'Workout',       plId: 'PLFgquLnL59alCl_2TQvOiD5Vgm1hCaGSI' },
+  ];
+
+  /* ─────────────────────────────────────────
+     State
+  ───────────────────────────────────────── */
+  let state = {
+    playlists: [],
+    currentId: 'classic-rock',
+  };
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        state = { ...state, ...parsed };
+      }
+    } catch (e) { /* ignore */ }
+
+    // Merge defaults: add any default that isn't already present
+    DEFAULT_PLAYLISTS.forEach(def => {
+      if (!state.playlists.find(p => p.id === def.id)) {
+        state.playlists.unshift({ ...def });
+      }
+    });
+
+    saveState();
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { /* ignore */ }
+  }
+
+  /* ─────────────────────────────────────────
+     Render
+  ───────────────────────────────────────── */
+  function render() {
+    const list = document.getElementById('playlistList');
+    const empty = document.getElementById('emptyState');
+    list.innerHTML = '';
+
+    if (state.playlists.length === 0) {
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+    }
+
+    state.playlists.forEach(pl => {
+      const li = document.createElement('li');
+      li.className = 'playlist-item' + (pl.id === state.currentId ? ' active' : '');
+      li.innerHTML = `
+        <span class="play-icon">${pl.id === state.currentId ? '🎵' : '▶️'}</span>
+        <div class="playlist-item-info">
+          <div class="playlist-item-name">${escapeHtml(pl.name)}</div>
+          <div class="playlist-item-id">${escapeHtml(pl.plId)}</div>
+        </div>
+        <button class="btn btn-danger" onclick="deletePlaylist(event, '${escapeAttr(pl.id)}')" title="Remove playlist">✕</button>
+      `;
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-danger')) return;
+        loadPlaylist(pl.id);
+      });
+      list.appendChild(li);
+    });
+  }
+
+  /* ─────────────────────────────────────────
+     Load playlist into player
+  ───────────────────────────────────────── */
+  function loadPlaylist(id) {
+    const pl = state.playlists.find(p => p.id === id);
+    if (!pl) return;
+
+    state.currentId = id;
+    saveState();
+
+    // Update iframe src
+    const iframe = document.getElementById('ytPlayer');
+    iframe.src = `https://www.youtube.com/embed/videoseries?list=${encodeURIComponent(pl.plId)}&autoplay=1&enablejsapi=1&origin=https://646202.com`;
+
+    // Update now playing
+    document.getElementById('npName').textContent = pl.name;
+
+    render();
+  }
+
+  /* ─────────────────────────────────────────
+     Extract playlist ID from URL or raw ID
+  ───────────────────────────────────────── */
+  function extractPlaylistId(input) {
+    input = input.trim();
+    if (!input) return null;
+
+    // Already a raw playlist ID (starts with PL or similar YouTube prefixes)
+    if (/^[A-Za-z0-9_-]{10,}$/.test(input) && !input.includes(' ')) {
+      return input;
+    }
+
+    // Try URL parsing
+    try {
+      const url = new URL(input.includes('://') ? input : 'https://' + input);
+      const listParam = url.searchParams.get('list');
+      if (listParam) return listParam;
+    } catch (e) { /* not a URL */ }
+
+    // Fallback: look for list= in string
+    const match = input.match(/[?&]list=([A-Za-z0-9_-]+)/);
+    if (match) return match[1];
+
+    return null;
+  }
+
+  /* ─────────────────────────────────────────
+     Save new playlist
+  ───────────────────────────────────────── */
+  function savePlaylist() {
+    const nameEl = document.getElementById('inputName');
+    const urlEl  = document.getElementById('inputUrl');
+    const errEl  = document.getElementById('formError');
+
+    const name  = nameEl.value.trim();
+    const input = urlEl.value.trim();
+    const plId  = extractPlaylistId(input);
+
+    if (!name || !plId) {
+      errEl.classList.add('visible');
+      return;
+    }
+    errEl.classList.remove('visible');
+
+    const newPl = {
+      id: 'pl-' + Date.now(),
+      name,
+      plId,
+    };
+
+    state.playlists.push(newPl);
+    saveState();
+
+    nameEl.value = '';
+    urlEl.value  = '';
+
+    toggleAddForm();
+    render();
+  }
+
+  /* ─────────────────────────────────────────
+     Delete playlist
+  ───────────────────────────────────────── */
+  function deletePlaylist(e, id) {
+    e.stopPropagation();
+    const pl = state.playlists.find(p => p.id === id);
+    if (!pl) return;
+
+    if (!confirm(`Remove "${pl.name}" from saved playlists?`)) return;
+
+    state.playlists = state.playlists.filter(p => p.id !== id);
+
+    // If we deleted the currently playing one, fall back to first
+    if (state.currentId === id) {
+      if (state.playlists.length > 0) {
+        loadPlaylist(state.playlists[0].id);
+      } else {
+        state.currentId = null;
+        document.getElementById('npName').textContent = '—';
+        document.getElementById('ytPlayer').src = '';
+      }
+    }
+
+    saveState();
+    render();
+  }
+
+  /* ─────────────────────────────────────────
+     Toggle add form
+  ───────────────────────────────────────── */
+  function toggleAddForm() {
+    const form   = document.getElementById('addForm');
+    const btn    = document.getElementById('toggleAddBtn');
+    const visible = form.style.display !== 'none';
+    form.style.display = visible ? 'none' : 'flex';
+    btn.textContent    = visible ? '＋ Add Playlist' : '✕ Cancel';
+    if (!visible) {
+      document.getElementById('inputName').focus();
+    }
+    // Clear error when toggling
+    document.getElementById('formError').classList.remove('visible');
+  }
+
+  /* ─────────────────────────────────────────
+     Allow pressing Enter in form inputs
+  ───────────────────────────────────────── */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const form = document.getElementById('addForm');
+      if (form.style.display !== 'none') {
+        savePlaylist();
+      }
+    }
+  });
+
+  /* ─────────────────────────────────────────
+     Helpers
+  ───────────────────────────────────────── */
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function escapeAttr(str) {
+    return String(str).replace(/'/g,"\\'");
+  }
+
+  /* ─────────────────────────────────────────
+     Init
+  ───────────────────────────────────────── */
+  (function init() {
+    loadState();
+    render();
+
+    // Set now playing label to current playlist name
+    const current = state.playlists.find(p => p.id === state.currentId);
+    if (current) {
+      document.getElementById('npName').textContent = current.name;
+    }
+  })();
+</script>
+</body>
+</html>
