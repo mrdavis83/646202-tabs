@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team – Bridgestone Firestone Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+    --accent:#e8292d; --accent2:#1e3a5f;
+    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626;
+    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Typography ── */
+  h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+  h2 { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+  h3 { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 6px; font-size: 0.875rem;
+    font-weight: 500; font-family: var(--font); cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text); transition: all .15s ease; text-decoration: none;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-primary {
+    background: var(--accent2); color: #fff; border-color: var(--accent2);
+  }
+  .btn-primary:hover { background: #162d4a; border-color: #162d4a; }
+  .btn-danger { border-color: var(--red); color: var(--red); }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+
+  /* ── Page header ── */
+  .page-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .page-title { display: flex; align-items: center; gap: 10px; }
+  .page-title svg { color: var(--accent2); }
+
+  /* ── Team grid ── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  @media (max-width: 960px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
+
+  /* ── Member card ── */
+  .member-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 18px;
+    display: flex; flex-direction: column; gap: 12px;
+    transition: box-shadow .15s;
+  }
+  .member-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+
+  .card-top { display: flex; align-items: flex-start; gap: 14px; }
+  .avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--accent2); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; flex-shrink: 0;
+    letter-spacing: .5px;
+  }
+  .card-info { flex: 1; min-width: 0; }
+  .card-name { font-weight: 600; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card-phone { font-size: 0.8rem; color: var(--text2); margin-top: 3px; }
+  .card-phone a { color: var(--text2); text-decoration: none; }
+  .card-phone a:hover { color: var(--accent2); text-decoration: underline; }
+
+  /* role badge */
+  .role-badge {
+    display: inline-block; padding: 2px 9px; border-radius: 999px;
+    font-size: 0.72rem; font-weight: 600; color: #fff; white-space: nowrap;
+    margin-top: 5px;
+  }
+  .role-Manager { background: var(--accent2); }
+  .role-Asst-Manager { background: #2563eb; }
+  .role-Service-Advisor { background: #0d9488; }
+  .role-Technician { background: var(--green); }
+  .role-Porter { background: #64748b; }
+
+  /* ASE pills */
+  .ase-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ase-pill {
+    padding: 2px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 600;
+    cursor: pointer; border: 1.5px solid transparent;
+    transition: all .12s; font-family: var(--mono);
+    user-select: none;
+  }
+  .ase-pill.active { color: #fff; }
+  .ase-pill.inactive { background: var(--surface2); color: var(--text3); border-color: var(--border); }
+  .ase-pill.inactive:hover { border-color: var(--text3); color: var(--text2); }
+
+  /* ASE color map */
+  .ase-A1.active { background: #7c3aed; border-color: #7c3aed; }
+  .ase-A2.active { background: #db2777; border-color: #db2777; }
+  .ase-A3.active { background: #ea580c; border-color: #ea580c; }
+  .ase-A4.active { background: #d97706; border-color: #d97706; }
+  .ase-A5.active { background: #65a30d; border-color: #65a30d; }
+  .ase-A6.active { background: #0d9488; border-color: #0d9488; }
+  .ase-A7.active { background: #2563eb; border-color: #2563eb; }
+  .ase-A8.active { background: #7c3aed; border-color: #7c3aed; }
+  .ase-L1.active { background: #e8292d; border-color: #e8292d; }
+  .ase-L2.active { background: #be123c; border-color: #be123c; }
+  .ase-C1.active { background: var(--accent2); border-color: var(--accent2); }
+
+  /* notes field */
+  .notes-label { font-size: 0.75rem; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: .05em; }
+  .notes-text {
+    font-size: 0.82rem; color: var(--text2); min-height: 32px;
+    background: var(--surface2); border-radius: 5px; padding: 6px 8px;
+    border: 1px solid var(--border); font-family: var(--font);
+    line-height: 1.4;
+  }
+
+  .card-actions { display: flex; gap: 8px; margin-top: auto; }
+
+  /* ── Section divider ── */
+  .section-label {
+    font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--text3); margin-bottom: 4px;
+  }
+
+  /* ── Schedule widget ── */
+  .schedule-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 20px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+  }
+  .schedule-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+  }
+  .schedule-table { width: 100%; border-collapse: collapse; min-width: 480px; }
+  .schedule-table th {
+    background: var(--surface2); padding: 8px 12px;
+    font-size: 0.8rem; font-weight: 600; color: var(--text2);
+    text-align: left; border: 1px solid var(--border);
+  }
+  .schedule-table th.day-header { width: 100px; }
+  .schedule-table td {
+    border: 1px solid var(--border); padding: 4px 6px;
+    vertical-align: top;
+  }
+  .schedule-table tr:hover td { background: #fafbfc; }
+  .schedule-cell {
+    min-height: 44px; width: 100%; resize: none;
+    border: none; background: transparent;
+    font-family: var(--mono); font-size: 0.8rem; color: var(--text);
+    padding: 4px; outline: none; cursor: text;
+  }
+  .schedule-cell:focus { background: #eff6ff; border-radius: 4px; }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.45); z-index: 1000;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    width: 100%; max-width: 520px; max-height: 90vh;
+    overflow-y: auto; display: flex; flex-direction: column;
+  }
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; background: var(--surface); z-index: 1;
+  }
+  .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .modal-footer {
+    padding: 14px 20px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px;
+    position: sticky; bottom: 0; background: var(--surface);
+  }
+  .modal-close {
+    background: none; border: none; cursor: pointer; color: var(--text3);
+    font-size: 1.4rem; line-height: 1; padding: 2px; transition: color .12s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  /* Form elements */
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text2); }
+  .form-input, .form-select, .form-textarea {
+    padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border);
+    font-family: var(--font); font-size: 0.875rem; color: var(--text);
+    background: var(--surface); transition: border-color .12s;
+    outline: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(30,58,95,.1);
+  }
+  .form-textarea { resize: vertical; min-height: 72px; }
+
+  .cert-grid {
+    display: flex; flex-wrap: wrap; gap: 8px; padding: 10px;
+    background: var(--surface2); border-radius: 6px;
+  }
+  .cert-check { display: flex; align-items: center; gap: 5px; }
+  .cert-check input { width: 15px; height: 15px; cursor: pointer; accent-color: var(--accent2); }
+  .cert-check label { font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: var(--mono); }
+
+  /* confirm dialog */
+  .confirm-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.5); z-index: 1100;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .confirm-overlay.open { display: flex; }
+  .confirm-box {
+    background: var(--surface); border-radius: 8px;
+    padding: 24px; max-width: 360px; width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,.2);
+    text-align: center;
+  }
+  .confirm-box h3 { margin-bottom: 8px; }
+  .confirm-box p { color: var(--text2); font-size: 0.9rem; margin-bottom: 20px; }
+  .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+  /* empty state */
+  .empty-state {
+    grid-column: 1 / -1; text-align: center; padding: 48px 24px; color: var(--text3);
+  }
+  .empty-state svg { margin-bottom: 12px; opacity: .4; }
+  .empty-state p { font-size: 0.95rem; }
+
+  /* toast */
+  .toast-container {
+    position: fixed; bottom: 24px; right: 24px; z-index: 2000;
+    display: flex; flex-direction: column; gap: 8px; pointer-events: none;
+  }
+  .toast {
+    background: var(--text); color: #fff; border-radius: 6px;
+    padding: 10px 16px; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    opacity: 0; transform: translateY(8px); transition: all .2s ease;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- Page header -->
+<div class="page-header">
+  <div class="page-title">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    <h1>Team</h1>
+  </div>
+  <button class="btn btn-primary" id="addMemberBtn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    Add Member
+  </button>
+</div>
+
+<!-- Team grid -->
+<div class="team-grid" id="teamGrid"></div>
+
+<!-- Schedule section -->
+<div class="schedule-section">
+  <div class="schedule-header">
+    <div>
+      <h2>Weekly Schedule</h2>
+      <div style="font-size:.8rem;color:var(--text3);margin-top:3px;">Click any cell to enter team member initials</div>
+    </div>
+    <button class="btn btn-sm" id="clearScheduleBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/>
+        <path d="M10 11v6"/><path d="M14 11v6"/>
+      </svg>
+      Clear All
+    </button>
+  </div>
+  <table class="schedule-table">
+    <thead>
+      <tr>
+        <th class="day-header">Day</th>
+        <th>🌅 Morning <span style="font-weight:400;color:var(--text3)">(6am–12pm)</span></th>
+        <th>☀️ Afternoon <span style="font-weight:400;color:var(--text3)">(12pm–5pm)</span></th>
+        <th>🌆 Evening <span style="font-weight:400;color:var(--text3)">(5pm–close)</span></th>
+      </tr>
+    </thead>
+    <tbody id="scheduleBody"></tbody>
+  </table>
+</div>
+
+<!-- Add/Edit Member Modal -->
+<div class="modal-overlay" id="memberModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Add Team Member</h2>
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editIndex" value="-1">
+
+      <div class="form-group">
+        <label class="form-label" for="inputName">Full Name *</label>
+        <input class="form-input" type="text" id="inputName" placeholder="e.g. Jane Smith">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inputRole">Role *</label>
+        <select class="form-select" id="inputRole">
+          <option value="">Select role…</option>
+          <option value="Manager">Manager</option>
+          <option value="Asst Manager">Asst Manager</option>
+          <option value="Service Advisor">Service Advisor</option>
+          <option value="Technician">Technician</option>
+          <option value="Porter">Porter</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inputPhone">Phone</label>
+        <input class="form-input" type="tel" id="inputPhone" placeholder="e.g. 5856716164">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">ASE Certifications</label>
+        <div class="cert-grid" id="certGrid"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="inputNotes">Notes</label>
+        <textarea class="form-textarea" id="inputNotes" placeholder="Any additional notes…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" id="modalSave">Save Member</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Delete Member?</h3>
+    <p>This will permanently remove the team member and cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn" id="confirmCancel">Cancel</button>
+      <button class="btn btn-danger" id="confirmDelete">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ── Constants ── */
+const STORAGE_KEY   = 'team646202';
+const SCHEDULE_KEY  = 'team646202_schedule';
+const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
+const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
+const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
+const SMS_FROM       = '+15852572886';
+const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
+
+const ASE_CERTS = ['A1','A2','A3','A4','A5','A6','A7','A8','L1','L2','C1'];
+const DAYS      = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const SHIFTS    = ['Morning','Afternoon','Evening'];
+
+const DEFAULT_MEMBERS = [
+  { name:"Drew Davis", role:"Manager", phone:"5856716164", certs:["L1","C1"], notes:"Store Manager" }
+];
+
+/* ── State ── */
+let members  = [];
+let schedule = {};
+let deleteIndex = -1;
+
+/* ── Persistence ── */
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    members = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+  } catch(e) {
+    members = JSON.parse(JSON.stringify(DEFAULT_MEMBERS));
+  }
+  try {
+    const rawSched = localStorage.getItem(SCHEDULE_KEY);
+    schedule = rawSched ? JSON.parse(rawSched) : {};
+  } catch(e) {
+    schedule = {};
+  }
+}
+function saveMembers() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+}
+function saveSchedule() {
+  localStorage.setItem(SCHEDULE_KEY, JSON.stringify(schedule));
+}
+
+/* ── Helpers ── */
+function getInitials(name) {
+  return name.trim().split(/\s+/).map(p=>p[0]||'').join('').toUpperCase().slice(0,2);
+}
+function formatPhone(ph) {
+  const d = (ph||'').replace(/\D/g,'');
+  if(d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+  if(d.length === 11 && d[0]==='1') return `+1 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
+  return ph || '';
+}
+function roleClass(role) {
+  return 'role-' + (role||'Porter').replace(/\s+/g,'-');
+}
+
+/* ── Toast ── */
+function showToast(msg, type='') {
+  const ct = document.getElementById('toastContainer');
+  const t  = document.createElement('div');
+  t.className = 'toast' + (type ? ' '+type : '');
+  t.textContent = msg;
+  ct.appendChild(t);
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ t.classList.add('show'); }); });
+  setTimeout(()=>{
+    t.classList.remove('show');
+    setTimeout(()=>t.remove(), 300);
+  }, 2800);
+}
+
+/* ── Render Team Grid ── */
+function renderTeam() {
+  const grid = document.getElementById('teamGrid');
+  grid.innerHTML = '';
+
+  if(!members.length) {
+    grid.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      <p>No team members yet. Click <strong>Add Member</strong> to get started.</p>
+    </div>`;
+    return;
+  }
+
+  members.forEach((m, idx) => {
+    const card = document.createElement('div');
+    card.className = 'member-card';
+    card.dataset.index = idx;
+
+    const initials  = getInitials(m.name);
+    const phoneDisp = formatPhone(m.phone);
+    const phoneTel  = (m.phone||'').replace(/\D/g,'');
+    const roleCls   = roleClass(m.role);
+
+    // ASE pills HTML
+    let asePillsHtml = '';
+    ASE_CERTS.forEach(cert => {
+      const active = (m.certs||[]).includes(cert);
+      asePillsHtml += `<span class="ase-pill ase-${cert} ${active?'active':'inactive'}" data-cert="${cert}" data-idx="${idx}" title="${cert}">${cert}</span>`;
+    });
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="avatar">${initials}</div>
+        <div class="card-info">
+          <div class="card-name">${escHtml(m.name)}</div>
+          <span class="role-badge ${roleCls}">${escHtml(m.role||'')}</span>
+          ${phoneDisp ? `<div class="card-phone"><a href="tel:${phoneTel}">${phoneDisp}</a></div>` : ''}
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:6px;">ASE Certifications</div>
+        <div class="ase-row">${asePillsHtml}</div>
+      </div>
+      <div>
+        <div class="notes-label">Notes</div>
+        <div class="notes-text">${escHtml(m.notes||'') || '<span style="color:var(--text3)">No notes</span>'}</div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-sm" data-action="edit" data-idx="${idx}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+        <button class="btn btn-sm btn-danger" data-action="delete" data-idx="${idx}">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          Delete
+        </button>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  /* ASE pill toggle */
+  grid.querySelectorAll('.ase-pill').forEach(pill => {
+    pill.addEventListener('click', e => {
+      const idx  = parseInt(pill.dataset.idx);
+      const cert = pill.dataset.cert;
+      const m    = members[idx];
+      if(!m) return;
+      m.certs = m.certs || [];
+      if(m.certs.includes(cert)) {
+        m.certs = m.certs.filter(c=>c!==cert);
+        pill.classList.remove('active'); pill.classList.add('inactive');
+      } else {
+        m.certs.push(cert);
+        pill.classList.add('active'); pill.classList.remove('inactive');
+      }
+      saveMembers();
+    });
+  });
+
+  /* Edit / Delete buttons */
+  grid.
