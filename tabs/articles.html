@@ -42,9 +42,13 @@ tr:hover td{background:var(--surface2)}
 @media(max-width:768px){.add-form{grid-template-columns:1fr 1fr}}
 
 .cat-custom { background:#f0f4ff; color:#3730a3; }
+
+.editable-cell:hover { border-color: var(--border) !important; background: var(--surface2) !important; cursor: text; }
+.editable-cell:focus { border-color: var(--accent2) !important; background: var(--surface) !important; }
+.inline-cat-select:hover { border-color: var(--border) !important; background: var(--surface2) !important; }
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
@@ -106,17 +110,60 @@ function render() {
     (!q || (a.num + ' ' + a.desc + ' ' + (a.sup||'')).toLowerCase().includes(q))
   );
   document.getElementById('art-count').textContent = filtered.length + ' of ' + articles.length + ' articles';
+  // styles applied after render below
   tbody.innerHTML = filtered.length === 0
     ? '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text3)">No articles match</td></tr>'
-    : filtered.map(a => `<tr>
+    : filtered.map(a => `<tr data-num="${a.num}">
         <td style="font-family:var(--mono);font-weight:700">${a.num}</td>
-        <td><span class="badge cat-${a.cat||'misc'}">${a.cat||'misc'}</span></td>
-        <td style="font-weight:500">${a.desc||''}</td>
-        <td style="color:var(--text2)">${a.sup||''}</td>
-        <td style="font-family:var(--mono)">${a.price||''}</td>
-        <td style="color:var(--text3);font-size:12px">${a.notes||''}</td>
+        <td>
+          <select class="inline-cat-select" data-num="${a.num}" onchange="updateField('${a.num}','cat',this.value)"
+            style="font-family:var(--font);font-size:12px;border:1px solid transparent;border-radius:4px;padding:2px 6px;background:transparent;cursor:pointer;font-weight:700;outline:none"
+            onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
+            onblur="this.style.borderColor='transparent';this.style.background='transparent'">
+            ${categories.map(c => `<option value="${c}" ${a.cat===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
+          </select>
+        </td>
+        <td>
+          <span class="editable-cell" data-num="${a.num}" data-field="desc"
+            contenteditable="true" spellcheck="false"
+            onblur="updateField('${a.num}','desc',this.innerText.trim())"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+            style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;font-weight:500;min-width:80px"
+            onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
+            onblur2="this.style.borderColor='transparent';this.style.background='transparent'"
+            >${a.desc||''}</span>
+        </td>
+        <td>
+          <span class="editable-cell" data-num="${a.num}" data-field="sup"
+            contenteditable="true" spellcheck="false"
+            onblur="updateField('${a.num}','sup',this.innerText.trim())"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+            style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;color:var(--text2);min-width:40px"
+            onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
+            >${a.sup||''}</span>
+        </td>
+        <td>
+          <span class="editable-cell" data-num="${a.num}" data-field="price"
+            contenteditable="true" spellcheck="false"
+            onblur="updateField('${a.num}','price',this.innerText.trim())"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+            style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;font-family:var(--mono);min-width:30px"
+            onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
+            >${a.price||''}</span>
+        </td>
+        <td>
+          <span class="editable-cell" data-num="${a.num}" data-field="notes"
+            contenteditable="true" spellcheck="false"
+            onblur="updateField('${a.num}','notes',this.innerText.trim())"
+            onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+            style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;color:var(--text3);font-size:12px;min-width:40px"
+            onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
+            >${a.notes||''}</span>
+        </td>
         <td><button class="btn btn-sm btn-danger" onclick="delArticle('${a.num}')">Del</button></td>
       </tr>`).join('');
+  // Apply badge styles to selects after render
+  document.querySelectorAll('.inline-cat-select').forEach(sel => applyCatStyle(sel));
 }
 
 function save() {
@@ -161,6 +208,40 @@ function exportCSV() {
   el.click();
 }
 
+
+
+function updateField(num, field, value) {
+  const a = articles.find(a => a.num === num);
+  if (!a) return;
+  if (a[field] === value) return; // no change
+  a[field] = value;
+  save();
+  // Re-apply badge style if category changed
+  if (field === 'cat') {
+    const sel = document.querySelector(`select.inline-cat-select[data-num="${num}"]`);
+    if (sel) applyCatStyle(sel);
+  }
+}
+
+function applyCatStyle(sel) {
+  const cat = sel.value || 'misc';
+  const styles = {
+    labor:    {bg:'#fef9c3', color:'#854d0e'},
+    parts:    {bg:'#dbeafe', color:'#1d4ed8'},
+    tire:     {bg:'#f3e8ff', color:'#6b21a8'},
+    oil:      {bg:'#dcfce7', color:'#15803d'},
+    misc:     {bg:'#f1f5f9', color:'#475569'},
+    discount: {bg:'#fee2e2', color:'#b91c1c'},
+  };
+  const s = styles[cat] || {bg:'#f0f4ff', color:'#3730a3'};
+  sel.style.background = s.bg;
+  sel.style.color = s.color;
+  sel.style.borderColor = 'transparent';
+  sel.style.fontWeight = '700';
+  sel.style.fontSize = '11px';
+  sel.style.textTransform = 'uppercase';
+  sel.style.letterSpacing = '0.04em';
+}
 
 // ── CATEGORY MANAGEMENT ──
 const DEFAULT_CATS = ['labor','parts','tire','oil','misc','discount'];
