@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPS — Store #646202</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+    --accent:#e8292d; --accent2:#1e3a5f;
+    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626;
+    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── Typography ── */
+  h2 { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+  h3 { font-size: 0.85rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .06em; }
+
+  /* ── Layout ── */
+  .section { margin-bottom: 24px; }
+  .section-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px;
+  }
+  .section-header h2 { margin: 0; }
+  .divider {
+    flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── Card ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 16px;
+  }
+
+  /* ── Store Info Row ── */
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .info-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+  .info-card .icon {
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+  .info-card .label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text3);
+    margin-bottom: 2px;
+  }
+  .info-card .value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .info-card .value a {
+    color: var(--accent2);
+    text-decoration: none;
+  }
+  .info-card .value a:hover { text-decoration: underline; }
+  .info-card.accent-left { border-left: 3px solid var(--accent2); }
+
+  /* ── Terminal ── */
+  .terminal-wrap {
+    background: #0f172a;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #1e293b;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  .terminal-titlebar {
+    background: #1e293b;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #334155;
+  }
+  .terminal-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .dot-red   { background: #ef4444; }
+  .dot-yellow{ background: #f59e0b; }
+  .dot-green { background: #22c55e; }
+  .terminal-title {
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: #64748b;
+    letter-spacing: .05em;
+  }
+  .terminal-status-dot {
+    margin-left: auto;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px #22c55e;
+    animation: pulse-green 2s infinite;
+  }
+  @keyframes pulse-green {
+    0%,100% { opacity:1; }
+    50% { opacity:.4; }
+  }
+
+  .terminal-output {
+    padding: 16px;
+    min-height: 320px;
+    max-height: 420px;
+    overflow-y: auto;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    scroll-behavior: smooth;
+  }
+  .terminal-output::-webkit-scrollbar { width: 6px; }
+  .terminal-output::-webkit-scrollbar-track { background: #0f172a; }
+  .terminal-output::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+  .t-cmd    { color: #38bdf8; }   /* sky blue — commands */
+  .t-out    { color: #e2e8f0; }   /* white — stdout */
+  .t-err    { color: #f87171; }   /* red — errors */
+  .t-info   { color: #94a3b8; }   /* muted — system messages */
+  .t-success{ color: #4ade80; }   /* green — success */
+  .t-prompt { color: #7c3aed; }   /* purple — prompt */
+
+  .terminal-quick {
+    padding: 10px 16px;
+    background: #0f172a;
+    border-top: 1px solid #1e293b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .quick-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: #475569;
+    align-self: center;
+    margin-right: 4px;
+  }
+  .btn-quick {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    background: #1e293b;
+    color: #94a3b8;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-quick:hover {
+    background: #334155;
+    color: #e2e8f0;
+    border-color: #475569;
+  }
+  .btn-quick:active { transform: scale(.96); }
+
+  .terminal-input-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    background: #0f172a;
+    border-top: 1px solid #1e293b;
+    gap: 10px;
+  }
+  .terminal-prompt {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: #7c3aed;
+    white-space: nowrap;
+    font-weight: 700;
+  }
+  .terminal-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: #f1f5f9;
+    caret-color: #38bdf8;
+  }
+  .terminal-input::placeholder { color: #334155; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    border: 1px solid transparent;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+  .btn-primary:hover { background: #16305a; }
+  .btn-danger {
+    background: transparent;
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { padding: 5px 12px; font-size: 0.75rem; }
+  .btn-send {
+    background: #1d4ed8;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+  .btn-send:hover { background: #2563eb; }
+  .btn-send:active { transform: scale(.96); }
+  .btn-send:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+
+  /* ── System Links Grid ── */
+  .links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
+  }
+  .link-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .18s;
+    cursor: pointer;
+  }
+  .link-card:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 4px 12px rgba(30,58,95,.15);
+    transform: translateY(-2px);
+  }
+  .link-card .link-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+  }
+  .link-card .link-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  .link-card .link-host {
+    font-size: 0.68rem;
+    color: var(--text3);
+    text-align: center;
+    font-family: var(--mono);
+    word-break: break-all;
+  }
+  .link-card .link-badge {
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: .03em;
+  }
+  .badge-ext { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+  .badge-local { background: #fefce8; color: #92400e; border: 1px solid #fde68a; }
+  .badge-vm { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+
+  /* ── Workflow Status ── */
+  .workflow-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .wf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 160px;
+    cursor: pointer;
+    transition: all .18s;
+    user-select: none;
+  }
+  .wf-card:hover {
+    border-color: var(--accent2);
+    box-shadow: 0 3px 10px rgba(30,58,95,.12);
+  }
+  .wf-indicator {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background .3s;
+  }
+  .wf-green  { background: var(--green); box-shadow: 0 0 6px rgba(22,163,74,.5); }
+  .wf-amber  { background: var(--amber); box-shadow: 0 0 6px rgba(217,119,6,.5); }
+  .wf-red    { background: var(--red);   box-shadow: 0 0 6px rgba(220,38,38,.5); }
+  .wf-gray   { background: var(--text3); }
+  .wf-spinning {
+    border: 2px solid #e2e8f0;
+    border-top-color: var(--accent2);
+    animation: spin .8s linear infinite;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .wf-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .wf-status {
+    font-size: 0.68rem;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+  .wf-last {
+    margin-left: auto;
+    font-size: 0.65rem;
+    color: var(--text3);
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: var(--surface2);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── Misc ── */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.68rem;
+    font-weight: 600;
+  }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-red   { background: #fee2e2; color: #dc2626; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+  .badge-blue  { background: #dbeafe; color: #1d4ed8; }
+
+  .clear-btn {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 3px 9px;
+    background: transparent;
+    color: #475569;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: all .15s;
+  }
+  .clear-btn:hover { color: #f87171; border-color: #f87171; }
+
+  /* responsive */
+  @media (max-width: 640px) {
+    body { padding: 12px; }
+    .info-row { gap: 8px; }
+    .info-card { flex: 1 1 100%; }
+    .links-grid { grid-template-columns: repeat(2, 1fr); }
+    .terminal-output { min-height: 220px; max-height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     STORE INFO ROW
+══════════════════════════════════════════════ -->
+<div class="info-row">
+  <div class="info-card accent-left">
+    <span class="icon">🏪</span>
+    <div>
+      <div class="label">Store</div>
+      <div class="value">#646202</div>
+    </div>
+  </div>
+  <div class="info-card accent-left">
+    <span class="icon">📍</span>
+    <div>
+      <div class="label">Address</div>
+      <div class="value">
+        <a href="https://maps.google.com/?q=901+Ridge+Rd+Webster+NY+14580" target="_blank">
+          901 Ridge Rd, Webster NY 14580
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="info-card accent-left">
+    <span class="icon">📞</span>
+    <div>
+      <div class="label">Phone</div>
+      <div class="value"><a href="tel:+15856716164">(585) 671-6164</a></div>
+    </div>
+  </div>
+  <div class="info-card accent-left">
+    <span class="icon">👤</span>
+    <div>
+      <div class="label">Manager</div>
+      <div class="value">Drew Davis</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     DISPATCH TERMINAL
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>⚡ Dispatch Terminal</h2>
+    <div class="divider"></div>
+    <span style="font-size:.72rem;color:var(--text3);font-family:var(--mono)">n8n.646202.com/webhook/dispatch</span>
+  </div>
+
+  <div class="terminal-wrap">
+    <!-- Title bar -->
+    <div class="terminal-titlebar">
+      <span class="terminal-dot dot-red"></span>
+      <span class="terminal-dot dot-yellow"></span>
+      <span class="terminal-dot dot-green"></span>
+      <span class="terminal-title">dispatch@646202 — bash</span>
+      <div class="terminal-status-dot" id="termStatusDot" title="Connected"></div>
+      <button class="clear-btn" onclick="clearTerminal()">clear</button>
+    </div>
+
+    <!-- Output area -->
+    <div class="terminal-output" id="termOutput">
+      <div class="t-info">╔══════════════════════════════════════════════════╗</div>
+      <div class="t-info">║  Bridgestone Firestone #646202 Dispatch Terminal  ║</div>
+      <div class="t-info">╚══════════════════════════════════════════════════╝</div>
+      <div class="t-info">Connected to n8n dispatch webhook.</div>
+      <div class="t-info">Type a command below or use quick buttons. Type <span class="t-cmd">help</span> for guidance.</div>
+      <div class="t-info" style="margin-top:8px;">Ready.</div>
+    </div>
+
+    <!-- Quick Commands -->
+    <div class="terminal-quick">
+      <span class="quick-label">quick:</span>
+      <button class="btn-quick" onclick="runQuick('hostname')">hostname</button>
+      <button class="btn-quick" onclick="runQuick('uptime')">uptime</button>
+      <button class="btn-quick" onclick="runQuick('df -h')">df -h</button>
+      <button class="btn-quick" onclick="runQuick('docker ps')">docker ps</button>
+      <button class="btn-quick" onclick="runQuick('free -h')">free -h</button>
+      <button class="btn-quick" onclick="runQuick('pct list')">pct list</button>
+    </div>
+
+    <!-- Input Bar -->
+    <div class="terminal-input-bar">
+      <span class="terminal-prompt">$</span>
+      <input
+        type="text"
+        class="terminal-input"
+        id="termInput"
+        placeholder="Enter command…"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      >
+      <button class="btn-send" id="termSendBtn" onclick="sendCommand()">Send ↵</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     SYSTEM LINKS GRID
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>🔗 System Links</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="links-grid" id="linksGrid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     n8n WORKFLOW STATUS
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <h2>🔄 n8n Workflow Status</h2>
+    <div class="divider"></div>
+    <button class="btn btn-primary btn-sm" onclick="checkAllWorkflows()">↻ Check All</button>
+  </div>
+
+  <div class="workflow-row" id="workflowRow">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     JS
+══════════════════════════════════════════════ -->
+<script>
+/* ── Constants ── */
+const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
+const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
+const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
+const SMS_FROM       = '+15852572886';
+const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
+const PHONEBOOK_URL  = '/data/phonebook.json';
+const TRIAGE_URL     = '/data/triage.json';
+const ARTICLES_URL   = '/data/articles.json';
+
+/* ── Command history ── */
+const cmdHistory = [];
+let historyIdx = -1;
+
+/* ── Terminal Helpers ── */
+function termOutput() { return document.getElementById('termOutput'); }
+
+function appendLine(text, cls = 't-out') {
+  const el = document.createElement('div');
+  el.className = cls;
+  el.textContent = text;
+  termOutput().appendChild(el);
+  termOutput().scrollTop = termOutput().scrollHeight;
+}
+
+function appendHTML(html, cls = 't-out') {
+  const el = document.createElement('div');
+  el.className = cls;
+  el.innerHTML = html;
+  termOutput().appendChild(el);
+  termOutput().scrollTop = termOutput().scrollHeight;
+}
+
+function appendBlank() {
+  const el = document.createElement('div');
+  el.innerHTML = '&nbsp;';
+  termOutput().appendChild(el);
+}
+
+function clearTerminal() {
+  termOutput().innerHTML = '';
+  appendLine('Terminal cleared.', 't-info');
+}
+
+function setStatus(online) {
+  const dot = document.getElementById('termStatusDot');
+  if (online) {
+    dot.style.background = '#22c55e';
+    dot.style.boxShadow  = '0 0 6px #22c55e';
+    dot.title = 'Connected';
+  } else {
+    dot.style.background = '#ef4444';
+    dot.style.boxShadow  = '0 0 6px #ef4444';
+    dot.title = 'Error';
+  }
+}
+
+function timestamp() {
+  return new Date().toLocaleTimeString('en-US', { hour12: false });
+}
+
+/* ── Send Command ── */
+async function sendCommand(cmdOverride) {
+  const input = document.getElementById('termInput');
+  const sendBtn = document.getElementById('termSendBtn');
+  const cmd = (cmdOverride !== undefined ? cmdOverride : input.value).trim();
+
+  if (!cmd) return;
+
+  // History
+  if (!cmdOverride) {
+    if (cmdHistory[0] !== cmd) cmdHistory.unshift(cmd);
+    if (cmdHistory.length > 50) cmdHistory.pop();
+    historyIdx = -1;
+    input.value = '';
+  }
+
+  // Echo command
+  appendBlank();
+  appendHTML(`<span style="color:#475569">[${timestamp()}]</span> <span class="t-prompt">$</span> <span class="t-cmd">${escHtml(cmd)}</span>`);
+
+  // Disable during request
+  sendBtn.disabled = true;
+  sendBtn.textContent = '…';
+
+  try {
+    const res = await fetch(DISPATCH_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Dispatch-Token': DISPATCH_TOKEN
+      },
+      body: JSON.stringify({ command: cmd })
+    });
+
+    setStatus(true);
+
+    const contentType = res.headers.get('content-type') || '';
+    let data;
+
+    if (contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const txt = await res.text();
+      data = { stdout: txt };
+    }
+
+    if (!res.ok) {
+      appendLine(`HTTP ${res.status} ${res.statusText}`, 't-err');
+      if (data && data.error) appendLine(data.error, 't-err');
+      else if (data && data.stdout) appendLine(data.stdout, 't-err');
+      setStatus(false);
+    } else {
+      // Handle various response shapes
+      if (data.stdout && data.stdout.trim()) {
+        data.stdout.split('\n').forEach(line => appendLine(line, 't-out'));
+      }
+      if (data.stderr && data.stderr.trim()) {
+        data.stderr.split('\n').forEach(line => appendLine(line, 't-err'));
+      }
+      if (data.output && data.output.trim()) {
+        data.output.split('\n').forEach(line => appendLine(line, 't-out'));
+      }
+      if (data.result && typeof data.result === 'string') {
+        data.result.split('\n').forEach(line => appendLine(line, 't-out'));
+      }
+      if (!data.stdout && !data.stderr && !data.output && !data.result) {
+        if (typeof data === 'object') {
+          appendLine(JSON.stringify(data, null, 2), 't-out');
+        }
+      }
+      if (data.exitCode !== undefined && data.exitCode !== 0) {
+        appendLine(`Exit code: ${data.exitCode}`, 't-err');
+      }
+    }
+  } catch (err) {
+    setStatus(false);
+    appendLine(`Connection error: ${err.message}`, 't-err');
+    appendLine('Could not reach dispatch endpoint.', 't-info');
+  }
+
+  sendBtn.disabled = false;
+  sendBtn.textContent = 'Send ↵';
+  if (!cmdOverride) input.focus();
+}
+
+function runQuick(cmd) {
+  document.getElementById('termInput').value = cmd;
+  sendCommand(cmd);
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Keyboard navigation ── */
+document.getElementById('termInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    sendCommand();
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx < cmdHistory.length - 1) {
+      historyIdx++;
+      this.value = cmdHistory[historyIdx];
+    }
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx > 0) {
+      historyIdx--;
+      this.value = cmdHistory[historyIdx];
+    } else {
+      historyIdx = -1;
+      this.value = '';
+    }
+  }
+});
+
+/* ── System Links ── */
+const LINKS = [
+  {
+    name: 'n8n',
+    url: 'https://n8n.646202.com',
+    icon: '🔀',
+    color: '#fef3c7',
+    iconColor: '#d97706',
+    badge: 'ext',
+    desc: 'n8n.646202.com'
+  },
+  {
+    name: 'Portainer',
