@@ -40,23 +40,33 @@ tr:hover td{background:var(--surface2)}
 .cat-misc{background:#f1f5f9;color:#475569}
 .cat-discount{background:#fee2e2;color:#b91c1c}
 @media(max-width:768px){.add-form{grid-template-columns:1fr 1fr}}
+
+.cat-custom { background:#f0f4ff; color:#3730a3; }
 </style>
 </head>
-<body>
+<body><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
   <div class="add-form">
     <div><label class="fl">Article #</label><input class="fi" id="a-num" placeholder="7004578" style="font-family:var(--mono)"></div>
     <div><label class="fl">Category</label>
-      <select class="fi" id="a-cat">
-        <option value="labor">Labor</option>
-        <option value="parts">Parts</option>
-        <option value="tire">Tire</option>
-        <option value="oil">Oil</option>
-        <option value="misc" selected>Misc</option>
-        <option value="discount">Discount</option>
-      </select>
+      <div style="position:relative" id="cat-picker-wrap">
+        <input class="fi" id="a-cat" placeholder="Category..." autocomplete="off"
+          oninput="filterCatDropdown()" onfocus="showCatDropdown()" 
+          style="cursor:pointer" readonly onclick="toggleCatDropdown()">
+        <div id="cat-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:100;max-height:220px;overflow-y:auto">
+          <div id="cat-list"></div>
+          <div style="padding:6px 8px;border-top:1px solid var(--border)">
+            <div style="display:flex;gap:6px">
+              <input id="cat-new-input" placeholder="New category..." 
+                style="flex:1;font-family:var(--font);font-size:12px;border:1px solid var(--border);border-radius:5px;padding:5px 8px;outline:none"
+                onkeydown="if(event.key==='Enter')addCategory()">
+              <button onclick="addCategory()" style="padding:4px 10px;background:var(--accent2);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:600">+ Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div><label class="fl">Description</label><input class="fi" id="a-desc" placeholder="Description"></div>
     <div><label class="fl">Supplier</label><input class="fi" id="a-sup" placeholder="Optional"></div>
@@ -68,15 +78,7 @@ tr:hover td{background:var(--surface2)}
 
 <div class="toolbar">
   <input id="art-search" placeholder="🔍 Search article numbers..." oninput="render()">
-  <select id="art-cat-filter" onchange="render()">
-    <option value="all">All Categories</option>
-    <option value="labor">Labor</option>
-    <option value="parts">Parts</option>
-    <option value="tire">Tire</option>
-    <option value="oil">Oil</option>
-    <option value="misc">Misc</option>
-    <option value="discount">Discount</option>
-  </select>
+  <select id="art-cat-filter" onchange="render()"><option value="all">All Categories</option></select>
   <button class="btn btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
   <span class="count" id="art-count"></span>
 </div>
@@ -132,7 +134,7 @@ function addArticle() {
   if (!num) { document.getElementById('a-num').focus(); return; }
   if (articles.find(a => a.num === num)) { alert('Article # ' + num + ' already exists'); return; }
   articles.push({
-    num, cat: document.getElementById('a-cat').value,
+    num, cat: (document.getElementById('a-cat').value||'misc').toLowerCase().trim(),
     desc: (document.getElementById('a-desc').value || '').trim(),
     sup:  (document.getElementById('a-sup').value  || '').trim(),
     price:(document.getElementById('a-price').value|| '').trim(),
@@ -159,7 +161,108 @@ function exportCSV() {
   el.click();
 }
 
+
+// ── CATEGORY MANAGEMENT ──
+const DEFAULT_CATS = ['labor','parts','tire','oil','misc','discount'];
+let categories = DEFAULT_CATS.slice();
+
+function loadCategories() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('artCategories646202') || 'null');
+    if (Array.isArray(saved) && saved.length > 0) categories = saved;
+  } catch(e) {}
+}
+
+function saveCategories() {
+  try { localStorage.setItem('artCategories646202', JSON.stringify(categories)); } catch(e) {}
+}
+
+function rebuildCatFilter() {
+  const sel = document.getElementById('art-cat-filter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="all">All Categories</option>' +
+    categories.map(c => `<option value="${c}"${c===cur?' selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
+}
+
+function rebuildCatList() {
+  const list = document.getElementById('cat-list');
+  if (!list) return;
+  const input = document.getElementById('a-cat');
+  const q = (input ? input.value : '').toLowerCase();
+  const filtered = categories.filter(c => !q || c.includes(q));
+  list.innerHTML = filtered.map(c => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)"
+      onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''"
+      onclick="selectCategory('${c}')">
+      <span>${c.charAt(0).toUpperCase()+c.slice(1)}</span>
+      <button onclick="event.stopPropagation();removeCategory('${c}')" 
+        style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0 2px;line-height:1"
+        title="Remove category">✕</button>
+    </div>`).join('') || '<div style="padding:8px 10px;color:var(--text3);font-size:12px">No categories found</div>';
+}
+
+function selectCategory(cat) {
+  const input = document.getElementById('a-cat');
+  if (input) input.value = cat;
+  hideCatDropdown();
+}
+
+function showCatDropdown() {
+  const dd = document.getElementById('cat-dropdown');
+  if (dd) { dd.style.display = 'block'; rebuildCatList(); }
+}
+
+function hideCatDropdown() {
+  const dd = document.getElementById('cat-dropdown');
+  if (dd) dd.style.display = 'none';
+}
+
+function toggleCatDropdown() {
+  const dd = document.getElementById('cat-dropdown');
+  if (!dd) return;
+  if (dd.style.display === 'none') showCatDropdown();
+  else hideCatDropdown();
+}
+
+function filterCatDropdown() {
+  rebuildCatList();
+  showCatDropdown();
+}
+
+function addCategory() {
+  const input = document.getElementById('cat-new-input');
+  const val = (input ? input.value : '').trim().toLowerCase().replace(/\s+/g, '_');
+  if (!val) return;
+  if (categories.includes(val)) { selectCategory(val); return; }
+  categories.push(val);
+  saveCategories();
+  rebuildCatFilter();
+  rebuildCatList();
+  if (input) input.value = '';
+  selectCategory(val);
+}
+
+function removeCategory(cat) {
+  if (!confirm(`Remove category "${cat}"?\n\nThis won't change existing articles.`)) return;
+  categories = categories.filter(c => c !== cat);
+  saveCategories();
+  rebuildCatFilter();
+  rebuildCatList();
+  // If current add-form value was this cat, clear it
+  const input = document.getElementById('a-cat');
+  if (input && input.value === cat) input.value = '';
+  render();
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('cat-picker-wrap');
+  if (wrap && !wrap.contains(e.target)) hideCatDropdown();
+});
+
 // Render immediately with baked data
+loadCategories();
+rebuildCatFilter();
 render();
 
 // Then fetch server version in background — use it if it has MORE entries (user added some)
