@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phone Directory – Bridgestone Firestone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+    --accent:#e8292d; --accent2:#1e3a5f;
+    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626;
+    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .page-title span.icon { font-size: 1.3rem; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: opacity .15s, background .15s, transform .1s;
+    text-decoration: none;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+  .btn-primary:hover { opacity: .88; }
+  .btn-danger {
+    background: #fff;
+    color: var(--red);
+    border-color: var(--red);
+  }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text2);
+    border-color: var(--border);
+  }
+  .btn-ghost:hover { background: var(--surface2); }
+  .btn-icon {
+    padding: 5px 7px;
+    font-size: 0.8rem;
+    border-radius: 5px;
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 9px 12px 9px 34px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.875rem;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .search-input:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 3px rgba(30,58,95,.12);
+  }
+
+  /* ── FILTER PILLS ── */
+  .filter-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    transition: background .15s, color .15s, border-color .15s;
+    user-select: none;
+  }
+  .pill:hover { background: var(--surface2); }
+  .pill.active {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+
+  /* ── SLIDE-IN FORM ── */
+  .form-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    padding: 20px;
+    margin-bottom: 22px;
+    display: none;
+    animation: slideDown .22s ease;
+  }
+  .form-panel.open { display: block; }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .form-panel h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .form-group input,
+  .form-group select {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.875rem;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: border-color .15s;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 2px rgba(30,58,95,.1);
+  }
+  .form-actions { display: flex; gap: 8px; }
+
+  /* ── CARD GRID ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 1024px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .search-wrap { max-width: 100%; }
+  }
+
+  /* ── CONTACT CARD ── */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    transition: box-shadow .15s, transform .12s;
+  }
+  .contact-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    transform: translateY(-1px);
+  }
+  .contact-card.emergency {
+    border-color: var(--red);
+    border-width: 2px;
+    box-shadow: 0 1px 3px rgba(220,38,38,.15);
+  }
+  .contact-card.emergency:hover {
+    box-shadow: 0 4px 12px rgba(220,38,38,.2);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    flex-shrink: 0;
+  }
+  .badge-vendor  { background: #dbeafe; color: #1d4ed8; }
+  .badge-store   { background: #dcfce7; color: #15803d; }
+  .badge-emergency { background: #fee2e2; color: var(--red); }
+
+  .card-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .card-title {
+    font-size: 0.8rem;
+    color: var(--text2);
+    margin-top: -4px;
+  }
+
+  .card-phone-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .phone-link {
+    font-family: var(--mono);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent2);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color .15s;
+  }
+  .phone-link:hover { color: var(--accent); text-decoration: underline; }
+  .emergency .phone-link { color: var(--red); }
+
+  .ext-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text2);
+    font-weight: 600;
+  }
+
+  .copy-btn {
+    margin-left: auto;
+    padding: 4px 9px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    transition: background .15s, color .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+  .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+    grid-column: 1 / -1;
+  }
+  .empty-state.show { display: block; }
+  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state p { font-size: 0.95rem; }
+
+  /* ── COUNT BADGE ── */
+  .count-badge {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--text);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+    z-index: 9999;
+    max-width: 280px;
+  }
+  .toast.show { opacity: 1; }
+
+  /* ── CONFIRM DIALOG ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 9000;
+    align-items: center;
+    justify-content: center;
+  }
+  .overlay.show { display: flex; }
+  .dialog {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 340px;
+    width: 90%;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+  }
+  .dialog h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+  .dialog p { font-size: 0.875rem; color: var(--text2); margin-bottom: 18px; }
+  .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-title">
+    <span class="icon">📞</span>
+    Phone Directory
+    <span class="count-badge" id="countBadge">0</span>
+  </div>
+  <button class="btn btn-primary" id="addBtn" onclick="toggleAddForm()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add Contact
+  </button>
+</div>
+
+<!-- SLIDE-IN FORM -->
+<div class="form-panel" id="formPanel">
+  <h3 id="formTitle">➕ Add New Contact</h3>
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Name *</label>
+      <input type="text" id="fName" placeholder="e.g. John Smith">
+    </div>
+    <div class="form-group">
+      <label>Title / Description</label>
+      <input type="text" id="fTitle" placeholder="e.g. Parts Vendor">
+    </div>
+    <div class="form-group">
+      <label>Phone Number *</label>
+      <input type="tel" id="fPhone" placeholder="e.g. 5551234567">
+    </div>
+    <div class="form-group">
+      <label>Extension</label>
+      <input type="text" id="fExt" placeholder="e.g. 101">
+    </div>
+    <div class="form-group">
+      <label>Category *</label>
+      <select id="fCat">
+        <option value="vendor">Vendor</option>
+        <option value="store">Store</option>
+        <option value="emergency">Emergency</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button class="btn btn-primary" onclick="saveContact()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Contact
+    </button>
+    <button class="btn btn-ghost" onclick="cancelForm()">Cancel</button>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input class="search-input" id="searchInput" type="search" placeholder="Search contacts, numbers…" oninput="renderCards()">
+  </div>
+  <div class="filter-pills" id="filterPills">
+    <span class="pill active" data-cat="all" onclick="setFilter('all')">All</span>
+    <span class="pill" data-cat="vendor" onclick="setFilter('vendor')">Vendors</span>
+    <span class="pill" data-cat="store" onclick="setFilter('store')">Store</span>
+    <span class="pill" data-cat="emergency" onclick="setFilter('emergency')">Emergency</span>
+  </div>
+</div>
+
+<!-- CARD GRID -->
+<div class="card-grid" id="cardGrid">
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">🔍</div>
+    <p>No contacts match your search.</p>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div class="overlay" id="confirmOverlay">
+  <div class="dialog">
+    <h4>Delete Contact</h4>
+    <p id="confirmMsg">Are you sure you want to delete this contact?</p>
+    <div class="dialog-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── CONSTANTS ──
+  const PHONEBOOK_URL  = '/data/phonebook.json';
+
+  const FALLBACK_DATA = [
+    {"name":"ScrapHappy","phone":"5857368035","cat":"vendor","title":"Scrap/Recycling"},
+    {"name":"Jason (Empire)","phone":"5856673120","cat":"vendor","title":"Empire"},
+    {"name":"Opus","phone":"8666238378","cat":"vendor","title":"Acct#7067451"},
+    {"name":"Helpdesk","phone":"8886880888","cat":"store","title":"IT Helpdesk"},
+    {"name":"Advance Auto","phone":"5857879345","cat":"vendor","title":"Advance Auto Parts"},
+    {"name":"Advance Rob","phone":"5856421466","cat":"vendor","title":"Advance - Rep"},
+    {"name":"AutoZone","phone":"5858725570","cat":"vendor","title":"AutoZone"},
+    {"name":"AutoZone Marisol","phone":"5856736624","cat":"vendor","title":"AutoZone - Rep"},
+    {"name":"Haun","phone":"5852654427","cat":"vendor","title":"Haun"},
+    {"name":"Securitas Alarm","phone":"8006894984","cat":"vendor","title":"Alarm/Security"},
+    {"name":"Hunter Engineering","phone":"8884507100","cat":"vendor","title":"Hunter (Equipment)"},
+    {"name":"Hertz","phone":"8889995980","cat":"vendor","title":"Hertz"},
+    {"name":"ATEQ","phone":"8886218767","cat":"vendor","title":"ATEQ (TPMS)"},
+    {"name":"Autel","phone":"8664960058","cat":"vendor","title":"Autel Diagnostics"},
+    {"name":"Coats","phone":"8006886359","cat":"vendor","title":"Coats (Equipment)"},
+    {"name":"Inventory Services","phone":"8556057324","cat":"vendor","title":"Inventory Services"},
+    {"name":"JS Products","phone":"8002557011","cat":"vendor","title":"JS Products"},
+    {"name":"JohnDow Industries","phone":"8004330708","cat":"vendor","title":"JohnDow"},
+    {"name":"Mitchell 1","phone":"8887246742","cat":"vendor","title":"Mitchell 1 (Software)"},
+    {"name":"Robinair","phone":"8005225561","cat":"vendor","title":"Robinair (AC Equipment)"},
+    {"name":"Rotary","phone":"8009435438","cat":"vendor","title":"Rotary (Lifts)"},
+    {"name":"Staples Advantage","phone":"8778267755","cat":"vendor","title":"Acct#1829070"},
+    {"name":"Launch X431","phone":"8775286249","ext":"4","cat":"vendor","title":"Launch Diagnostics"},
+    {"name":"DOC Floor Scrubbers","phone":"8554852113","cat":"vendor","title":"DOC"},
+    {"name":"Redline Smoke Machines","phone":"7144511411","cat":"vendor","title":"Redline Smoke"},
+    {"name":"Emergency Spill Response","phone":"8443473844","cat":"emergency","title":"Spill Response"}
+  ];
+
+  // ── STATE ──
+  let contacts = [];
+  let activeFilter = 'all';
+  let editingIndex = null;
+  let deleteTargetIndex = null;
+  let toastTimer = null;
+
+  // ── INIT ──
+  async function init() {
+    try {
+      const res = await fetch(PHONEBOOK_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error('not ok');
+      const data = await res.json();
+      contacts = Array.isArray(data) ? data : FALLBACK_DATA;
+    } catch (e) {
+      contacts = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    }
+    renderCards();
+  }
+
+  // ── SAVE TO SERVER ──
+  async function saveToServer() {
+    try {
+      await fetch(PHONEBOOK_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contacts, null, 2)
+      });
+    } catch (e) {
+      // Fail silently – data lives in memory
+    }
+  }
+
+  // ── FORMAT PHONE ──
+  function formatPhone(p) {
+    const d = String(p).replace(/\D/g, '');
+    if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    if (d.length === 11 && d[0] === '1') return `+1 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
+    return d;
+  }
+
+  // ── BADGE HTML ──
+  function badgeHTML(cat) {
+    const map = {
+      vendor: ['badge-vendor', 'Vendor'],
+      store:  ['badge-store',  'Store'],
+      emergency: ['badge-emergency', 'Emergency']
+    };
+    const [cls, label] = map[cat] || ['badge-vendor', cat];
+    return `<span class="card-badge ${cls}">${label}</span>`;
+  }
+
+  // ── RENDER ──
+  function renderCards() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const grid = document.getElementById('cardGrid');
+    const empty = document.getElementById('emptyState');
+    const countBadge = document.getElementById('countBadge');
+
+    // Filter
+    const filtered = contacts.filter((c, i) => {
+      const catMatch = activeFilter === 'all' || c.cat === activeFilter;
+      const qMatch   = !q ||
+        c.name.toLowerCase().includes(q) ||
+        (c.title||'').toLowerCase().includes(q) ||
+        c.phone.includes(q);
+      return catMatch && qMatch;
+    });
+
+    // Remove old cards (keep empty state element)
+    Array.from(grid.querySelectorAll('.contact-card')).forEach(el => el.remove());
+
+    countBadge.textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      empty.classList.add('show');
+    } else {
+      empty.classList.remove('show');
+      filtered.forEach(c => {
+        const originalIndex = contacts.indexOf(c);
+        const card = buildCard(c, originalIndex);
+        grid.appendChild(card);
+      });
+    }
+  }
+
+  function buildCard(c, idx) {
+    const div = document.createElement('div');
+    div.className = `contact-card${c.cat === 'emergency' ? ' emergency' : ''}`;
+
+    const phoneClean = c.phone.replace(/\D/g,'');
+    const phoneDisplay = formatPhone(c.phone);
+
+    div.innerHTML = `
+      <div class="card-top">
+        ${badgeHTML(c.cat)}
+        <div class="card-actions">
+          <button class="btn btn-ghost btn-icon" title="Edit" onclick="startEdit(${idx})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="btn btn-danger btn-icon" title="Delete" onclick="startDelete(${idx})">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="card-name">${escHtml(c.name)}</div>
+      ${c.title ? `<div class="card-title">${escHtml(c.title)}</div>` : ''}
+      <div class="card-phone-row">
+        <a class="phone-link" href="tel:${phoneClean}${c.ext ? ',' + c.ext : ''}">
+          📞 ${phoneDisplay}
+        </a>
+        ${c.ext ? `<span class="ext-badge">Ext. ${escHtml(c.ext)}</span>` : ''}
+        <button class="copy-btn" onclick="copyPhone('${phoneClean}', this)">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+    `;
+    return div;
+  }
+
+  function escHtml(str) {
+    return String(str||'')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── FILTER ──
+  function setFilter(cat) {
+    activeFilter = cat;
+    document.querySelectorAll('.pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.cat === cat);
+    });
+    renderCards();
+  }
+
+  // ── COPY PHONE ──
+  function copyPhone(phone, btn) {
+    navigator.clipboard.writeText(phone).then(() => {
+      btn.classList.add('copied');
+      btn.textContent = '✓ Copied';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0
