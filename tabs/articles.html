@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Articles — Store 646202</title>
+<title>Articles â Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
@@ -44,7 +44,7 @@ tr:hover td{background:var(--surface2)}
 @media(max-width:768px){.add-form{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-<body>
+<body><a href="https://646202.com/cdn-cgi/content?id=pgiUYDMaCAJqwRgVu93_Wi5RB6vO69jRTRpESfTbWT4-1780875789.9825027-1.2.1.1-bnKwF6TfvA4aiZchUuV3E8DDWyTn_7uik3nqaN8AfDo" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
@@ -69,7 +69,7 @@ tr:hover td{background:var(--surface2)}
 </div>
 
 <div class="toolbar">
-  <input id="art-search" placeholder="🔍 Search article numbers..." oninput="render()">
+  <input id="art-search" placeholder="ð Search article numbers..." oninput="render()">
   <select id="art-cat-filter" onchange="render()">
     <option value="all">All Categories</option>
     <option value="labor">Labor</option>
@@ -79,7 +79,7 @@ tr:hover td{background:var(--surface2)}
     <option value="misc">Misc</option>
     <option value="discount">Discount</option>
   </select>
-  <button class="btn btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+  <button class="btn btn-sm" onclick="exportCSV()">â¬ Export CSV</button>
   <span class="count" id="art-count"></span>
 </div>
 
@@ -92,9 +92,11 @@ tr:hover td{background:var(--surface2)}
 
 <script>
 let articles = [];
+let dataLoaded = false;
 
 function save() {
   try { localStorage.setItem('articles646202', JSON.stringify(articles)); } catch(e) {}
+  if (!dataLoaded) return;
   fetch('/data/articles.json', {
     method: 'PUT',
     headers: {'Content-Type':'application/json'},
@@ -165,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(r => r.ok ? r.json() : [])
     .then(d => {
       articles = Array.isArray(d) && d.length > 0 ? d : [];
+      dataLoaded = true;
       if (articles.length === 0) {
         try { articles = JSON.parse(localStorage.getItem('articles646202') || '[]'); } catch(e) {}
       }
