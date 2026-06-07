@@ -1,656 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Docs – Bridgestone Firestone Store Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Docs — Store 646202</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
-  --accent:#e8292d; --accent2:#1e3a5f;
-  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-  --green:#16a34a; --amber:#d97706; --red:#dc2626;
-  --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  padding: 20px;
-  background: var(--bg);
-  font-family: var(--font);
-  color: var(--text);
-  min-height: 100vh;
-}
-
-h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent2); margin: 0 0 4px; }
-.page-subtitle { color: var(--text2); font-size: 0.875rem; margin: 0 0 20px; }
-
-/* Search bar */
-.search-wrap {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
-  align-items: center;
-}
-.search-input {
-  flex: 1;
-  padding: 9px 14px 9px 38px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-family: var(--font);
-  font-size: 0.9rem;
-  background: var(--surface);
-  color: var(--text);
-  outline: none;
-  transition: border-color .15s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: 12px center;
-}
-.search-input:focus { border-color: var(--accent2); }
-.search-clear {
-  padding: 9px 14px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  cursor: pointer;
-  color: var(--text2);
-  font-family: var(--font);
-  font-size: 0.85rem;
-  transition: background .15s;
-}
-.search-clear:hover { background: var(--surface2); }
-
-/* Category section */
-.category-section { margin-bottom: 32px; }
-.category-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.category-icon {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
-  flex-shrink: 0;
-}
-.cat-osha .category-icon { background: #fef2f2; }
-.cat-tech .category-icon { background: #eff6ff; }
-.cat-ops .category-icon { background: #f0fdf4; }
-.cat-training .category-icon { background: #faf5ff; }
-.cat-custom .category-icon { background: #fff7ed; }
-
-.category-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--accent2);
-  margin: 0;
-}
-
-.doc-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 12px;
-}
-
-/* Doc card */
-.doc-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: box-shadow .15s, border-color .15s;
-}
-.doc-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.1); border-color: #cbd5e1; }
-.doc-card-header { display: flex; align-items: flex-start; gap: 12px; }
-.doc-card-icon {
-  font-size: 1.4rem;
-  flex-shrink: 0;
-  line-height: 1;
-  margin-top: 2px;
-}
-.doc-card-info { flex: 1; min-width: 0; }
-.doc-card-title {
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--text);
-  margin: 0 0 3px;
-  line-height: 1.3;
-}
-.doc-card-desc {
-  font-size: 0.8rem;
-  color: var(--text2);
-  margin: 0;
-  line-height: 1.4;
-}
-.doc-card-note {
-  font-size: 0.78rem;
-  color: var(--amber);
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: 5px;
-  padding: 5px 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.doc-card-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 7px 13px;
-  border-radius: 6px;
-  font-family: var(--font);
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text2);
-  text-decoration: none;
-  transition: background .12s, border-color .12s, color .12s;
-}
-.btn:hover { background: var(--surface2); border-color: #cbd5e1; }
-.btn-primary {
-  background: var(--accent2);
-  border-color: var(--accent2);
-  color: #fff;
-}
-.btn-primary:hover { background: #162d4a; border-color: #162d4a; color: #fff; }
-.btn-accent {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.btn-accent:hover { background: #c41f23; border-color: #c41f23; color: #fff; }
-.btn-danger {
-  border-color: var(--red);
-  color: var(--red);
-}
-.btn-danger:hover { background: #fef2f2; }
-.btn-green {
-  background: var(--green);
-  border-color: var(--green);
-  color: #fff;
-}
-.btn-green:hover { background: #15803d; border-color: #15803d; color: #fff; }
-
-/* Inline expand panels */
-.inline-panel {
-  display: none;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  margin-top: 8px;
-  animation: fadeIn .2s ease;
-}
-.inline-panel.open { display: block; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
-
-.inline-panel h4 {
-  margin: 0 0 12px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--accent2);
-}
-
-/* Tables */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.82rem;
-}
-th {
-  background: var(--surface2);
-  color: var(--text2);
-  font-weight: 600;
-  padding: 8px 10px;
-  text-align: left;
-  border-bottom: 2px solid var(--border);
-  position: sticky;
-  top: 0;
-}
-td {
-  padding: 7px 10px;
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-family: var(--mono);
-  font-size: 0.8rem;
-}
-tr:hover td { background: var(--surface2); }
-.table-wrap { max-height: 380px; overflow-y: auto; border-radius: 6px; border: 1px solid var(--border); background: var(--surface); }
-
-/* Custom docs section */
-.add-doc-form {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.06);
-}
-.add-doc-form h3 { margin: 0 0 14px; font-size: 0.95rem; font-weight: 700; color: var(--accent2); }
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-.form-group { display: flex; flex-direction: column; gap: 4px; }
-.form-label { font-size: 0.78rem; font-weight: 600; color: var(--text2); }
-.form-input, .form-select {
-  padding: 8px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-family: var(--font);
-  font-size: 0.85rem;
-  color: var(--text);
-  background: var(--surface);
-  outline: none;
-  transition: border-color .15s;
-}
-.form-input:focus, .form-select:focus { border-color: var(--accent2); }
-.form-actions { display: flex; gap: 10px; }
-
-/* No results */
-.no-results {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text3);
-  font-size: 0.9rem;
-}
-.no-results span { font-size: 2rem; display: block; margin-bottom: 8px; }
-
-/* Divider */
-.section-divider {
-  border: none;
-  border-top: 2px solid var(--border);
-  margin: 8px 0 24px;
-}
-
-/* Tag badge */
-.badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 99px;
-  background: var(--surface2);
-  color: var(--text2);
-  border: 1px solid var(--border);
-  white-space: nowrap;
-}
-.badge-osha { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
-.badge-tech { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
-.badge-ops  { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
-.badge-training { background: #faf5ff; color: #7c3aed; border-color: #ddd6fe; }
-.badge-custom { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
-
-/* Hidden helper */
-.hidden { display: none !important; }
-
-/* Sticky header */
-.page-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-.page-header-left { flex: 1; }
-
-/* Count pill */
-.count-pill {
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: var(--accent2);
-  color: #fff;
-  border-radius: 99px;
-  padding: 2px 8px;
-  vertical-align: middle;
-  margin-left: 6px;
-}
-
-/* Section hidden by search */
-.category-section.search-hidden { display: none; }
-
-/* Responsive */
-@media (max-width: 480px) {
-  .doc-grid { grid-template-columns: 1fr; }
-  body { padding: 12px; }
-}
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:8px}
+.doc-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.doc-icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-weight:600;font-size:13px;margin-bottom:2px}
+.doc-desc{font-size:12px;color:var(--text2);margin-bottom:8px}
+.doc-link{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;color:var(--accent2);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:5px;background:var(--surface2)}
+.doc-link:hover{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.search-bar{display:flex;gap:8px;margin-bottom:16px}
+.search-bar input{flex:1;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:8px 12px;outline:none}
+.search-bar input:focus{border-color:var(--accent2)}
+.custom-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:8px}
+.add-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;background:#e0f2fe;color:#0369a1;margin-left:6px}
 </style>
 </head>
 <body>
 
-<div class="page-header">
-  <div class="page-header-left">
-    <h1>📁 Documents & References</h1>
-    <p class="page-subtitle">OSHA, technical guides, store operations, training resources & custom links</p>
+<div class="search-bar">
+  <input id="doc-search" placeholder="🔍 Search docs..." oninput="filterDocs()">
+</div>
+
+<div class="section-title">⚠️ OSHA &amp; Safety</div>
+<div class="docs-grid" id="osha-section">
+  <div class="doc-card" data-search="osha safety sds hazcom"><div class="doc-icon">☣️</div><div class="doc-info"><div class="doc-name">SDS Sheets Index</div><div class="doc-desc">Safety Data Sheets — OSHA HazCom compliance</div><a href="https://www.osha.gov/hazcom" target="_blank" class="doc-link">Open ↗</a></div></div>
+  <div class="doc-card" data-search="emergency action plan fire evacuation"><div class="doc-icon">🚨</div><div class="doc-info"><div class="doc-name">Emergency Action Plan</div><div class="doc-desc">Fire, evacuation, emergency procedures</div><span class="doc-link" style="cursor:default">📁 Front Desk Binder</span></div></div>
+  <div class="doc-card" data-search="first aid medical"><div class="doc-icon">🩺</div><div class="doc-info"><div class="doc-name">First Aid Procedures</div><div class="doc-desc">AED location, first aid kit, emergency contacts</div><span class="doc-link" style="cursor:default">📁 Front Desk Binder</span></div></div>
+</div>
+
+<div class="section-title">🔧 Technical References</div>
+<div class="docs-grid" id="tech-section">
+  <div class="doc-card" data-search="tire load index chart"><div class="doc-icon">🛞</div><div class="doc-info"><div class="doc-name">Tire Load Index Chart</div><div class="doc-desc">Load index to kg/lbs conversion reference</div><a href="#" onclick="toggleInline('load-index');return false" class="doc-link">View Inline</a></div></div>
+  <div class="doc-card" data-search="torque spec lug nuts wheel"><div class="doc-icon">🔩</div><div class="doc-info"><div class="doc-name">Lug Nut Torque Specs</div><div class="doc-desc">Common torque values by make/model</div><a href="#" onclick="toggleInline('torque-specs');return false" class="doc-link">View Inline</a></div></div>
+  <div class="doc-card" data-search="tire inflation pressure psi"><div class="doc-icon">💨</div><div class="doc-info"><div class="doc-name">Tire Inflation Guide</div><div class="doc-desc">Pressure lookup by vehicle and load</div><a href="https://www.tirerack.com/tires/tiretech/TechPage.cfm?techid=58" target="_blank" class="doc-link">Open ↗</a></div></div>
+  <div class="doc-card" data-search="tpms relearn sensor ateq"><div class="doc-icon">📡</div><div class="doc-info"><div class="doc-name">TPMS Relearn Procedures</div><div class="doc-desc">Vehicle-specific relearn procedures via ATEQ</div><a href="https://www.ateq-tpms.com/" target="_blank" class="doc-link">Open ↗</a></div></div>
+</div>
+
+<!-- Inline content sections -->
+<div id="load-index" style="display:none;margin-bottom:16px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px">
+    <div style="font-weight:700;margin-bottom:10px">Tire Load Index Reference (common range)</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:12px">
+      ${[70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110].map((i,idx) => {
+        const kgs = [335,345,355,365,375,387,400,412,425,437,450,462,475,487,500,515,530,545,560,580,600,615,630,650,670,690,710,730,750,775,800,825,850,875,900,925,950,975,1000,1030,1060];
+        return `<div style="background:var(--surface2);border-radius:4px;padding:4px 8px"><span style="font-family:var(--mono);font-weight:700">${i}</span> = ${kgs[idx]}kg</div>`;
+      }).join('')}
+    </div>
   </div>
 </div>
 
-<!-- Search -->
-<div class="search-wrap">
-  <input id="searchInput" class="search-input" type="text" placeholder="Search documents by name, description, or notes…" autocomplete="off">
-  <button class="search-clear" onclick="clearSearch()">✕ Clear</button>
-</div>
-
-<!-- ══════════════════════════════════════════ OSHA & SAFETY ══ -->
-<div class="category-section cat-osha" id="section-osha">
-  <div class="category-header">
-    <div class="category-icon">🦺</div>
-    <h2 class="category-title">OSHA &amp; Safety <span class="count-pill" id="count-osha">3</span></h2>
-  </div>
-  <hr class="section-divider">
-  <div class="doc-grid" id="grid-osha">
-
-    <!-- SDS Sheets -->
-    <div class="doc-card" data-search="sds sheets index safety data sheet hazmat chemicals osha hazcom">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🧪</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">SDS Sheets Index</p>
-          <p class="doc-card-desc">Safety Data Sheets index via OSHA HazCom. Required for all chemical substances on site.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="https://www.osha.gov/hazcom" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-osha">OSHA</span>
-      </div>
-    </div>
-
-    <!-- Emergency Action Plan -->
-    <div class="doc-card" data-search="emergency action plan fire evacuation binder front desk">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🚨</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Emergency Action Plan</p>
-          <p class="doc-card-desc">Fire, evacuation, and emergency procedures for all store personnel.</p>
-        </div>
-      </div>
-      <div class="doc-card-note">📋 See binder at front desk</div>
-      <div class="doc-card-actions">
-        <span class="badge badge-osha">OSHA</span>
-      </div>
-    </div>
-
-    <!-- First Aid Procedures -->
-    <div class="doc-card" data-search="first aid procedures injury response binder front desk medical">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🩹</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">First Aid Procedures</p>
-          <p class="doc-card-desc">On-site first aid response guidelines and incident reporting procedures.</p>
-        </div>
-      </div>
-      <div class="doc-card-note">📋 See binder at front desk</div>
-      <div class="doc-card-actions">
-        <span class="badge badge-osha">OSHA</span>
-      </div>
-    </div>
-
+<div id="torque-specs" style="display:none;margin-bottom:16px">
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px">
+    <div style="font-weight:700;margin-bottom:10px">Lug Nut Torque Specs (ft-lb)</div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead><tr><th style="text-align:left;padding:7px 10px;background:var(--surface2);border-bottom:1px solid var(--border)">Make</th><th style="padding:7px 10px;background:var(--surface2);border-bottom:1px solid var(--border)">Torque (ft-lb)</th></tr></thead>
+      <tbody>
+        ${[['Chrysler / Dodge / Jeep','95–115'],['Ford','85–150'],['GM / Chevy / GMC / Buick','100–140'],['Honda / Acura','80–95'],['Hyundai / Kia','65–87'],['Mazda','65–100'],['Nissan / Infiniti','83–108'],['Subaru','89–118'],['Toyota / Lexus / Scion','76–103'],['VW / Audi','88–148'],['BMW / Mini','87–119'],['Mercedes-Benz','81–110']].map(([m,t]) => `<tr><td style="padding:7px 10px;border-bottom:1px solid var(--border)">${m}</td><td style="padding:7px 10px;border-bottom:1px solid var(--border);font-family:var(--mono);font-weight:600;text-align:center">${t}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--text3);margin-top:8px">⚠️ Always verify with OEM specs for the specific vehicle</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ TECHNICAL ══ -->
-<div class="category-section cat-tech" id="section-tech">
-  <div class="category-header">
-    <div class="category-icon">🔧</div>
-    <h2 class="category-title">Technical References <span class="count-pill" id="count-tech">4</span></h2>
-  </div>
-  <hr class="section-divider">
-  <div class="doc-grid" id="grid-tech">
+<div class="section-title">🏪 Store Operations</div>
+<div class="docs-grid" id="ops-section">
+  <div class="doc-card" data-search="bridgestone net bsro"><div class="doc-icon">🌉</div><div class="doc-info"><div class="doc-name">Bridgestone Net</div><div class="doc-desc">Corporate portal, product info, dealer resources</div><a href="https://www.bridgestone.net" target="_blank" class="doc-link">Open ↗</a></div></div>
+  <div class="doc-card" data-search="employee handbook hr policy"><div class="doc-icon">📋</div><div class="doc-info"><div class="doc-name">Employee Handbook</div><div class="doc-desc">HR policies, benefits, procedures</div><span class="doc-link" style="cursor:default">📁 Ask Manager</span></div></div>
+  <div class="doc-card" data-search="it helpdesk support"><div class="doc-icon">💻</div><div class="doc-info"><div class="doc-name">IT Helpdesk</div><div class="doc-desc">Technical support — (888) 688-0888</div><a href="tel:8886880888" class="doc-link">📞 Call</a></div></div>
+  <div class="doc-card" data-search="bsro schedule appointments"><div class="doc-icon">📅</div><div class="doc-info"><div class="doc-name">BSRO Schedule</div><div class="doc-desc">Appointment scheduling system</div><a href="https://schedule.bfrc.com" target="_blank" class="doc-link">Open ↗</a></div></div>
+</div>
 
-    <!-- Tire Load Index -->
-    <div class="doc-card" data-search="tire load index chart load rating weight capacity ply">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">⚖️</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Tire Load Index Chart</p>
-          <p class="doc-card-desc">Load index values mapped to maximum load capacity in pounds and kg.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <button class="btn btn-primary" onclick="togglePanel('panel-load-index', this)">📊 View Chart</button>
-        <span class="badge badge-tech">Tech</span>
-      </div>
-      <div class="inline-panel" id="panel-load-index">
-        <h4>Tire Load Index Reference Chart</h4>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Index</th><th>Max Load (lbs)</th><th>Max Load (kg)</th><th>Index</th><th>Max Load (lbs)</th><th>Max Load (kg)</th></tr>
-            </thead>
-            <tbody id="loadIndexTableBody"></tbody>
-          </table>
-        </div>
-        <p style="margin:10px 0 0;font-size:0.75rem;color:var(--text3);">Source: Tire &amp; Rim Association standards. Values are maximum loads at specified inflation pressure.</p>
-      </div>
-    </div>
+<div class="section-title">🎓 Training</div>
+<div class="docs-grid" id="training-section">
+  <div class="doc-card" data-search="bridgestone training portal"><div class="doc-icon">🎓</div><div class="doc-info"><div class="doc-name">Bridgestone Training Portal</div><div class="doc-desc">Online courses, certifications, product training</div><a href="https://training.bridgestone.net" target="_blank" class="doc-link">Open ↗</a></div></div>
+  <div class="doc-card" data-search="ase study guide certification test"><div class="doc-icon">🏆</div><div class="doc-info"><div class="doc-name">ASE Study Guides</div><div class="doc-desc">Official ASE certification study materials</div><a href="https://www.ase.com/tests/study-guides.aspx" target="_blank" class="doc-link">Open ↗</a></div></div>
+</div>
 
-    <!-- Torque Spec Guide -->
-    <div class="doc-card" data-search="torque spec guide lug nut wheel torque ft lb newton meter vehicles">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🔩</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Torque Spec Guide</p>
-          <p class="doc-card-desc">Common lug nut torque specifications by vehicle make/model for proper wheel installation.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <button class="btn btn-primary" onclick="togglePanel('panel-torque', this)">📊 View Guide</button>
-        <span class="badge badge-tech">Tech</span>
-      </div>
-      <div class="inline-panel" id="panel-torque">
-        <h4>Lug Nut Torque Specifications by Vehicle</h4>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Make</th><th>Model / Series</th><th>Years</th><th>Torque (ft-lb)</th><th>Torque (N·m)</th><th>Thread Size</th></tr>
-            </thead>
-            <tbody id="torqueTableBody"></tbody>
-          </table>
-        </div>
-        <p style="margin:10px 0 0;font-size:0.75rem;color:var(--text3);">⚠️ Always verify with manufacturer's service manual. Torque in 2–3 star patterns. Re-torque after 50–100 miles.</p>
-      </div>
-    </div>
-
-    <!-- Inflation Pressure Guide -->
-    <div class="doc-card" data-search="inflation pressure guide psi tire pressure recommended tirerack">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">💨</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Inflation Pressure Guide</p>
-          <p class="doc-card-desc">Recommended tire inflation pressures and technical guidance via TireRack.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="https://www.tirerack.com/tires/tiretech/TechPage.cfm?techid=58" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-tech">Tech</span>
-      </div>
-    </div>
-
-    <!-- TPMS Relearn -->
-    <div class="doc-card" data-search="tpms relearn procedures tire pressure monitoring sensor ateq reset">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">📡</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">TPMS Relearn Procedures</p>
-          <p class="doc-card-desc">TPMS sensor relearn and programming procedures via ATEQ TPMS Tools.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="https://www.ateq-tpms.com/" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-tech">Tech</span>
-      </div>
-    </div>
-
+<div class="section-title">📎 Custom Links</div>
+<div id="custom-docs-list" style="margin-bottom:12px"></div>
+<div class="custom-card">
+  <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:12px">Add Custom Link</div>
+  <div class="add-form">
+    <div><label class="form-label">Name</label><input id="doc-name" placeholder="Document name" style="width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none"></div>
+    <div><label class="form-label">URL</label><input id="doc-url" placeholder="https://..." style="width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none"></div>
+    <div><label class="form-label">Notes</label><input id="doc-notes" placeholder="Optional notes" style="width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none"></div>
+    <div style="padding-top:18px"><button class="btn btn-primary" onclick="addCustomDoc()">+ Add</button></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════ STORE OPERATIONS ══ -->
-<div class="category-section cat-ops" id="section-ops">
-  <div class="category-header">
-    <div class="category-icon">🏪</div>
-    <h2 class="category-title">Store Operations <span class="count-pill" id="count-ops">3</span></h2>
-  </div>
-  <hr class="section-divider">
-  <div class="doc-grid" id="grid-ops">
+<script>
+let customDocs = [];
+try { customDocs = JSON.parse(localStorage.getItem('docs646202') || '[]'); } catch(e) {}
 
-    <!-- Bridgestone Net -->
-    <div class="doc-card" data-search="bridgestone net intranet portal store resources corporate">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🌐</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Bridgestone Net</p>
-          <p class="doc-card-desc">Internal Bridgestone intranet portal for store resources, forms, and corporate communications.</p>
-        </div>
+function renderCustomDocs() {
+  const el = document.getElementById('custom-docs-list');
+  if (!customDocs.length) { el.innerHTML = '<p style="color:var(--text3);font-size:13px">No custom links yet</p>'; return; }
+  el.innerHTML = '<div class="docs-grid">' + customDocs.map((d,i) => `
+    <div class="doc-card"><div class="doc-icon">🔗</div><div class="doc-info">
+      <div class="doc-name">${d.name}</div>
+      <div class="doc-desc">${d.notes || ''}</div>
+      <div style="display:flex;gap:6px;margin-top:6px">
+        <a href="${d.url}" target="_blank" class="doc-link">Open ↗</a>
+        <button onclick="delDoc(${i})" style="font-size:11px;padding:3px 8px;border:1px solid #fca5a5;border-radius:4px;background:none;color:#dc2626;cursor:pointer">Del</button>
       </div>
-      <div class="doc-card-actions">
-        <a href="https://www.bridgestone.net" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-ops">Operations</span>
-      </div>
-    </div>
+    </div></div>`).join('') + '</div>';
+}
 
-    <!-- Employee Handbook -->
-    <div class="doc-card" data-search="employee handbook hr policies benefits rules conduct manager">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">📖</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Employee Handbook</p>
-          <p class="doc-card-desc">Company policies, benefits, conduct guidelines, and HR procedures.</p>
-        </div>
-      </div>
-      <div class="doc-card-note">👔 Available from manager</div>
-      <div class="doc-card-actions">
-        <span class="badge badge-ops">Operations</span>
-      </div>
-    </div>
+function addCustomDoc() {
+  const name = document.getElementById('doc-name').value.trim();
+  const url  = document.getElementById('doc-url').value.trim();
+  if (!name || !url) return;
+  customDocs.push({ name, url, notes: document.getElementById('doc-notes').value.trim() });
+  try { localStorage.setItem('docs646202', JSON.stringify(customDocs)); } catch(e) {}
+  renderCustomDocs();
+  ['doc-name','doc-url','doc-notes'].forEach(id => document.getElementById(id).value = '');
+}
 
-    <!-- IT Helpdesk -->
-    <div class="doc-card" data-search="it helpdesk support phone number technical computer system">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">💻</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">IT Helpdesk</p>
-          <p class="doc-card-desc">Technical support for store systems, POS, computers, and network issues.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="tel:8886880888" class="btn btn-primary">📞 Call: (888) 688-0888</a>
-        <span class="badge badge-ops">Operations</span>
-      </div>
-    </div>
+window.delDoc = i => { customDocs.splice(i,1); try{localStorage.setItem('docs646202',JSON.stringify(customDocs));}catch(e){} renderCustomDocs(); };
 
-  </div>
-</div>
+function toggleInline(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
 
-<!-- ══════════════════════════════════════════ TRAINING ══ -->
-<div class="category-section cat-training" id="section-training">
-  <div class="category-header">
-    <div class="category-icon">🎓</div>
-    <h2 class="category-title">Training <span class="count-pill" id="count-training">2</span></h2>
-  </div>
-  <hr class="section-divider">
-  <div class="doc-grid" id="grid-training">
+function filterDocs() {
+  const q = document.getElementById('doc-search').value.toLowerCase();
+  document.querySelectorAll('.doc-card').forEach(card => {
+    const text = (card.dataset.search || '') + card.textContent.toLowerCase();
+    card.style.display = !q || text.includes(q) ? '' : 'none';
+  });
+}
 
-    <!-- Bridgestone Training Portal -->
-    <div class="doc-card" data-search="bridgestone training portal courses certification elearning">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">🏫</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">Bridgestone Training Portal</p>
-          <p class="doc-card-desc">Online training courses, certifications, and learning modules for Bridgestone/Firestone employees.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="https://training.bridgestone.net" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-training">Training</span>
-      </div>
-    </div>
-
-    <!-- ASE Study Guides -->
-    <div class="doc-card" data-search="ase study guides certification automotive technician exam practice test">
-      <div class="doc-card-header">
-        <div class="doc-card-icon">📝</div>
-        <div class="doc-card-info">
-          <p class="doc-card-title">ASE Study Guides</p>
-          <p class="doc-card-desc">Official ASE certification study guides for automotive service technician exams.</p>
-        </div>
-      </div>
-      <div class="doc-card-actions">
-        <a href="https://www.ase.com/tests/study-guides.aspx" target="_blank" rel="noopener" class="btn btn-primary">🔗 Open</a>
-        <span class="badge badge-training">Training</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════ CUSTOM DOCS ══ -->
-<div class="category-section cat-custom" id="section-custom">
-  <div class="category-header">
-    <div class="category-icon">⭐</div>
-    <h2 class="category-title">Custom Documents <span class="count-pill" id="count-custom">0</span></h2>
-  </div>
-  <hr class="section-divider">
-
-  <!-- Add Custom Doc Form -->
-  <div class="add-doc-form">
-    <h3>➕ Add Custom Link</h3>
-    <div class="form-grid">
-      <div class="form-group">
-        <label class="form-label" for="customName">Document Name *</label>
-        <input class="form-input" id="customName" type="text" placeholder="e.g. State Inspection Form" maxlength="80">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="customURL">URL</label>
-        <input class="form-input" id="customURL" type="text" placeholder="https://… or tel:… (optional)">
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="customCategory">Category</label>
-        <select class="form-select" id="customCategory">
-          <option value="custom">Custom</option>
-          <option value="osha">OSHA &amp; Safety</option>
-          <option value="tech">Technical</option>
-          <option value="ops">Operations</option>
-          <option value="training">Training</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="customNotes">Notes / Description</label>
-        <input class="form-input" id="customNotes" type="text" placeholder="Optional description or note" maxlength="120">
-      </div>
-    </div>
-    <div class="form-actions">
-      <button class="btn btn-green" onclick="addCustomDoc()">✅ Save Document</button>
-      <button class="btn" onclick="clearCustomForm()">↩ Clear</button>
-    </div>
-    <p id="formMsg" style="margin:8px 0 0;font-size:0.8rem;color:var(--green);display:none;"></p>
-  </div>
-
-  <div class="doc-grid" id="grid-custom">
-    <!-- Custom docs rendered here -->
-  </div>
-  <div id="no-custom" class
+document.addEventListener('DOMContentLoaded', renderCustomDocs);
+</script>
+</body>
+</html>
