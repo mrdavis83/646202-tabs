@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Triage — Store 646202</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.kpi-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:6px}
+.kpi-val{font-size:36px;font-weight:700;font-family:var(--mono);line-height:1}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:12px}
+.add-form{display:grid;grid-template-columns:1fr 1fr 1.5fr 130px 1fr 100px;gap:8px;margin-bottom:16px;align-items:end}
+.add-form label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+input,select,textarea{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;background:var(--surface);color:var(--text);outline:none;width:100%}
+input:focus,select:focus{border-color:var(--accent2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:#162d4a}
+.btn-sm{padding:4px 9px;font-size:12px}
+.btn-danger{border-color:#fca5a5;color:var(--red)}
+.btn-danger:hover{background:#fef2f2}
+.search-row{display:flex;gap:8px;margin-bottom:12px;align-items:center}
+.search-row input{max-width:300px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border)}
+td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;color:#fff}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.calc-inputs{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.result-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.result-table td{padding:6px 10px;border:1px solid var(--border)}
+.result-table td:first-child{font-weight:500;background:var(--surface2)}
+.links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.link-card{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);font-weight:500;font-size:13px;transition:all .15s}
+.link-card:hover{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.link-icon{font-size:20px}
+.green{color:var(--green)}.amber{color:var(--amber)}.red{color:var(--red)}
+@media(max-width:768px){.kpi-row{grid-template-columns:1fr 1fr}.add-form{grid-template-columns:1fr 1fr}.links-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- KPI ROW -->
+<div class="kpi-row">
+  <div class="kpi"><div class="kpi-label">Open</div><div class="kpi-val red" id="kpi-open">0</div></div>
+  <div class="kpi"><div class="kpi-label">In Progress</div><div class="kpi-val amber" id="kpi-prog">0</div></div>
+  <div class="kpi"><div class="kpi-label">Waiting</div><div class="kpi-val" style="color:#3b82f6" id="kpi-wait">0</div></div>
+  <div class="kpi"><div class="kpi-label">Closed Today</div><div class="kpi-val green" id="kpi-done">0</div></div>
+</div>
+
+<!-- ADD FORM -->
+<div class="card">
+  <div class="card-title">Add Ticket</div>
+  <div class="add-form">
+    <div><label>Customer</label><input id="t-cust" placeholder="Name"></div>
+    <div><label>Vehicle</label><input id="t-veh" placeholder="2020 Toyota Camry"></div>
+    <div><label>Issue</label><input id="t-issue" placeholder="Flat tire, oil change..."></div>
+    <div><label>Status</label><select id="t-status"><option>Open</option><option>In Progress</option><option>Waiting</option><option>Parts</option><option>Closed</option></select></div>
+    <div><label>Advisor</label><input id="t-adv" placeholder="Name"></div>
+    <div><label>&nbsp;</label><button class="btn btn-primary" onclick="addTicket()">+ Add</button></div>
+  </div>
+</div>
+
+<!-- TICKET TABLE -->
+<div class="card">
+  <div class="search-row">
+    <input id="tri-search" placeholder="🔍 Search tickets..." oninput="renderTickets()">
+    <span id="ticket-count" style="color:var(--text3);font-size:12px"></span>
+  </div>
+  <div style="overflow-x:auto">
+    <table><thead><tr><th>#</th><th>Customer</th><th>Vehicle</th><th>Issue</th><th>Status</th><th>Advisor</th><th>Time</th><th></th></tr></thead>
+    <tbody id="triage-tbody"></tbody></table>
+  </div>
+</div>
+
+<!-- TIRE CALCULATOR -->
+<div class="card">
+  <div class="card-title">Tire Size Calculator</div>
+  <div class="calc-inputs">
+    <div><label style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px">OE Size</label><input id="tire1" placeholder="225/60R16" style="width:140px" oninput="calcTires()"></div>
+    <div><label style="font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px">New Size</label><input id="tire2" placeholder="235/65R17" style="width:140px" oninput="calcTires()"></div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
+    <span style="font-size:11px;color:var(--text3);align-self:center">Quick:</span>
+    <button class="btn btn-sm" onclick="setTires('225/60R16','235/60R16')">225/60→235/60 R16</button>
+    <button class="btn btn-sm" onclick="setTires('225/65R17','235/65R17')">225/65→235/65 R17</button>
+    <button class="btn btn-sm" onclick="setTires('245/65R17','265/70R16')">245/65R17→265/70R16</button>
+    <button class="btn btn-sm" onclick="setTires('215/55R17','225/55R17')">215/55→225/55 R17</button>
+  </div>
+  <div id="tire-result" style="margin-top:12px"></div>
+</div>
+
+<!-- QUICK LINKS -->
+<div class="card">
+  <div class="card-title">Quick Links</div>
+  <div class="links-grid">
+    <a href="https://www.bridgestone.net" target="_blank" class="link-card"><span class="link-icon">🌉</span>Bridgestone Net</a>
+    <a href="https://connect.bfrc.com" target="_blank" class="link-card"><span class="link-icon">🔗</span>BSRO Connect</a>
+    <a href="https://mybridge.bfrc.com" target="_blank" class="link-card"><span class="link-icon">🌐</span>MyBridge</a>
+    <a href="https://nexsys.bfrc.com" target="_blank" class="link-card"><span class="link-icon">💻</span>NexSys</a>
+    <a href="https://schedule.bfrc.com" target="_blank" class="link-card"><span class="link-icon">📅</span>BSRO Schedule</a>
+    <a href="https://spectrum.net" target="_blank" class="link-card"><span class="link-icon">📡</span>Spectrum</a>
+  </div>
+</div>
+
+<script>
+const SC={'Open':'#dc2626','In Progress':'#d97706','Waiting':'#3b82f6','Parts':'#7c3aed','Closed':'#16a34a'};
+let tickets=[];
+try{tickets=JSON.parse(localStorage.getItem('triage646202')||'[]');}catch(e){}
+
+function save(){
+  try{localStorage.setItem('triage646202',JSON.stringify(tickets));}catch(e){}
+  fetch('/data/triage.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(tickets)}).catch(()=>{});
+}
+
+function renderTickets(){
+  const q=(document.getElementById('tri-search').value||'').toLowerCase();
+  const rows=tickets.filter(t=>!q||(t.c+t.v+t.i).toLowerCase().includes(q));
+  const tbody=document.getElementById('triage-tbody');
+  tbody.innerHTML=rows.map(t=>`<tr>
+    <td style="font-family:var(--mono);color:var(--text3)">#${String(t.id).slice(-4)}</td>
+    <td style="font-weight:600">${t.c}</td><td style="color:var(--text2)">${t.v||''}</td>
+    <td>${t.i||''}</td>
+    <td><span class="badge" style="background:${SC[t.s]||'#475569'}">${t.s}</span></td>
+    <td>${t.a||''}</td><td style="color:var(--text3);font-size:12px">${t.tm||''}</td>
+    <td style="white-space:nowrap">
+      <button class="btn btn-sm" onclick="editT(${t.id})" style="margin-right:4px">Edit</button>
+      <button class="btn btn-sm btn-danger" onclick="delT(${t.id})">Del</button>
+    </td></tr>`).join('');
+  document.getElementById('ticket-count').textContent=`${rows.length} ticket${rows.length!==1?'s':''}`;
+  const cnt={Open:0,'In Progress':0,Waiting:0,Closed:0};
+  tickets.forEach(t=>{if(t.s==='Open')cnt.Open++;else if(t.s==='In Progress')cnt['In Progress']++;else if(t.s==='Waiting')cnt.Waiting++;else cnt.Closed++;});
+  document.getElementById('kpi-open').textContent=cnt.Open;
+  document.getElementById('kpi-prog').textContent=cnt['In Progress'];
+  document.getElementById('kpi-wait').textContent=cnt.Waiting;
+  document.getElementById('kpi-done').textContent=cnt.Closed;
+}
+
+function addTicket(){
+  const c=document.getElementById('t-cust').value.trim();
+  if(!c)return;
+  tickets.push({id:Date.now(),c,v:document.getElementById('t-veh').value.trim(),i:document.getElementById('t-issue').value.trim(),s:document.getElementById('t-status').value,a:document.getElementById('t-adv').value.trim(),tm:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
+  save();renderTickets();
+  ['t-cust','t-veh','t-issue','t-adv'].forEach(id=>document.getElementById(id).value='');
+}
+
+window.delT=id=>{if(!confirm('Delete?'))return;tickets=tickets.filter(t=>t.id!==id);save();renderTickets();};
+window.editT=id=>{
+  const t=tickets.find(t=>t.id===id);if(!t)return;
+  const s=prompt('Status:',t.s);if(s!==null){t.s=s;save();renderTickets();}
+};
+
+function parseTire(s){const m=(s||'').trim().match(/^(\d+)[\/](\d+)[Rr](\d+)$/);if(!m)return null;const[,w,a,r]=m.map(Number);const sw=w*a/100,dia=r*25.4+2*sw,circ=Math.PI*dia;return{sw,dia,circ,revs:63360/(circ/25.4)};}
+function calcTires(){
+  const out=document.getElementById('tire-result');
+  const t1=parseTire(document.getElementById('tire1').value),t2=parseTire(document.getElementById('tire2').value);
+  if(!t1||!t2){out.innerHTML='<p style="color:var(--text3);padding:8px 0">Enter two valid sizes like 225/60R16</p>';return;}
+  const spd=(t2.circ-t1.circ)/t1.circ*100;
+  const sc=Math.abs(spd)>3?'color:#dc2626':Math.abs(spd)>1?'color:#d97706':'color:#16a34a';
+  out.innerHTML=`<table class="result-table"><tr><td>Sidewall height</td><td>${t1.sw.toFixed(1)} mm → ${t2.sw.toFixed(1)} mm</td></tr>
+    <tr><td>Overall diameter</td><td>${t1.dia.toFixed(1)} mm → ${t2.dia.toFixed(1)} mm (${(t2.dia-t1.dia>0?'+':'')+(t2.dia-t1.dia).toFixed(1)} mm)</td></tr>
+    <tr><td>Revs / mile</td><td>${t1.revs.toFixed(0)} → ${t2.revs.toFixed(0)}</td></tr>
+    <tr><td>Speedometer error</td><td style="font-weight:700;${sc}">${spd>0?'+':''}${spd.toFixed(2)}% — reads ${spd>0?'low (going faster than shown)':'high (going slower than shown)'}${Math.abs(spd)>3?' ⚠️':''}</td></tr></table>`;
+}
+function setTires(s1,s2){document.getElementById('tire1').value=s1;document.getElementById('tire2').value=s2;calcTires();}
+
+fetch('/data/triage.json?_='+Date.now()).then(r=>r.ok?r.json():[]).then(d=>{tickets=Array.isArray(d)?d:[];renderTickets();}).catch(()=>renderTickets());
+</script>
+</body></html>
