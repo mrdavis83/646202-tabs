@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>🔧 Store 646202 — Bridgestone Firestone Webster</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='10' fill='%231e3a5f'/><text y='72' x='50' text-anchor='middle' font-size='56' font-family='sans-serif' font-weight='700' fill='%23e8292d'>6</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex;flex-direction:column}
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:50px;background:var(--accent2);color:#fff;flex-shrink:0;gap:12px}
+.topbar-brand{font-weight:700;font-size:14px;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.store-num{background:var(--accent);padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.topbar-right{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.topbar-clock{font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.04em}
+.topbar-date{font-size:11px;opacity:.65}
+.weather{display:flex;align-items:center;gap:5px;font-size:12px;opacity:.85}
+/* TABS */
+.tabs-bar{display:flex;background:var(--surface);border-bottom:2px solid var(--border);overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab-btn{display:flex;align-items:center;gap:4px;padding:0 13px;height:42px;border:none;background:none;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .12s;flex-shrink:0}
+.tab-btn:hover{color:var(--text);background:var(--surface2)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+/* IFRAME CONTAINER */
+.tab-content{flex:1;position:relative;overflow:hidden}
+.tab-frame{position:absolute;inset:0;width:100%;height:100%;border:none;display:none;background:var(--bg)}
+.tab-frame.active{display:block}
+/* LOADER */
+.tab-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--bg);color:var(--text3);font-size:13px}
+.tab-loader.hidden{display:none}
+.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:640px){
+  .topbar-date,.weather{display:none}
+  .topbar-brand span:last-child{display:none}
+  .tab-btn{padding:0 10px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-brand">
+    🔧 Bridgestone Firestone
+    <span class="store-num">#646202</span>
+    <span style="opacity:.5;font-weight:400;font-size:13px">Webster, NY</span>
+  </div>
+  <div class="topbar-right">
+    <div class="weather">
+      <span id="wx-icon">🌡️</span>
+      <span id="wx-temp" style="font-weight:600">--°F</span>
+      <span id="wx-desc" style="opacity:.7"></span>
+    </div>
+    <div style="text-align:right">
+      <div class="topbar-clock" id="clock">--:--:--</div>
+      <div class="topbar-date" id="date"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs-bar" id="tabs-bar"></nav>
+
+<main class="tab-content" id="tab-content">
+  <div class="tab-loader" id="global-loader">
+    <div class="spinner"></div>
+    <span>Loading tab...</span>
+  </div>
+</main>
+
+<script>
+const TABS=[
+  {id:'triage',  icon:'🎫', label:'Triage'},
+  {id:'cash',    icon:'💰', label:'Cash'},
+  {id:'drawer',  icon:'🗄️', label:'Drawer'},
+  {id:'phone',   icon:'📞', label:'Phones'},
+  {id:'tires',   icon:'🛞', label:'Tires'},
+  {id:'articles',icon:'#',  label:'Articles'},
+  {id:'parts',   icon:'🔩', label:'Parts'},
+  {id:'fleet',   icon:'🚗', label:'Fleet'},
+  {id:'dealers', icon:'🤝', label:'Dealers'},
+  {id:'docs',    icon:'📄', label:'Docs'},
+  {id:'team',    icon:'👥', label:'Team'},
+  {id:'music',   icon:'🎵', label:'Music'},
+  {id:'ops',     icon:'⚙️',  label:'Ops'},
+  {id:'files',   icon:'📁', label:'Files'},
+  {id:'monitor', icon:'📡', label:'Monitor'},
+  {id:'sms',     icon:'💬', label:'SMS'},
+];
+
+const TAB_KEY = 'lastTab646202';
+const content = document.getElementById('tab-content');
+const loader  = document.getElementById('global-loader');
+const frames  = {};
+let activeId  = null;
+
+// Build tab buttons
+const nav = document.getElementById('tabs-bar');
+TABS.forEach(t => {
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn';
+  btn.id = 'btn-' + t.id;
+  btn.innerHTML = `<span style="font-size:13px">${t.icon}</span><span class="tab-label">${t.label}</span>`;
+  btn.onclick = () => showTab(t.id);
+  nav.appendChild(btn);
+});
+
+function showTab(id) {
+  if (!TABS.find(t => t.id === id)) id = TABS[0].id;
+  if (activeId === id) return;
+
+  // Deactivate current
+  if (activeId) {
+    const prevFrame = frames[activeId];
+    if (prevFrame) prevFrame.classList.remove('active');
+    const prevBtn = document.getElementById('btn-' + activeId);
+    if (prevBtn) prevBtn.classList.remove('active');
+  }
+
+  activeId = id;
+  try { localStorage.setItem(TAB_KEY, id); } catch(e) {}
+
+  // Activate button
+  const btn = document.getElementById('btn-' + id);
+  if (btn) { btn.classList.add('active'); btn.scrollIntoView({block:'nearest',inline:'nearest'}); }
+
+  // Show or create iframe
+  if (frames[id]) {
+    loader.classList.add('hidden');
+    frames[id].classList.add('active');
+  } else {
+    loader.classList.remove('hidden');
+    const frame = document.createElement('iframe');
+    frame.className = 'tab-frame active';
+    frame.src = `/tabs/${id}.html`;
+    frame.onload = () => loader.classList.add('hidden');
+    frame.onerror = () => { loader.innerHTML = `<div style="color:#dc2626;text-align:center"><div style="font-size:32px;margin-bottom:8px">⚠️</div><div>Failed to load ${id} tab</div><button onclick="location.reload()" style="margin-top:12px;padding:6px 14px;border:1px solid #e2e8f0;border-radius:6px;cursor:pointer;background:#fff">Retry</button></div>`; };
+    content.appendChild(frame);
+    frames[id] = frame;
+  }
+}
+
+// Restore last tab
+(function() {
+  let last = TABS[0].id;
+  try { const s = localStorage.getItem(TAB_KEY); if (s && TABS.find(t=>t.id===s)) last = s; } catch(e) {}
+  showTab(last);
+})();
+
+// Clock
+(function() {
+  const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function pad(n){return String(n).padStart(2,'0');}
+  function tick(){
+    const now=new Date();
+    const c=document.getElementById('clock');
+    const d=document.getElementById('date');
+    if(c) c.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+    if(d) d.textContent=DAYS[now.getDay()]+' '+MONTHS[now.getMonth()]+' '+now.getDate();
+  }
+  tick(); setInterval(tick,1000);
+})();
+
+// Weather
+(function() {
+  const OWM='c736ec887059fc3a4950e643c439b316';
+  const CK='wx646202'; const TTL=600000;
+  function emoji(id,icon){
+    const n=icon?.endsWith('n');
+    if(id>=200&&id<300)return'⛈️';if(id>=300&&id<400)return'🌦️';
+    if(id>=500&&id<600)return id>=502?'🌧️':'🌦️';if(id>=600&&id<700)return'❄️';
+    if(id>=700&&id<800)return'🌫️';if(id===800)return n?'🌙':'☀️';
+    if(id>=801)return'☁️';return'🌡️';
+  }
+  function render(d){
+    document.getElementById('wx-icon').textContent=emoji(d.weather[0].id,d.weather[0].icon);
+    document.getElementById('wx-temp').textContent=Math.round(d.main.temp)+'°F';
+    document.getElementById('wx-desc').textContent=d.weather[0].description;
+  }
+  try{const c=JSON.parse(localStorage.getItem(CK)||'null');if(c&&Date.now()-c.ts<TTL){render(c.d);return;}}catch(e){}
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=Webster,NY,US&appid=${OWM}&units=imperial`)
+    .then(r=>r.json()).then(d=>{try{localStorage.setItem(CK,JSON.stringify({ts:Date.now(),d}));}catch(e){}render(d);}).catch(()=>{});
+})();
+</script>
+</body>
+</html>
