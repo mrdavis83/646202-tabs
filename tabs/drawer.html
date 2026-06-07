@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Drawer — Store 646202</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
+.balance-display{background:var(--accent2);color:#fff;border-radius:12px;padding:28px 24px;text-align:center;margin-bottom:20px}
+.balance-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:8px}
+.balance-amount{font-size:64px;font-weight:700;font-family:var(--mono);letter-spacing:.02em;line-height:1}
+.balance-sub{font-size:13px;opacity:.6;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:#162d4a}
+.btn-green{background:#16a34a;color:#fff;border-color:#16a34a}
+.btn-green:hover{background:#15803d}
+.btn-red{background:#dc2626;color:#fff;border-color:#dc2626}
+.btn-red:hover{background:#b91c1c}
+.btn-amber{background:#d97706;color:#fff;border-color:#d97706}
+.btn-amber:hover{background:#b45309}
+.btn-blue{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.btn-blue:hover{background:#2563eb}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-danger{border-color:#fca5a5;color:var(--red)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+input,select,textarea{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
+input:focus,select:focus{border-color:var(--accent2)}
+.txn-form{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px}
+.txn-form.open{display:block}
+.txn-form-row{display:grid;grid-template-columns:1fr 2fr auto;gap:8px;align-items:end}
+.form-label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border)}
+td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.stat-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.stat-val{font-size:22px;font-weight:700;font-family:var(--mono)}
+@media(max-width:768px){.summary-grid{grid-template-columns:1fr 1fr}.txn-form-row{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="balance-display">
+  <div class="balance-label">💵 Current Drawer Balance</div>
+  <div class="balance-amount" id="balance">$0.00</div>
+  <div class="balance-sub" id="balance-sub">Set opening count to begin</div>
+</div>
+
+<!-- OPENING COUNT -->
+<div class="card" id="opening-card">
+  <div class="card-title">Opening Count</div>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
+    <div><label class="form-label">$100s</label><input type="number" id="op-100" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">$50s</label><input type="number" id="op-50" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">$20s</label><input type="number" id="op-20" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">$10s</label><input type="number" id="op-10" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">$5s</label><input type="number" id="op-5" min="0" value="8" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">$1s</label><input type="number" id="op-1" min="0" value="10" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">Quarters</label><input type="number" id="op-q" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">Dimes</label><input type="number" id="op-d" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">Nickels</label><input type="number" id="op-n" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    <div><label class="form-label">Pennies</label><input type="number" id="op-p" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+  </div>
+  <button class="btn btn-primary" onclick="setOpening()">Set Opening Count</button>
+</div>
+
+<!-- ADD TRANSACTION -->
+<div class="card">
+  <div class="card-title">Add Transaction</div>
+  <div class="btn-row">
+    <button class="btn btn-green" onclick="openForm('sale')">💰 Sale</button>
+    <button class="btn btn-red" onclick="openForm('paidout')">💸 Paid Out</button>
+    <button class="btn btn-amber" onclick="openForm('refund')">🔄 Refund</button>
+    <button class="btn btn-blue" onclick="openForm('drop')">📥 Safe Drop</button>
+  </div>
+  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+    <span style="font-size:12px;color:var(--text3);align-self:center">Quick:</span>
+    <button class="btn btn-sm" onclick="quickTxn('paidout',20,'Coffee / supplies run')">☕ Coffee Run -$20</button>
+    <button class="btn btn-sm" onclick="quickTxn('paidout',0,'')">💸 Custom Paid Out</button>
+    <button class="btn btn-sm" onclick="quickTxn('drop',0,'')">📥 Quick Drop</button>
+  </div>
+  <div class="txn-form" id="txn-form">
+    <div class="txn-form-row">
+      <div><label class="form-label">Amount ($)</label><input type="number" id="txn-amt" step="0.01" min="0" placeholder="0.00" style="font-family:var(--mono)"></div>
+      <div><label class="form-label">Description</label><input id="txn-desc" placeholder="Enter description..."></div>
+      <div style="padding-top:18px"><button class="btn btn-primary" onclick="addTxn()">Add</button> <button class="btn" onclick="closeForm()">Cancel</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSACTION LOG -->
+<div class="card">
+  <div class="card-title">Transaction Log <span id="txn-count" style="font-weight:400;color:var(--text3)"></span></div>
+  <div style="overflow-x:auto">
+    <table><thead><tr><th>Time</th><th>Type</th><th>Amount</th><th>Description</th><th>Balance</th><th></th></tr></thead>
+    <tbody id="txn-tbody"><tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div class="card">
+  <div class="card-title">Day Summary</div>
+  <div class="summary-grid">
+    <div class="stat"><div class="stat-label">Total Sales</div><div class="stat-val green" id="sum-sales">$0.00</div></div>
+    <div class="stat"><div class="stat-label">Total Paid Outs</div><div class="stat-val red" id="sum-paidouts">$0.00</div></div>
+    <div class="stat"><div class="stat-label">Total Drops</div><div class="stat-val" style="color:#3b82f6" id="sum-drops">$0.00</div></div>
+    <div class="stat"><div class="stat-label">Expected Balance</div><div class="stat-val" id="sum-expected">$0.00</div></div>
+  </div>
+</div>
+
+<div style="display:flex;gap:10px;margin-top:4px">
+  <button class="btn btn-danger" onclick="newDay()">🗑️ New Day (Reset)</button>
+</div>
+
+<script>
+const fmt=n=>'$'+Math.abs(n).toFixed(2);
+const TXTYPE={sale:{label:'Sale',color:'#16a34a',sign:1},paidout:{label:'Paid Out',color:'#dc2626',sign:-1},refund:{label:'Refund',color:'#d97706',sign:-1},drop:{label:'Drop',color:'#3b82f6',sign:-1}};
+let state={balance:0,opening:0,transactions:[],date:new Date().toDateString()};
+let currentType='sale';
+
+function load(){try{const d=JSON.parse(localStorage.getItem('drawer646202')||'{}');if(d.date===new Date().toDateString()){state=d;}else{newDay(true);}}catch(e){}}
+function save(){try{localStorage.setItem('drawer646202',JSON.stringify(state));}catch(e){}}
+
+function setOpening(){
+  const vals=[[100,'op-100'],[50,'op-50'],[20,'op-20'],[10,'op-10'],[5,'op-5'],[1,'op-1'],[.25,'op-q'],[.10,'op-d'],[.05,'op-n'],[.01,'op-p']];
+  const total=vals.reduce((s,[v,id])=>s+(parseFloat(document.getElementById(id).value)||0)*v,0);
+  state.opening=total;
+  state.balance=total;
+  state.transactions=[{id:Date.now(),type:'opening',label:'Opening Count',amount:total,balance:total,time:now()}];
+  save();render();
+  document.getElementById('opening-card').style.display='none';
+}
+
+function openForm(type){currentType=type;document.getElementById('txn-form').classList.add('open');document.getElementById('txn-amt').value='';document.getElementById('txn-desc').value='';document.getElementById('txn-amt').focus();}
+function closeForm(){document.getElementById('txn-form').classList.remove('open');}
+
+function quickTxn(type,amt,desc){
+  if(amt===0){openForm(type);return;}
+  addTxnData(type,amt,desc);
+}
+
+function addTxn(){
+  const amt=parseFloat(document.getElementById('txn-amt').value);
+  const desc=document.getElementById('txn-desc').value.trim();
+  if(!amt||amt<=0)return;
+  addTxnData(currentType,amt,desc);
+  closeForm();
+}
+
+function addTxnData(type,amt,desc){
+  const t=TXTYPE[type];
+  const change=amt*t.sign;
+  state.balance+=change;
+  state.transactions.push({id:Date.now(),type,label:t.label,amount:change,balance:state.balance,desc,time:now()});
+  save();render();
+}
+
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+
+window.delTxn=id=>{
+  const t=state.transactions.find(t=>t.id===id);
+  if(!t||!confirm('Delete transaction?'))return;
+  const idx=state.transactions.indexOf(t);
+  state.transactions.splice(idx,1);
+  // Recalculate running balance
+  let bal=state.opening;
+  state.transactions.forEach((t,i)=>{if(i>0){bal+=t.amount;t.balance=bal;}});
+  state.balance=bal;
+  save();render();
+};
+
+function render(){
+  document.getElementById('balance').textContent=fmt(state.balance);
+  document.getElementById('balance-sub').textContent=`Opening: ${fmt(state.opening)} · Transactions: ${state.transactions.length-1}`;
+  const tbody=document.getElementById('txn-tbody');
+  if(state.transactions.length<=1){tbody.innerHTML='<tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr>';return;}
+  tbody.innerHTML=[...state.transactions].reverse().map(t=>{
+    const c=TXTYPE[t.type]||{color:'#475569',label:t.label};
+    return `<tr>
+      <td style="font-family:var(--mono);font-size:12px;color:var(--text3)">${t.time}</td>
+      <td><span class="badge" style="background:${c.color}">${t.label}</span></td>
+      <td style="font-family:var(--mono);font-weight:600;color:${t.amount>=0?'#16a34a':'#dc2626'}">${t.amount>=0?'+':''}${fmt(t.amount)}</td>
+      <td style="color:var(--text2)">${t.desc||''}</td>
+      <td style="font-family:var(--mono);font-weight:600">${fmt(t.balance)}</td>
+      <td>${t.type!=='opening'?`<button class="btn btn-sm btn-danger" onclick="delTxn(${t.id})">Del</button>`:''}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('txn-count').textContent=`(${state.transactions.length-1} transactions)`;
+  const sales=state.transactions.filter(t=>t.type==='sale').reduce((s,t)=>s+t.amount,0);
+  const paidouts=state.transactions.filter(t=>t.type==='paidout'||t.type==='refund').reduce((s,t)=>s+Math.abs(t.amount),0);
+  const drops=state.transactions.filter(t=>t.type==='drop').reduce((s,t)=>s+Math.abs(t.amount),0);
+  document.getElementById('sum-sales').textContent=fmt(sales);
+  document.getElementById('sum-paidouts').textContent=fmt(paidouts);
+  document.getElementById('sum-drops').textContent=fmt(drops);
+  document.getElementById('sum-expected').textContent=fmt(state.balance);
+}
+
+function newDay(silent){
+  if(!silent&&!confirm('Start a new day? This will clear all transactions.'))return;
+  state={balance:0,opening:0,transactions:[],date:new Date().toDateString()};
+  save();document.getElementById('opening-card').style.display='';render();
+}
+
+// Check midnight reset
+function checkMidnight(){const d=new Date().toDateString();if(state.date&&state.date!==d)newDay(true);}
+setInterval(checkMidnight,60000);
+
+load();render();
+if(state.opening>0)document.getElementById('opening-card').style.display='none';
+</script>
+</body></html>
