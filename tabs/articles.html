@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article Numbers – Bridgestone Firestone Store Dashboard</title>
+<title>Article Numbers â Bridgestone Firestone Store Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
     min-height: 100vh;
   }
 
-  /* ── Header ── */
+  /* ââ Header ââ */
   .page-header {
     display: flex;
     align-items: center;
@@ -66,7 +66,7 @@
     flex-wrap: wrap;
   }
 
-  /* ── Card ── */
+  /* ââ Card ââ */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -84,7 +84,7 @@
     margin-bottom: 14px;
   }
 
-  /* ── Buttons ── */
+  /* ââ Buttons ââ */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -134,7 +134,7 @@
     border-radius: 6px;
   }
 
-  /* ── Add Article Form ── */
+  /* ââ Add Article Form ââ */
   .add-form {
     display: grid;
     grid-template-columns: 140px 1fr 1fr 1fr 110px 1fr auto;
@@ -180,7 +180,7 @@
     letter-spacing: 0.04em;
   }
 
-  /* ── Search / Filter Bar ── */
+  /* ââ Search / Filter Bar ââ */
   .toolbar {
     display: flex;
     gap: 10px;
@@ -230,7 +230,7 @@
   }
   .filter-select:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(30,58,95,.1); }
 
-  /* ── Table ── */
+  /* ââ Table ââ */
   .table-wrap {
     overflow-x: auto;
     border-radius: 8px;
@@ -288,7 +288,7 @@
   }
   .cell-desc { max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  /* ── Category Badges ── */
+  /* ââ Category Badges ââ */
   .badge {
     display: inline-flex;
     align-items: center;
@@ -307,7 +307,7 @@
   .badge-discount{ background: #fee2e2; color: #b91c1c; }
   .badge-misc    { background: #f1f5f9; color: #475569; border: 1px solid var(--border); }
 
-  /* ── Empty State ── */
+  /* ââ Empty State ââ */
   .empty-row td {
     text-align: center;
     padding: 40px 20px;
@@ -316,7 +316,7 @@
   }
   .empty-icon { font-size: 2rem; margin-bottom: 8px; display: block; }
 
-  /* ── Toast ── */
+  /* ââ Toast ââ */
   #toast-container {
     position: fixed;
     bottom: 24px;
@@ -344,10 +344,10 @@
   .toast.toast-error { background: var(--red); }
   .toast.toast-success { background: var(--green); }
 
-  /* ── Hidden file input ── */
+  /* ââ Hidden file input ââ */
   #csv-file-input { display: none; }
 
-  /* ── Result count ── */
+  /* ââ Result count ââ */
   .result-info {
     font-size: 0.8rem;
     color: var(--text3);
@@ -355,7 +355,7 @@
   }
 </style>
 </head>
-<body>
+<body><a href="https://646202.com/cdn-cgi/content?id=yBn_7oawMcxVWGAk_.ra6P2G2gJ20qA8D.4mw06e9Wo-1780874265.9707634-1.2.1.1-q4LdBTHkdwakBB5IOh4Kib83nZe_9G4e5BxMHwnCvNE" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <!-- Toast Container -->
 <div id="toast-container"></div>
@@ -363,9 +363,9 @@
 <!-- Hidden CSV file input -->
 <input type="file" id="csv-file-input" accept=".csv,text/csv">
 
-<!-- ══════════════════════════════════
+<!-- ââââââââââââââââââââââââââââââââââ
      PAGE HEADER
-══════════════════════════════════ -->
+ââââââââââââââââââââââââââââââââââ -->
 <div class="page-header">
   <div class="logo-bar"></div>
   <h1>Article Numbers</h1>
@@ -382,9 +382,9 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════
+<!-- ââââââââââââââââââââââââââââââââââ
      ADD ARTICLE FORM
-══════════════════════════════════ -->
+ââââââââââââââââââââââââââââââââââ -->
 <div class="card">
   <div class="card-title">Add New Article</div>
   <div class="add-form" id="add-form">
@@ -429,14 +429,14 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════
+<!-- ââââââââââââââââââââââââââââââââââ
      SEARCH / FILTER TOOLBAR
-══════════════════════════════════ -->
+ââââââââââââââââââââââââââââââââââ -->
 <div class="card" style="padding:14px 20px;">
   <div class="toolbar">
     <div class="search-wrap">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search-input" placeholder="Search article #, description, supplier…">
+      <input type="text" id="search-input" placeholder="Search article #, description, supplierâ¦">
     </div>
     <select class="filter-select" id="cat-filter">
       <option value="all">All Categories</option>
@@ -451,19 +451,19 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════
+<!-- ââââââââââââââââââââââââââââââââââ
      ARTICLE TABLE
-══════════════════════════════════ -->
+ââââââââââââââââââââââââââââââââââ -->
 <div class="card" style="padding:0; overflow:hidden;">
   <div class="table-wrap">
     <table id="articles-table">
       <thead>
         <tr>
-          <th data-col="num">Article # <span class="sort-indicator">↕</span></th>
-          <th data-col="cat">Category <span class="sort-indicator">↕</span></th>
-          <th data-col="desc">Description <span class="sort-indicator">↕</span></th>
-          <th data-col="sup">Supplier <span class="sort-indicator">↕</span></th>
-          <th data-col="price">Price <span class="sort-indicator">↕</span></th>
+          <th data-col="num">Article # <span class="sort-indicator">â</span></th>
+          <th data-col="cat">Category <span class="sort-indicator">â</span></th>
+          <th data-col="desc">Description <span class="sort-indicator">â</span></th>
+          <th data-col="sup">Supplier <span class="sort-indicator">â</span></th>
+          <th data-col="price">Price <span class="sort-indicator">â</span></th>
           <th class="no-sort">Notes</th>
           <th class="no-sort" style="width:60px; text-align:center;">Del</th>
         </tr>
@@ -475,9 +475,9 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    CONSTANTS
-═══════════════════════════════════════════════════════ */
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
 const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
 const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
@@ -492,16 +492,16 @@ const DEFAULT_ARTICLES = [
   { id: uid(), num: '7001718', cat: 'misc', desc: 'Discount all', sup: '', price: '', notes: '' }
 ];
 
-/* ═══════════════════════════════════════════════════════
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    STATE
-═══════════════════════════════════════════════════════ */
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 let articles = [];
 let sortCol  = 'num';
 let sortDir  = 1; // 1=asc, -1=desc
 
-/* ═══════════════════════════════════════════════════════
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    UTILS
-═══════════════════════════════════════════════════════ */
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
@@ -529,7 +529,7 @@ function catBadge(cat) {
 }
 
 function fmtPrice(p) {
-  if (!p) return '—';
+  if (!p) return 'â';
   const n = parseFloat(p);
   if (isNaN(n)) return p;
   return '$' + n.toFixed(2);
@@ -540,9 +540,9 @@ function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ═══════════════════════════════════════════════════════
-   PERSISTENCE  –  GET /data/articles.json  →  localStorage fallback
-═══════════════════════════════════════════════════════ */
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+   PERSISTENCE  â  GET /data/articles.json  â  localStorage fallback
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 async function loadArticles() {
   // Try remote first
   try {
@@ -588,12 +588,12 @@ async function saveArticles() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(articles)
     });
-  } catch(e) { /* silent – localStorage is authoritative */ }
+  } catch(e) { /* silent â localStorage is authoritative */ }
 }
 
-/* ═══════════════════════════════════════════════════════
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    RENDER
-═══════════════════════════════════════════════════════ */
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function getFiltered() {
   const q    = document.getElementById('search-input').value.trim().toLowerCase();
   const cat  = document.getElementById('cat-filter').value;
@@ -642,12 +642,12 @@ function render() {
     const col = th.dataset.col;
     th.classList.toggle('sorted', col === sortCol);
     const ind = th.querySelector('.sort-indicator');
-    if (ind) ind.textContent = col === sortCol ? (sortDir === 1 ? '↑' : '↓') : '↕';
+    if (ind) ind.textContent = col === sortCol ? (sortDir === 1 ? 'â' : 'â') : 'â';
   });
 
   if (sorted.length === 0) {
     tbody.innerHTML = `<tr class="empty-row"><td colspan="7">
-      <span class="empty-icon">📋</span>
+      <span class="empty-icon">ð</span>
       No articles found. Add one above or adjust your search.
     </td></tr>`;
     return;
@@ -655,12 +655,12 @@ function render() {
 
   tbody.innerHTML = sorted.map(a => `
     <tr data-id="${escHtml(a.id)}">
-      <td class="cell-num">${escHtml(a.num) || '—'}</td>
+      <td class="cell-num">${escHtml(a.num) || 'â'}</td>
       <td>${catBadge(a.cat)}</td>
-      <td class="cell-desc" title="${escHtml(a.desc)}">${escHtml(a.desc) || '<span style="color:var(--text3)">—</span>'}</td>
-      <td style="color:var(--text2)">${escHtml(a.sup) || '<span style="color:var(--text3)">—</span>'}</td>
+      <td class="cell-desc" title="${escHtml(a.desc)}">${escHtml(a.desc) || '<span style="color:var(--text3)">â</span>'}</td>
+      <td style="color:var(--text2)">${escHtml(a.sup) || '<span style="color:var(--text3)">â</span>'}</td>
       <td class="cell-price">${fmtPrice(a.price)}</td>
-      <td class="cell-notes" title="${escHtml(a.notes)}">${escHtml(a.notes) || '<span style="color:var(--text3)">—</span>'}</td>
+      <td class="cell-notes" title="${escHtml(a.notes)}">${escHtml(a.notes) || '<span style="color:var(--text3)">â</span>'}</td>
       <td style="text-align:center;">
         <button class="btn btn-danger btn-sm btn-icon btn-delete" data-id="${escHtml(a.id)}" title="Delete">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
@@ -670,9 +670,9 @@ function render() {
   `).join('');
 }
 
-/* ═══════════════════════════════════════════════════════
+/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
    ADD ARTICLE
-═══════════════════════════════════════════════════════ */
+âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 function addArticle() {
   const num   = document.getElementById('f-num').value.trim();
   const cat   = document.getElementById('f-cat').value;
@@ -696,4 +696,10 @@ function addArticle() {
   articles.push({ id: uid(), num, cat, desc, sup, price, notes });
   saveArticles();
   render();
-  toast
+// ── AUTO-CLOSE FIX ──
+} // end of any unclosed function
+
+document.addEventListener("DOMContentLoaded", () => { typeof loadArticles==="function" && loadArticles(); typeof render==="function" && render(); });
+</script>
+</body>
+</html>
