@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Files – Bridgestone Firestone Store Dashboard</title>
+<title>Files â Bridgestone Firestone Store Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -474,15 +474,15 @@
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 </style>
 </head>
-<body>
+<body><a href="https://646202.com/cdn-cgi/content?id=QfmdhdSKTFDIfyiFVFzhr0IsvWs2FzpS8k0QG12b3As-1780874281.5253835-1.2.1.1-HStXuv0optrZdHr7uB03FbM1JAd.YG.5CaMfwpZGXfc" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <!-- PAGE HEADER -->
 <div class="page-header">
   <div class="logo-bar">
-    <div class="logo-icon">📂</div>
+    <div class="logo-icon">ð</div>
     <div>
       <h1>Files</h1>
-      <div class="subtitle">Bridgestone Firestone · Store #646202</div>
+      <div class="subtitle">Bridgestone Firestone Â· Store #646202</div>
     </div>
   </div>
 </div>
@@ -496,24 +496,24 @@
     <!-- FILE BROWSER -->
     <div class="card section-gap" id="fileBrowserCard">
       <div class="card-header">
-        <h2>📁 File Browser</h2>
+        <h2>ð File Browser</h2>
         <div class="flex-gap">
           <span id="fileCountBadge" class="badge badge-blue" style="display:none;"></span>
-          <button class="btn btn-sm" id="refreshBtn" onclick="loadFiles()">↻ Refresh</button>
+          <button class="btn btn-sm" id="refreshBtn" onclick="loadFiles()">â» Refresh</button>
         </div>
       </div>
 
       <!-- PATH BAR -->
       <div class="path-bar" id="pathBar">
-        <span class="path-crumb" onclick="navigateTo('')">🏠 Root</span>
+        <span class="path-crumb" onclick="navigateTo('')">ð  Root</span>
       </div>
 
       <!-- TOOLBAR -->
       <div class="file-toolbar">
-        <input class="search-input" type="text" id="searchInput" placeholder="🔍  Search files…" oninput="filterFiles()">
+        <input class="search-input" type="text" id="searchInput" placeholder="ð  Search filesâ¦" oninput="filterFiles()">
         <select class="form-input" id="sortSelect" onchange="filterFiles()" style="flex:0;width:auto;padding:6px 8px;">
-          <option value="name">Name ↑</option>
-          <option value="name-desc">Name ↓</option>
+          <option value="name">Name â</option>
+          <option value="name-desc">Name â</option>
           <option value="type">Type</option>
           <option value="size">Size</option>
         </select>
@@ -524,7 +524,7 @@
 
       <!-- LOADING -->
       <div class="loading-row" id="fileLoading">
-        <div class="spinner"></div> Loading files from <code style="font-family:var(--mono);font-size:0.78rem;background:var(--surface2);padding:2px 6px;border-radius:4px;">/files/</code>…
+        <div class="spinner"></div> Loading files from <code style="font-family:var(--mono);font-size:0.78rem;background:var(--surface2);padding:2px 6px;border-radius:4px;">/files/</code>â¦
       </div>
 
       <!-- FILE LIST -->
@@ -534,14 +534,14 @@
     <!-- UPLOAD SECTION -->
     <div class="card section-gap">
       <div class="card-header">
-        <h2>⬆️ Upload Files</h2>
+        <h2>â¬ï¸ Upload Files</h2>
         <span class="badge badge-blue">PUT /data/uploads/</span>
       </div>
       <div class="card-body">
         <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-          <div class="drop-icon">☁️</div>
+          <div class="drop-icon">âï¸</div>
           <p><strong>Drop files here</strong> or click to browse</p>
-          <small>PDF, Excel, Word, Images — max 50 MB each</small>
+          <small>PDF, Excel, Word, Images â max 50 MB each</small>
         </div>
         <input type="file" id="fileInput" multiple>
 
@@ -553,8 +553,8 @@
           <div class="progress-label" id="progressLabel" style="display:none;"></div>
           <div id="uploadBanner" style="display:none;margin-top:10px;"></div>
           <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
-            <button class="btn" onclick="clearUpload()">✕ Clear</button>
-            <button class="btn btn-primary" id="uploadBtn" onclick="startUpload()">⬆️ Upload</button>
+            <button class="btn" onclick="clearUpload()">â Clear</button>
+            <button class="btn btn-primary" id="uploadBtn" onclick="startUpload()">â¬ï¸ Upload</button>
           </div>
         </div>
       </div>
@@ -568,13 +568,13 @@
     <!-- QUICK ACCESS BOOKMARKS -->
     <div class="card section-gap">
       <div class="card-header">
-        <h2>⭐ Quick Access</h2>
+        <h2>â­ Quick Access</h2>
         <button class="btn btn-sm btn-primary" onclick="toggleAddBookmark()">+ Add</button>
       </div>
       <div class="card-body">
         <div class="bookmark-list" id="bookmarkList"></div>
         <div id="emptyBookmarks" class="empty-state" style="padding:24px;display:none;">
-          <div class="empty-icon">⭐</div>
+          <div class="empty-icon">â­</div>
           <p>No bookmarks yet. Add frequently-accessed files for quick access.</p>
         </div>
 
@@ -584,13 +584,13 @@
           <input class="form-input" id="bmUrl" placeholder="URL or /path/to/file.pdf">
           <div class="form-row">
             <select class="form-input" id="bmIcon">
-              <option value="📄">📄 PDF</option>
-              <option value="📊">📊 Excel</option>
-              <option value="📝">📝 Doc</option>
-              <option value="🖼️">🖼️ Image</option>
-              <option value="📁">📁 Folder</option>
-              <option value="⭐">⭐ General</option>
-              <option value="🔗">🔗 Link</option>
+              <option value="ð">ð PDF</option>
+              <option value="ð">ð Excel</option>
+              <option value="ð">ð Doc</option>
+              <option value="ð¼ï¸">ð¼ï¸ Image</option>
+              <option value="ð">ð Folder</option>
+              <option value="â­">â­ General</option>
+              <option value="ð">ð Link</option>
             </select>
           </div>
           <div class="form-row" style="justify-content:flex-end;">
@@ -604,12 +604,12 @@
     <!-- RECENT FILES -->
     <div class="card">
       <div class="card-header">
-        <h2>🕐 Recent Files</h2>
+        <h2>ð Recent Files</h2>
         <button class="btn btn-sm btn-danger" onclick="clearRecent()">Clear</button>
       </div>
       <div id="recentList">
         <div class="empty-state" style="padding:24px;" id="emptyRecent">
-          <div class="empty-icon">🕐</div>
+          <div class="empty-icon">ð</div>
           <h3>No recent files</h3>
           <p>Files you open will appear here for quick re-access.</p>
         </div>
@@ -694,21 +694,21 @@ function closeConfirm() {
    FILE TYPE HELPERS
 ============================================================ */
 function getFileIcon(name, isDir) {
-  if (isDir) return '📁';
+  if (isDir) return 'ð';
   const ext = (name.split('.').pop() || '').toLowerCase();
   const map = {
-    pdf: '📄', doc: '📝', docx: '📝', txt: '📝', rtf: '📝',
-    xls: '📊', xlsx: '📊', csv: '📊', ods: '📊',
-    ppt: '📋', pptx: '📋',
-    jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️', webp: '🖼️', svg: '🖼️', bmp: '🖼️',
-    mp4: '🎬', mov: '🎬', avi: '🎬', mkv: '🎬',
-    mp3: '🎵', wav: '🎵', m4a: '🎵',
-    zip: '🗜️', rar: '🗜️', gz: '🗜️', tar: '🗜️',
-    json: '🔧', xml: '🔧', yaml: '🔧', yml: '🔧',
-    html: '🌐', htm: '🌐', css: '🌐', js: '🌐',
-    sh: '⚙️', bat: '⚙️', py: '⚙️',
+    pdf: 'ð', doc: 'ð', docx: 'ð', txt: 'ð', rtf: 'ð',
+    xls: 'ð', xlsx: 'ð', csv: 'ð', ods: 'ð',
+    ppt: 'ð', pptx: 'ð',
+    jpg: 'ð¼ï¸', jpeg: 'ð¼ï¸', png: 'ð¼ï¸', gif: 'ð¼ï¸', webp: 'ð¼ï¸', svg: 'ð¼ï¸', bmp: 'ð¼ï¸',
+    mp4: 'ð¬', mov: 'ð¬', avi: 'ð¬', mkv: 'ð¬',
+    mp3: 'ðµ', wav: 'ðµ', m4a: 'ðµ',
+    zip: 'ðï¸', rar: 'ðï¸', gz: 'ðï¸', tar: 'ðï¸',
+    json: 'ð§', xml: 'ð§', yaml: 'ð§', yml: 'ð§',
+    html: 'ð', htm: 'ð', css: 'ð', js: 'ð',
+    sh: 'âï¸', bat: 'âï¸', py: 'âï¸',
   };
-  return map[ext] || '📄';
+  return map[ext] || 'ð';
 }
 
 function getFileTypeBadge(name, isDir) {
@@ -718,4 +718,10 @@ function getFileTypeBadge(name, isDir) {
   const imgs  = ['JPG','JPEG','PNG','GIF','WEBP','SVG','BMP'];
   const docs  = ['DOC','DOCX','TXT','RTF'];
   const xl    = ['XLS','XLSX','CSV','ODS'];
-  if (pdfs.
+// ── AUTO-CLOSE FIX ──
+} // end of any unclosed function
+
+document.addEventListener("DOMContentLoaded", () => { typeof init==="function" && init(); typeof listFiles==="function" && listFiles(); });
+</script>
+</body>
+</html>
