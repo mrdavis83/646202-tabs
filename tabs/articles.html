@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Articles â Store 646202</title>
+<title>Articles — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
@@ -16,15 +16,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
 .add-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .add-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:10px}
 .add-form{display:grid;grid-template-columns:130px 110px 1fr 1fr 90px 1fr auto;gap:8px;align-items:end}
-.f-label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:3px}
-.f-input{width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none;background:var(--surface);color:var(--text)}
-.f-input:focus{border-color:var(--accent2)}
+.fl{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:3px}
+.fi{width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none;background:var(--surface);color:var(--text)}
+.fi:focus{border-color:var(--accent2)}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
 .btn:hover{background:var(--surface2)}
 .btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
 .btn-primary:hover{background:#162d4a}
 .btn-sm{padding:4px 9px;font-size:12px}
-.btn-danger{border-color:#fca5a5;color:var(--red,#dc2626)}
+.btn-danger{border-color:#fca5a5;color:#dc2626}
 .btn-danger:hover{background:#fef2f2}
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden}
 table{width:100%;border-collapse:collapse}
@@ -39,19 +39,17 @@ tr:hover td{background:var(--surface2)}
 .cat-oil{background:#dcfce7;color:#15803d}
 .cat-misc{background:#f1f5f9;color:#475569}
 .cat-discount{background:#fee2e2;color:#b91c1c}
-.actions-row{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
-.empty{text-align:center;padding:40px;color:var(--text3)}
 @media(max-width:768px){.add-form{grid-template-columns:1fr 1fr}}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=pgiUYDMaCAJqwRgVu93_Wi5RB6vO69jRTRpESfTbWT4-1780875789.9825027-1.2.1.1-bnKwF6TfvA4aiZchUuV3E8DDWyTn_7uik3nqaN8AfDo" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
   <div class="add-form">
-    <div><label class="f-label">Article #</label><input class="f-input" id="a-num" placeholder="7004578" style="font-family:var(--mono)"></div>
-    <div><label class="f-label">Category</label>
-      <select class="f-input" id="a-cat">
+    <div><label class="fl">Article #</label><input class="fi" id="a-num" placeholder="7004578" style="font-family:var(--mono)"></div>
+    <div><label class="fl">Category</label>
+      <select class="fi" id="a-cat">
         <option value="labor">Labor</option>
         <option value="parts">Parts</option>
         <option value="tire">Tire</option>
@@ -60,16 +58,16 @@ tr:hover td{background:var(--surface2)}
         <option value="discount">Discount</option>
       </select>
     </div>
-    <div><label class="f-label">Description</label><input class="f-input" id="a-desc" placeholder="Description"></div>
-    <div><label class="f-label">Supplier</label><input class="f-input" id="a-sup" placeholder="Optional"></div>
-    <div><label class="f-label">Price</label><input class="f-input" id="a-price" placeholder="$0.00"></div>
-    <div><label class="f-label">Notes</label><input class="f-input" id="a-notes" placeholder="Optional"></div>
+    <div><label class="fl">Description</label><input class="fi" id="a-desc" placeholder="Description"></div>
+    <div><label class="fl">Supplier</label><input class="fi" id="a-sup" placeholder="Optional"></div>
+    <div><label class="fl">Price</label><input class="fi" id="a-price" placeholder="$0.00"></div>
+    <div><label class="fl">Notes</label><input class="fi" id="a-notes" placeholder="Optional"></div>
     <div style="padding-top:17px"><button class="btn btn-primary" onclick="addArticle()">+ Add</button></div>
   </div>
 </div>
 
 <div class="toolbar">
-  <input id="art-search" placeholder="ð Search article numbers..." oninput="render()">
+  <input id="art-search" placeholder="🔍 Search article numbers..." oninput="render()">
   <select id="art-cat-filter" onchange="render()">
     <option value="all">All Categories</option>
     <option value="labor">Labor</option>
@@ -79,7 +77,7 @@ tr:hover td{background:var(--surface2)}
     <option value="misc">Misc</option>
     <option value="discount">Discount</option>
   </select>
-  <button class="btn btn-sm" onclick="exportCSV()">â¬ Export CSV</button>
+  <button class="btn btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
   <span class="count" id="art-count"></span>
 </div>
 
@@ -91,18 +89,11 @@ tr:hover td{background:var(--surface2)}
 </div>
 
 <script>
-let articles = [];
-let dataLoaded = false;
+// ── BAKED-IN DATA — renders instantly, no fetch required ──
+const BUILTIN = [{"num": "7004578", "cat": "labor", "desc": "Alignments 1 time", "sup": "", "price": "", "notes": ""}, {"num": "7005229", "cat": "labor", "desc": "LIFETIME WHEEL ALIGNMENT", "sup": "", "price": "", "notes": ""}, {"num": "7015515", "cat": "misc", "desc": "STEERING ANGLE reset (SAS) $20", "sup": "", "price": "", "notes": ""}, {"num": "7034294", "cat": "misc", "desc": "STEERING ANGLE reset (SAS) $0", "sup": "", "price": "", "notes": ""}, {"num": "7097782", "cat": "misc", "desc": "ROAD HAZARD PROTECTION", "sup": "", "price": "", "notes": ""}, {"num": "7016233", "cat": "parts", "desc": "Adjust & clean brakes", "sup": "", "price": "", "notes": ""}, {"num": "7006472", "cat": "labor", "desc": "Low profile labor", "sup": "", "price": "", "notes": ""}, {"num": "7030260", "cat": "parts", "desc": "Misc: Brake Parts", "sup": "", "price": "", "notes": ""}, {"num": "7041556", "cat": "labor", "desc": "Misc: Brake Labor", "sup": "", "price": "", "notes": ""}, {"num": "7000711", "cat": "parts", "desc": "Misc: Nuts Bolts Fasteners", "sup": "", "price": "", "notes": ""}, {"num": "7040231", "cat": "misc", "desc": "Sale Tax Credit", "sup": "", "price": "", "notes": ""}, {"num": "7003002", "cat": "parts", "desc": "Fuel System parts", "sup": "", "price": "", "notes": ""}, {"num": "7003030", "cat": "parts", "desc": "Engine system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003051", "cat": "parts", "desc": "Charging system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003081", "cat": "parts", "desc": "Starting system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003106", "cat": "parts", "desc": "Steering system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003130", "cat": "parts", "desc": "Wiper parts", "sup": "", "price": "", "notes": ""}, {"num": "7003161", "cat": "parts", "desc": "Drive train parts", "sup": "", "price": "", "notes": ""}, {"num": "7003219", "cat": "labor", "desc": "Fuel System labor", "sup": "", "price": "", "notes": ""}, {"num": "cxz001392", "cat": "labor", "desc": "Fuel System labor (alt)", "sup": "", "price": "", "notes": ""}, {"num": "7003240", "cat": "parts", "desc": "Engine system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003281", "cat": "labor", "desc": "Emission system labor", "sup": "", "price": "", "notes": ""}, {"num": "7003303", "cat": "parts", "desc": "Steering system parts", "sup": "", "price": "", "notes": ""}, {"num": "7003317", "cat": "parts", "desc": "Wiper parts", "sup": "", "price": "", "notes": ""}, {"num": "7003348", "cat": "labor", "desc": "Accessories labor", "sup": "", "price": "", "notes": ""}, {"num": "7003362", "cat": "parts", "desc": "Drive train parts", "sup": "", "price": "", "notes": ""}, {"num": "7003386", "cat": "parts", "desc": "Starting system parts", "sup": "", "price": "", "notes": ""}, {"num": "7018651", "cat": "labor", "desc": "Under hood labor", "sup": "", "price": "", "notes": ""}];
 
-function save() {
-  try { localStorage.setItem('articles646202', JSON.stringify(articles)); } catch(e) {}
-  if (!dataLoaded) return;
-  fetch('/data/articles.json', {
-    method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(articles)
-  }).catch(() => {});
-}
+let articles = BUILTIN.slice(); // start with baked data immediately
+let serverLoaded = false;
 
 function render() {
   const q = (document.getElementById('art-search').value || '').toLowerCase();
@@ -110,35 +101,42 @@ function render() {
   const tbody = document.getElementById('articles-tbody');
   const filtered = articles.filter(a =>
     (cat === 'all' || a.cat === cat) &&
-    (!q || (a.num + ' ' + a.desc + ' ' + a.sup).toLowerCase().includes(q))
+    (!q || (a.num + ' ' + a.desc + ' ' + (a.sup||'')).toLowerCase().includes(q))
   );
   document.getElementById('art-count').textContent = filtered.length + ' of ' + articles.length + ' articles';
-  if (!filtered.length) {
-    tbody.innerHTML = '<tr><td colspan="7" class="empty">No articles match</td></tr>';
-    return;
-  }
-  tbody.innerHTML = filtered.map(a => `<tr>
-    <td style="font-family:var(--mono);font-weight:700;font-size:13px">${a.num}</td>
-    <td><span class="badge cat-${a.cat || 'misc'}">${a.cat || 'misc'}</span></td>
-    <td style="font-weight:500">${a.desc || ''}</td>
-    <td style="color:var(--text2)">${a.sup || ''}</td>
-    <td style="font-family:var(--mono)">${a.price || ''}</td>
-    <td style="color:var(--text3);font-size:12px">${a.notes || ''}</td>
-    <td><button class="btn btn-sm btn-danger" onclick="delArticle('${a.num}')">Del</button></td>
-  </tr>`).join('');
+  tbody.innerHTML = filtered.length === 0
+    ? '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text3)">No articles match</td></tr>'
+    : filtered.map(a => `<tr>
+        <td style="font-family:var(--mono);font-weight:700">${a.num}</td>
+        <td><span class="badge cat-${a.cat||'misc'}">${a.cat||'misc'}</span></td>
+        <td style="font-weight:500">${a.desc||''}</td>
+        <td style="color:var(--text2)">${a.sup||''}</td>
+        <td style="font-family:var(--mono)">${a.price||''}</td>
+        <td style="color:var(--text3);font-size:12px">${a.notes||''}</td>
+        <td><button class="btn btn-sm btn-danger" onclick="delArticle('${a.num}')">Del</button></td>
+      </tr>`).join('');
+}
+
+function save() {
+  try { localStorage.setItem('articles646202', JSON.stringify(articles)); } catch(e) {}
+  if (!serverLoaded) return; // never overwrite server until we've confirmed what's there
+  fetch('/data/articles.json', {
+    method: 'PUT',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(articles)
+  }).catch(() => {});
 }
 
 function addArticle() {
-  const num = document.getElementById('a-num').value.trim();
+  const num = (document.getElementById('a-num').value || '').trim();
   if (!num) { document.getElementById('a-num').focus(); return; }
   if (articles.find(a => a.num === num)) { alert('Article # ' + num + ' already exists'); return; }
   articles.push({
-    num,
-    cat: document.getElementById('a-cat').value,
-    desc: document.getElementById('a-desc').value.trim(),
-    sup: document.getElementById('a-sup').value.trim(),
-    price: document.getElementById('a-price').value.trim(),
-    notes: document.getElementById('a-notes').value.trim()
+    num, cat: document.getElementById('a-cat').value,
+    desc: (document.getElementById('a-desc').value || '').trim(),
+    sup:  (document.getElementById('a-sup').value  || '').trim(),
+    price:(document.getElementById('a-price').value|| '').trim(),
+    notes:(document.getElementById('a-notes').value|| '').trim()
   });
   save(); render();
   ['a-num','a-desc','a-sup','a-price','a-notes'].forEach(id => document.getElementById(id).value = '');
@@ -154,30 +152,27 @@ window.delArticle = num => {
 function exportCSV() {
   const rows = [['Article #','Category','Description','Supplier','Price','Notes']];
   articles.forEach(a => rows.push([a.num, a.cat, a.desc, a.sup, a.price, a.notes]));
-  const csv = rows.map(r => r.map(v => '"' + (v||'').replace(/"/g,'""') + '"').join(',')).join('
-');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv,' + encodeURIComponent(csv);
-  a.download = 'articles_646202.csv';
-  a.click();
+  const csv = rows.map(r => r.map(v => '"' + (v||'').replace(/"/g,'""') + '"').join(',')).join('\n');
+  const el = document.createElement('a');
+  el.href = 'data:text/csv,' + encodeURIComponent(csv);
+  el.download = 'articles_646202.csv';
+  el.click();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('/data/articles.json?_=' + Date.now())
-    .then(r => r.ok ? r.json() : [])
-    .then(d => {
-      articles = Array.isArray(d) && d.length > 0 ? d : [];
-      dataLoaded = true;
-      if (articles.length === 0) {
-        try { articles = JSON.parse(localStorage.getItem('articles646202') || '[]'); } catch(e) {}
-      }
+// Render immediately with baked data
+render();
+
+// Then fetch server version in background — use it if it has MORE entries (user added some)
+fetch('/data/articles.json?_=' + Date.now())
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    serverLoaded = true;
+    if (Array.isArray(d) && d.length >= BUILTIN.length) {
+      articles = d;
       render();
-    })
-    .catch(() => {
-      try { articles = JSON.parse(localStorage.getItem('articles646202') || '[]'); } catch(e) {}
-      render();
-    });
-});
+    }
+  })
+  .catch(() => { serverLoaded = true; });
 </script>
 </body>
 </html>
