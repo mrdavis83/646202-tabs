@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMS – Bridgestone Firestone Webster</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+    --accent:#e8292d; --accent2:#1e3a5f;
+    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626;
+    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h2 {
+    margin: 0 0 4px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .page-header .logo-bar {
+    width: 4px;
+    height: 28px;
+    background: var(--accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .page-subtitle {
+    font-size: 12px;
+    color: var(--text3);
+    margin: 0;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .left-col { display: flex; flex-direction: column; gap: 16px; }
+  .right-col { display: flex; flex-direction: column; gap: 16px; }
+
+  @media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* Form elements */
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text2);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+
+  input[type="tel"],
+  textarea {
+    width: 100%;
+    padding: 9px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color .15s, box-shadow .15s;
+    outline: none;
+  }
+
+  input[type="tel"]:focus,
+  textarea:focus {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 3px rgba(30,58,95,.1);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: var(--font);
+    line-height: 1.5;
+  }
+
+  .char-counter {
+    text-align: right;
+    font-size: 11px;
+    font-family: var(--mono);
+    margin-top: 4px;
+    color: var(--text3);
+    transition: color .2s;
+  }
+
+  .char-counter.warn { color: var(--amber); }
+  .char-counter.danger { color: var(--red); }
+
+  .segment-info {
+    font-size: 11px;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, opacity .15s;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .btn:hover { background: var(--surface2); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  .btn-primary {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .btn-primary:hover:not(:disabled) { background: #163058; border-color: #163058; }
+
+  .btn-danger {
+    border-color: var(--red);
+    color: var(--red);
+  }
+
+  .btn-danger:hover:not(:disabled) { background: #fef2f2; }
+
+  .send-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+
+  /* Status indicator */
+  .status-indicator {
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 20px;
+  }
+
+  .status-indicator.sending { color: var(--amber); }
+  .status-indicator.sent { color: var(--green); }
+  .status-indicator.failed { color: var(--red); }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .spinner {
+    width: 13px;
+    height: 13px;
+    border: 2px solid rgba(217,119,6,.3);
+    border-top-color: var(--amber);
+    border-radius: 50%;
+    animation: spin .6s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  /* Templates */
+  .template-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 11px;
+    font-family: var(--font);
+    font-size: 12.5px;
+    color: var(--text);
+    cursor: pointer;
+    margin-bottom: 7px;
+    transition: background .15s, border-color .15s, transform .08s;
+    line-height: 1.45;
+  }
+
+  .template-btn:last-child { margin-bottom: 0; }
+
+  .template-btn:hover {
+    background: #e8f0fe;
+    border-color: #93b3d4;
+    transform: translateX(2px);
+  }
+
+  .template-btn:active { transform: translateX(0); }
+
+  .template-btn .template-icon {
+    font-size: 14px;
+    margin-right: 4px;
+  }
+
+  .template-btn .template-preview {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text2);
+    font-size: 11.5px;
+    margin-top: 2px;
+  }
+
+  /* Recent numbers */
+  .recent-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .recent-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--accent2);
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    white-space: nowrap;
+  }
+
+  .recent-pill:hover {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+
+  .recent-empty {
+    font-size: 12px;
+    color: var(--text3);
+    font-style: italic;
+  }
+
+  /* Chat bubbles */
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .chat-container::-webkit-scrollbar { width: 5px; }
+  .chat-container::-webkit-scrollbar-track { background: transparent; }
+  .chat-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .chat-msg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .chat-bubble {
+    background: #0ea5e9;
+    color: #fff;
+    padding: 9px 13px;
+    border-radius: 14px 14px 3px 14px;
+    max-width: 85%;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  }
+
+  .chat-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .chat-to {
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--text2);
+  }
+
+  .chat-empty {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--text3);
+    font-size: 13px;
+  }
+
+  .chat-empty .chat-empty-icon {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .history-count {
+    font-size: 11px;
+    color: var(--text3);
+    background: var(--surface2);
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    font-family: var(--mono);
+  }
+
+  /* Divider */
+  .field-group {
+    margin-bottom: 12px;
+  }
+
+  .field-group:last-child { margin-bottom: 0; }
+
+  /* Toast (optional feedback) */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent2);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .25s, transform .25s;
+    pointer-events: none;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scrollbar for body */
+  body::-webkit-scrollbar { width: 6px; }
+  body::-webkit-scrollbar-track { background: transparent; }
+  body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="logo-bar"></div>
+  <div>
+    <h2>SMS Messaging</h2>
+    <p class="page-subtitle">Bridgestone Firestone Webster · From +1 (585) 257-2886</p>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- LEFT: Compose + Recent Numbers + Templates -->
+  <div class="left-col">
+
+    <!-- Compose Card -->
+    <div class="card">
+      <h3>Compose Message</h3>
+
+      <div class="field-group">
+        <label for="phone-input">To</label>
+        <input type="tel" id="phone-input" placeholder="(585) 555-1234" maxlength="14" autocomplete="tel">
+      </div>
+
+      <div class="field-group">
+        <label for="msg-input">Message</label>
+        <textarea id="msg-input" placeholder="Type your message here…" maxlength="480"></textarea>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+          <span class="segment-info" id="segment-info">0 chars · 1 segment</span>
+          <span class="char-counter" id="char-counter">0 / 160</span>
+        </div>
+      </div>
+
+      <div class="send-row">
+        <button class="btn btn-primary" id="send-btn" onclick="sendSMS()">
+          <span>📤</span> Send SMS
+        </button>
+        <div class="status-indicator" id="status-indicator"></div>
+      </div>
+    </div>
+
+    <!-- Recent Numbers Card -->
+    <div class="card">
+      <h3>Recent Numbers</h3>
+      <div class="recent-numbers" id="recent-numbers">
+        <span class="recent-empty">No recent numbers yet.</span>
+      </div>
+    </div>
+
+    <!-- Templates Card -->
+    <div class="card">
+      <h3>Message Templates</h3>
+      <button class="template-btn" onclick="fillTemplate(0)">
+        <span class="template-icon">📅</span><strong>Vehicle Ready</strong>
+        <span class="template-preview">Your vehicle is ready for pickup at Bridgestone Firestone Webster…</span>
+      </button>
+      <button class="template-btn" onclick="fillTemplate(1)">
+        <span class="template-icon">🔧</span><strong>Appointment Confirmed</strong>
+        <span class="template-preview">Your appointment is confirmed for [DATE] at [TIME]…</span>
+      </button>
+      <button class="template-btn" onclick="fillTemplate(2)">
+        <span class="template-icon">📦</span><strong>Parts Arrived</strong>
+        <span class="template-preview">Parts for your vehicle have arrived…</span>
+      </button>
+      <button class="template-btn" onclick="fillTemplate(3)">
+        <span class="template-icon">💰</span><strong>Estimate Ready</strong>
+        <span class="template-preview">Your estimate is ready. Please call (585) 671-6164…</span>
+      </button>
+      <button class="template-btn" onclick="fillTemplate(4)">
+        <span class="template-icon">✅</span><strong>Work Complete</strong>
+        <span class="template-preview">Work on your vehicle is complete. Total: $[AMOUNT]…</span>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Sent History -->
+  <div class="right-col">
+    <div class="card">
+      <div class="history-header">
+        <h3 style="margin:0;">Sent History</h3>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span class="history-count" id="history-count">0 messages</span>
+          <button class="btn btn-danger" style="padding:4px 10px; font-size:12px;" onclick="clearHistory()">Clear</button>
+        </div>
+      </div>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-empty">
+          <span class="chat-empty-icon">💬</span>
+          No messages sent yet.<br>Compose a message and hit Send!
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Constants ────────────────────────────────────────────────────────────
+  const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
+  const SMS_FROM       = '+15852572886';
+  const STORAGE_KEY    = 'sms646202';
+  const MAX_HISTORY    = 50;
+
+  const TEMPLATES = [
+    'Your vehicle is ready for pickup at Bridgestone Firestone Webster. Please call (585) 671-6164 with any questions.',
+    'Your appointment is confirmed for [DATE] at [TIME] at Bridgestone Firestone Webster (901 Ridge Rd). Call (585) 671-6164 to reschedule.',
+    'Parts for your vehicle have arrived. Please call (585) 671-6164 to schedule your installation appointment.',
+    'Your estimate is ready. Please call (585) 671-6164 to discuss or schedule your appointment at Bridgestone Firestone Webster.',
+    'Work on your vehicle is complete. Total: $[AMOUNT]. Please call (585) 671-6164 or come in to arrange pickup.'
+  ];
+
+  // ── Phone Formatting ─────────────────────────────────────────────────────
+  const phoneInput = document.getElementById('phone-input');
+
+  phoneInput.addEventListener('input', function(e) {
+    let val = this.value.replace(/\D/g, '');
+    if (val.length > 10) val = val.slice(0, 10);
+    let formatted = '';
+    if (val.length === 0) {
+      formatted = '';
+    } else if (val.length <= 3) {
+      formatted = '(' + val;
+    } else if (val.length <= 6) {
+      formatted = '(' + val.slice(0,3) + ') ' + val.slice(3);
+    } else {
+      formatted = '(' + val.slice(0,3) + ') ' + val.slice(3,6) + '-' + val.slice(6);
+    }
+    this.value = formatted;
+  });
+
+  function getRawPhone(formatted) {
+    const digits = formatted.replace(/\D/g, '');
+    if (digits.length === 10) return '+1' + digits;
+    if (digits.length === 11 && digits[0] === '1') return '+' + digits;
+    return null;
+  }
+
+  // ── Character Counter ────────────────────────────────────────────────────
+  const msgInput       = document.getElementById('msg-input');
+  const charCounter    = document.getElementById('char-counter');
+  const segmentInfo    = document.getElementById('segment-info');
+
+  msgInput.addEventListener('input', updateCounter);
+
+  function updateCounter() {
+    const len = msgInput.value.length;
+    let segSize, segCount, segLimit;
+
+    if (len <= 160) {
+      segSize = 160; segCount = 1; segLimit = 160;
+    } else if (len <= 320) {
+      segSize = 160; segCount = 2; segLimit = 320;
+    } else {
+      segSize = 160; segCount = 3; segLimit = 480;
+    }
+
+    const nextBoundary = segCount * segSize;
+    charCounter.textContent = `${len} / ${segLimit}`;
+    segmentInfo.textContent = `${len} chars · ${segCount} segment${segCount > 1 ? 's' : ''}`;
+
+    charCounter.className = 'char-counter';
+    if (len > segLimit - 20 && len <= segLimit) {
+      charCounter.classList.add('warn');
+    } else if (len >= segLimit) {
+      charCounter.classList.add('danger');
+    }
+  }
+
+  // ── Templates ────────────────────────────────────────────────────────────
+  function fillTemplate(idx) {
+    msgInput.value = TEMPLATES[idx];
+    updateCounter();
+    msgInput.focus();
+    msgInput.selectionStart = msgInput.selectionEnd = msgInput.value.length;
+  }
+
+  // ── Send SMS ─────────────────────────────────────────────────────────────
+  async function sendSMS() {
+    const toFormatted = phoneInput.value.trim();
+    const message     = msgInput.value.trim();
+    const toRaw       = getRawPhone(toFormatted);
+
+    // Validation
+    if (!toRaw) {
+      showStatus('failed', '✗ Enter a valid 10-digit phone number');
+      shakeInput(phoneInput);
+      return;
+    }
+    if (!message) {
+      showStatus('failed', '✗ Message cannot be empty');
+      shakeInput(msgInput);
+      return;
+    }
+
+    const sendBtn = document.getElementById('send-btn');
+    sendBtn.disabled = true;
+    showStatus('sending', null);
+
+    try {
+      const res = await fetch(SMS_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: toRaw, message: message, from: SMS_FROM })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      showStatus('sent', '✓ Sent');
+      addToHistory(toRaw, toFormatted, message);
+      updateRecentNumbers();
+      msgInput.value = '';
+      updateCounter();
+      setTimeout(() => { showStatus('', ''); }, 4000);
+
+    } catch (err) {
+      console.error('SMS send error:', err);
+      showStatus('failed', '✗ Failed — ' + err.message);
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+
+  function showStatus(type, text) {
+    const el = document.getElementById('status-indicator');
+    el.className = 'status-indicator';
+    if (type === 'sending') {
+      el.classList.add('sending');
+      el.innerHTML = '<span class="spinner"></span> Sending…';
+    } else if (type === 'sent') {
+      el.classList.add('sent');
+      el.textContent = text;
+    } else if (type === 'failed') {
+      el.classList.add('failed');
+      el.textContent = text;
+    } else {
+      el.textContent = '';
+    }
+  }
+
+  function shakeInput(el) {
+    el.style.transition = 'transform .07s';
+    const frames = ['-4px','4px','-3px','3px','-1px','0px'];
+    let i = 0;
+    const iv = setInterval(() => {
+      el.style.transform = `translateX(${frames[i]})`;
+      i++;
+      if (i >= frames.length) {
+        clearInterval(iv);
+        el.style.transform = '';
+      }
+    }, 50);
+  }
+
+  // ── History ──────────────────────────────────────────────────────────────
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch { return []; }
+  }
+
+  function saveHistory(history) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0, MAX_HISTORY)));
+  }
+
+  function addToHistory(toRaw, toFormatted, message) {
+    const history = loadHistory();
+    history.unshift({
+      to: toRaw,
+      toFormatted: toFormatted,
+      message: message,
+      ts: new Date().toISOString()
+    });
+    saveHistory(history);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('chat-container');
+    const countEl   = document.getElementById('history-count');
+    const history   = loadHistory();
+
+    countEl.textContent = `${history.length} message${history.length !== 1 ? 's' : ''}`;
+
+    if (history.length === 0) {
+      container.innerHTML = `
+        <div class="chat-empty">
+          <span class="chat-empty-icon">💬</span>
+          No messages sent yet.<br>Compose a message and hit Send!
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = history.map(item => {
+      const d   = new Date(item.ts);
+      const ts  = formatTimestamp(d);
+      const msg = escapeHtml(item.message);
+      return `
+        <div class="chat-msg">
+          <div class="chat-bubble">${msg}</div>
+          <div class="chat-meta">
+            <span class="chat-to">${item.toFormatted || item.to}</span>
+            <span>·</span>
+            <span>${ts}</span>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function clearHistory() {
+    if (!confirm('Clear all sent message history? This cannot be undone.')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    renderHistory();
+    updateRecentNumbers();
+    showToast('History cleared');
+  }
+
+  function formatTimestamp(d) {
+    const now = new Date();
+    const diffMs = now - d;
+    const diffMin = Math.floor(diffMs / 60000);
+    const diffHr  = Math.floor(diffMs / 3600000);
+
+    if (diffMin < 1)   return 'just now';
+    if (diffMin < 60)  return `${diffMin}m ago`;
+    if (diffHr  < 24)  return d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    const yesterday = new Date(now); yesterday.setDate(yesterday.getDate()-1);
+    if (d.toDateString() === yesterday.toDateString()) {
+      return 'Yesterday ' + d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }
+    return d.toLocaleDateString([], {month:'short', day:'numeric'}) + ' ' +
+           d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  }
+
+  function escapeHtml(str) {
+    return str
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/\n/g,'<br>');
+  }
+
+  // ── Recent Numbers ───────────────────────────────────────────────────────
+  function updateRecentNumbers() {
+    const container = document.getElementById('recent-numbers');
+    const history   = loadHistory();
+
+    const seen = [];
+    for (const item of history) {
+      if (!seen.includes(item.to)) {
+        seen.push(item.to);
+      }
+      if (seen.length >= 5) break;
+    }
+
+    if (seen.length === 0) {
+      container.innerHTML = '<span class="recent-empty">No recent numbers yet.</span>';
+      return;
+    }
+
+    container.innerHTML = seen.map(raw => {
+      const formatted = formatPhoneDisplay(raw);
+      return `<button class="recent-pill" onclick="fillPhone('${raw}')" title="Fill ${formatted}">
+        📞 ${formatted}
+      </button>`;
+    }).join('');
+  }
+
+  function formatPhoneDisplay(raw) {
+    const digits = raw.replace(/\D/g,'');
+    if (digits.length === 11 && digits[0] === '1') {
+      const d = digits.slice(1);
+      return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    }
+    if (digits.length === 10) {
+      return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+    }
+    return raw;
+  }
+
+  function fillPhone(raw) {
+    phoneInput.value = formatPhoneDisplay(raw);
+    phoneInput.focus();
+    showToast('Number filled');
+  }
+
+  // ── Toast ────────────────────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  renderHistory();
+  updateRecentNumbers();
+  updateCounter();
+
+  // Allow Enter key shortcut (Ctrl/Cmd + Enter to send)
+  msgInput.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      sendSMS();
+    }
+  });
+
+  // Refresh timestamps every minute
+  setInterval(() => {
+    const history = loadHistory();
+    if (history.length > 0) renderHistory();
+  }, 60000);
+</script>
+</body>
+</html>
