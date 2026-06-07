@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Files – Bridgestone Firestone Store Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
+    --accent:#e8292d; --accent2:#1e3a5f;
+    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+    --green:#16a34a; --amber:#d97706; --red:#dc2626;
+    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    background: var(--bg);
+    font-family: var(--font);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3 { font-weight: 600; }
+
+  /* PAGE HEADER */
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--accent);
+  }
+  .page-header .logo-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .page-header .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 18px;
+  }
+  .page-header h1 { font-size: 1.4rem; color: var(--accent2); }
+  .page-header .subtitle { font-size: 0.8rem; color: var(--text3); font-family: var(--mono); }
+
+  /* GRID LAYOUT */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header h2 {
+    font-size: 0.95rem;
+    color: var(--accent2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-body { padding: 16px; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+    text-decoration: none;
+  }
+  .btn:hover { background: var(--surface2); }
+  .btn-primary {
+    background: var(--accent2);
+    color: #fff;
+    border-color: var(--accent2);
+  }
+  .btn-primary:hover { background: #162e4d; }
+  .btn-danger {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { padding: 4px 10px; font-size: 0.78rem; }
+  .btn-icon { padding: 5px 8px; }
+
+  /* FILE BROWSER */
+  .path-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--text2);
+    flex-wrap: wrap;
+  }
+  .path-crumb {
+    cursor: pointer;
+    color: var(--accent2);
+    font-weight: 500;
+  }
+  .path-crumb:hover { text-decoration: underline; }
+  .path-sep { color: var(--text3); }
+
+  .file-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 160px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--surface);
+  }
+  .search-input:focus { outline: none; border-color: var(--accent2); }
+
+  .file-list { min-height: 200px; }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .file-item:last-child { border-bottom: none; }
+  .file-item:hover { background: var(--surface2); }
+  .file-item .file-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .file-item .file-info { flex: 1; min-width: 0; }
+  .file-item .file-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .file-item .file-meta {
+    font-size: 0.75rem;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+  .file-item .file-actions { display: flex; gap: 4px; opacity: 0; transition: opacity .15s; }
+  .file-item:hover .file-actions { opacity: 1; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+    gap: 12px;
+  }
+  .empty-state .empty-icon { font-size: 3rem; }
+  .empty-state h3 { color: var(--text2); font-size: 1rem; }
+  .empty-state p { color: var(--text3); font-size: 0.85rem; max-width: 300px; line-height: 1.6; }
+  .empty-state code {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--accent2);
+  }
+
+  /* STATUS BANNER */
+  .status-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    margin: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .status-banner.info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+  .status-banner.warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .status-banner.error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+  .status-banner.success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+
+  /* UPLOAD ZONE */
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    background: var(--surface);
+  }
+  .drop-zone:hover, .drop-zone.drag-over {
+    border-color: var(--accent2);
+    background: #f0f4ff;
+  }
+  .drop-zone .drop-icon { font-size: 2.2rem; margin-bottom: 8px; }
+  .drop-zone p { color: var(--text2); font-size: 0.88rem; margin-bottom: 4px; }
+  .drop-zone small { color: var(--text3); font-size: 0.78rem; font-family: var(--mono); }
+
+  #fileInput { display: none; }
+
+  .file-preview {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.84rem;
+  }
+  .file-preview-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .file-preview-info { display: flex; align-items: center; gap: 8px; }
+  .file-preview-meta {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--text3);
+    margin-top: 4px;
+  }
+
+  .progress-wrap {
+    margin-top: 10px;
+    background: var(--border);
+    border-radius: 100px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 100px;
+    transition: width .3s;
+    width: 0%;
+  }
+  .progress-label {
+    font-size: 0.76rem;
+    color: var(--text3);
+    font-family: var(--mono);
+    margin-top: 4px;
+    text-align: right;
+  }
+
+  /* BOOKMARKS */
+  .bookmark-list { display: flex; flex-direction: column; gap: 6px; }
+  .bookmark-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: background .1s;
+  }
+  .bookmark-item:hover { background: #e8eef8; }
+  .bookmark-item .bm-icon { font-size: 1.1rem; }
+  .bookmark-item .bm-info { flex: 1; min-width: 0; }
+  .bookmark-item .bm-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bookmark-item .bm-url {
+    font-size: 0.72rem;
+    color: var(--text3);
+    font-family: var(--mono);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .add-bookmark-form {
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .add-bookmark-form.open { display: flex; }
+  .form-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .form-input {
+    flex: 1;
+    min-width: 100px;
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--font);
+    font-size: 0.83rem;
+    color: var(--text);
+    background: var(--surface);
+  }
+  .form-input:focus { outline: none; border-color: var(--accent2); }
+
+  /* RECENT FILES */
+  .recent-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background .1s;
+  }
+  .recent-item:last-child { border-bottom: none; }
+  .recent-item:hover { background: var(--surface2); }
+  .recent-item .ri-icon { font-size: 1.1rem; }
+  .recent-item .ri-info { flex: 1; min-width: 0; }
+  .recent-item .ri-name {
+    font-size: 0.84rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .recent-item .ri-time {
+    font-size: 0.72rem;
+    color: var(--text3);
+    font-family: var(--mono);
+  }
+
+  /* BADGE */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 7px;
+    border-radius: 100px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: var(--mono);
+  }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-amber { background: #fef3c7; color: #92400e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+
+  /* LOADING SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent2);
+    border-radius: 50%;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 16px;
+    color: var(--text3);
+    font-size: 0.85rem;
+  }
+
+  /* SECTION SPACER */
+  .section-gap { margin-bottom: 20px; }
+  .flex-gap { display: flex; align-items: center; gap: 8px; }
+
+  /* TOAST */
+  #toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    pointer-events: auto;
+    animation: slideIn .25s ease;
+    max-width: 320px;
+  }
+  @keyframes slideIn {
+    from { transform: translateX(40px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  .toast-success { background: #166534; color: #fff; }
+  .toast-error   { background: #991b1b; color: #fff; }
+  .toast-info    { background: var(--accent2); color: #fff; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 24px;
+    width: 100%;
+    max-width: 440px;
+    box-shadow: 0 8px 40px rgba(0,0,0,.18);
+  }
+  .modal h3 { margin-bottom: 16px; color: var(--accent2); }
+  .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="logo-bar">
+    <div class="logo-icon">📂</div>
+    <div>
+      <h1>Files</h1>
+      <div class="subtitle">Bridgestone Firestone · Store #646202</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-grid">
+
+  <!-- LEFT COLUMN: File Browser + Upload -->
+  <div>
+
+    <!-- FILE BROWSER -->
+    <div class="card section-gap" id="fileBrowserCard">
+      <div class="card-header">
+        <h2>📁 File Browser</h2>
+        <div class="flex-gap">
+          <span id="fileCountBadge" class="badge badge-blue" style="display:none;"></span>
+          <button class="btn btn-sm" id="refreshBtn" onclick="loadFiles()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- PATH BAR -->
+      <div class="path-bar" id="pathBar">
+        <span class="path-crumb" onclick="navigateTo('')">🏠 Root</span>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="file-toolbar">
+        <input class="search-input" type="text" id="searchInput" placeholder="🔍  Search files…" oninput="filterFiles()">
+        <select class="form-input" id="sortSelect" onchange="filterFiles()" style="flex:0;width:auto;padding:6px 8px;">
+          <option value="name">Name ↑</option>
+          <option value="name-desc">Name ↓</option>
+          <option value="type">Type</option>
+          <option value="size">Size</option>
+        </select>
+      </div>
+
+      <!-- STATUS BANNER (shown on error/info) -->
+      <div id="browserBanner" style="display:none;"></div>
+
+      <!-- LOADING -->
+      <div class="loading-row" id="fileLoading">
+        <div class="spinner"></div> Loading files from <code style="font-family:var(--mono);font-size:0.78rem;background:var(--surface2);padding:2px 6px;border-radius:4px;">/files/</code>…
+      </div>
+
+      <!-- FILE LIST -->
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <!-- UPLOAD SECTION -->
+    <div class="card section-gap">
+      <div class="card-header">
+        <h2>⬆️ Upload Files</h2>
+        <span class="badge badge-blue">PUT /data/uploads/</span>
+      </div>
+      <div class="card-body">
+        <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+          <div class="drop-icon">☁️</div>
+          <p><strong>Drop files here</strong> or click to browse</p>
+          <small>PDF, Excel, Word, Images — max 50 MB each</small>
+        </div>
+        <input type="file" id="fileInput" multiple>
+
+        <div id="uploadPreview" style="display:none;">
+          <div class="file-preview" id="uploadFileInfo"></div>
+          <div class="progress-wrap" id="progressWrap" style="display:none;margin-top:12px;">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-label" id="progressLabel" style="display:none;"></div>
+          <div id="uploadBanner" style="display:none;margin-top:10px;"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
+            <button class="btn" onclick="clearUpload()">✕ Clear</button>
+            <button class="btn btn-primary" id="uploadBtn" onclick="startUpload()">⬆️ Upload</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT COLUMN: Bookmarks + Recent -->
+  <div>
+
+    <!-- QUICK ACCESS BOOKMARKS -->
+    <div class="card section-gap">
+      <div class="card-header">
+        <h2>⭐ Quick Access</h2>
+        <button class="btn btn-sm btn-primary" onclick="toggleAddBookmark()">+ Add</button>
+      </div>
+      <div class="card-body">
+        <div class="bookmark-list" id="bookmarkList"></div>
+        <div id="emptyBookmarks" class="empty-state" style="padding:24px;display:none;">
+          <div class="empty-icon">⭐</div>
+          <p>No bookmarks yet. Add frequently-accessed files for quick access.</p>
+        </div>
+
+        <div class="add-bookmark-form" id="addBookmarkForm">
+          <label style="font-size:0.82rem;font-weight:600;color:var(--accent2);">Add Bookmark</label>
+          <input class="form-input" id="bmName" placeholder="Display name (e.g. Price Sheet Q4)">
+          <input class="form-input" id="bmUrl" placeholder="URL or /path/to/file.pdf">
+          <div class="form-row">
+            <select class="form-input" id="bmIcon">
+              <option value="📄">📄 PDF</option>
+              <option value="📊">📊 Excel</option>
+              <option value="📝">📝 Doc</option>
+              <option value="🖼️">🖼️ Image</option>
+              <option value="📁">📁 Folder</option>
+              <option value="⭐">⭐ General</option>
+              <option value="🔗">🔗 Link</option>
+            </select>
+          </div>
+          <div class="form-row" style="justify-content:flex-end;">
+            <button class="btn" onclick="toggleAddBookmark()">Cancel</button>
+            <button class="btn btn-primary" onclick="saveBookmark()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECENT FILES -->
+    <div class="card">
+      <div class="card-header">
+        <h2>🕐 Recent Files</h2>
+        <button class="btn btn-sm btn-danger" onclick="clearRecent()">Clear</button>
+      </div>
+      <div id="recentList">
+        <div class="empty-state" style="padding:24px;" id="emptyRecent">
+          <div class="empty-icon">🕐</div>
+          <h3>No recent files</h3>
+          <p>Files you open will appear here for quick re-access.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <h3 id="confirmTitle">Confirm</h3>
+    <p id="confirmMsg" style="color:var(--text2);font-size:0.9rem;line-height:1.6;"></p>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONSTANTS
+============================================================ */
+const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
+const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
+const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
+const SMS_FROM       = '+15852572886';
+const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
+const PHONEBOOK_URL  = '/data/phonebook.json';
+const TRIAGE_URL     = '/data/triage.json';
+const ARTICLES_URL   = '/data/articles.json';
+
+const BOOKMARKS_KEY  = 'filebookmarks646202';
+const RECENT_KEY     = 'recentfiles646202';
+const FILES_BASE     = '/files/';
+const UPLOADS_BASE   = '/data/uploads/';
+
+/* ============================================================
+   STATE
+============================================================ */
+let allFiles       = [];
+let currentPath    = '';
+let selectedFile   = null;
+let confirmCallback = null;
+
+/* ============================================================
+   TOAST
+============================================================ */
+function toast(msg, type = 'info', duration = 3500) {
+  const c = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast toast-${type}`;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transition = 'opacity .3s';
+    setTimeout(() => t.remove(), 350);
+  }, duration);
+}
+
+/* ============================================================
+   CONFIRM MODAL
+============================================================ */
+function openConfirm(title, msg, onOk) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmMsg').textContent = msg;
+  confirmCallback = onOk;
+  document.getElementById('confirmModal').classList.add('open');
+  document.getElementById('confirmOkBtn').onclick = () => { closeConfirm(); onOk && onOk(); };
+}
+function closeConfirm() {
+  document.getElementById('confirmModal').classList.remove('open');
+}
+
+/* ============================================================
+   FILE TYPE HELPERS
+============================================================ */
+function getFileIcon(name, isDir) {
+  if (isDir) return '📁';
+  const ext = (name.split('.').pop() || '').toLowerCase();
+  const map = {
+    pdf: '📄', doc: '📝', docx: '📝', txt: '📝', rtf: '📝',
+    xls: '📊', xlsx: '📊', csv: '📊', ods: '📊',
+    ppt: '📋', pptx: '📋',
+    jpg: '🖼️', jpeg: '🖼️', png: '🖼️', gif: '🖼️', webp: '🖼️', svg: '🖼️', bmp: '🖼️',
+    mp4: '🎬', mov: '🎬', avi: '🎬', mkv: '🎬',
+    mp3: '🎵', wav: '🎵', m4a: '🎵',
+    zip: '🗜️', rar: '🗜️', gz: '🗜️', tar: '🗜️',
+    json: '🔧', xml: '🔧', yaml: '🔧', yml: '🔧',
+    html: '🌐', htm: '🌐', css: '🌐', js: '🌐',
+    sh: '⚙️', bat: '⚙️', py: '⚙️',
+  };
+  return map[ext] || '📄';
+}
+
+function getFileTypeBadge(name, isDir) {
+  if (isDir) return { label: 'FOLDER', cls: 'badge-amber' };
+  const ext = (name.split('.').pop() || '').toUpperCase();
+  const pdfs  = ['PDF'];
+  const imgs  = ['JPG','JPEG','PNG','GIF','WEBP','SVG','BMP'];
+  const docs  = ['DOC','DOCX','TXT','RTF'];
+  const xl    = ['XLS','XLSX','CSV','ODS'];
+  if (pdfs.
