@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cash Control — Store 646202</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:14px}
+.info-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.info-grid label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+input,select,textarea{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;background:var(--surface);color:var(--text);outline:none;width:100%;transition:border-color .15s}
+input:focus{border-color:var(--accent2)}
+input[type=number]{text-align:right;font-family:var(--mono)}
+.denom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 10px;background:var(--surface2);border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px}
+.td-right{text-align:right;font-family:var(--mono)}
+.td-total{font-weight:700;background:var(--surface2);font-family:var(--mono)}
+.sales-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sales-grid label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+.summary-card{background:var(--surface);border:2px solid var(--border);border-radius:8px;padding:18px;margin-bottom:16px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.summary-row:last-child{border-bottom:none}
+.summary-label{color:var(--text2)}
+.summary-val{font-family:var(--mono);font-weight:600}
+.os-display{text-align:center;padding:24px;border-radius:8px;margin-bottom:16px}
+.os-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.os-amount{font-size:52px;font-weight:700;font-family:var(--mono);line-height:1}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:#162d4a}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+@media print{.btn-row,.no-print{display:none}.card{box-shadow:none;border:1px solid #ccc}}
+@media(max-width:768px){.info-grid{grid-template-columns:1fr 1fr}.denom-grid{grid-template-columns:1fr}.sales-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-title">Store Information</div>
+  <div class="info-grid">
+    <div><label>Store #</label><input value="646202" readonly style="background:var(--surface2)"></div>
+    <div><label>Date</label><input type="date" id="cc-date"></div>
+    <div><label>Manager</label><input id="cc-mgr" placeholder="Name"></div>
+    <div><label>Opener</label><input id="cc-opener" placeholder="Name"></div>
+    <div><label>Closer</label><input id="cc-closer" placeholder="Name"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Cash Count</div>
+  <div class="denom-grid">
+    <div>
+      <div style="font-weight:600;margin-bottom:10px;color:var(--text2);font-size:13px">💵 Cash Drawer</div>
+      <table><thead><tr><th>Bill / Coin</th><th>Count</th><th>Total</th></tr></thead>
+      <tbody id="drawer-tbody"></tbody>
+      <tfoot><tr><td colspan="2" class="td-total">Drawer Total</td><td class="td-total td-right" id="drawer-total">$0.00</td></tr></tfoot></table>
+    </div>
+    <div>
+      <div style="font-weight:600;margin-bottom:10px;color:var(--text2);font-size:13px">🔒 Safe</div>
+      <table><thead><tr><th>Bill / Coin</th><th>Count</th><th>Total</th></tr></thead>
+      <tbody id="safe-tbody"></tbody>
+      <tfoot><tr><td colspan="2" class="td-total">Safe Total</td><td class="td-total td-right" id="safe-total">$0.00</td></tr></tfoot></table>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Sales</div>
+  <div class="sales-grid">
+    <div><label>Credit Card Total</label><input type="number" id="cc-cards" step="0.01" value="0" oninput="calc()"></div>
+    <div><label>Checks Total</label><input type="number" id="cc-checks" step="0.01" value="0" oninput="calc()"></div>
+    <div><label>Coupons / Discounts</label><input type="number" id="cc-coupons" step="0.01" value="0" oninput="calc()"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">Register</div>
+  <div class="sales-grid">
+    <div><label>Opening Reading ($)</label><input type="number" id="cc-open-reg" step="0.01" value="0" oninput="calc()"></div>
+    <div><label>Closing Reading ($)</label><input type="number" id="cc-close-reg" step="0.01" value="0" oninput="calc()"></div>
+    <div><label>Opening Float ($)</label><input type="number" id="cc-float" step="0.01" value="200" oninput="calc()"></div>
+  </div>
+</div>
+
+<div id="os-display" class="os-display">
+  <div class="os-label">Over / Short</div>
+  <div class="os-amount" id="os-amount">$0.00</div>
+</div>
+
+<div class="summary-card">
+  <div class="summary-row"><span class="summary-label">Net Sales (Register)</span><span class="summary-val" id="sum-netsales">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">Credit Cards</span><span class="summary-val" id="sum-cards">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">Checks</span><span class="summary-val" id="sum-checks">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">Net Cash Sales</span><span class="summary-val" id="sum-cashsales">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">+ Opening Float</span><span class="summary-val" id="sum-float">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">Expected Cash</span><span class="summary-val" id="sum-expected">$0.00</span></div>
+  <div class="summary-row"><span class="summary-label">Actual Cash (Drawer + Safe)</span><span class="summary-val" id="sum-actual">$0.00</span></div>
+</div>
+
+<div class="card no-print">
+  <div class="card-title">Notes</div>
+  <textarea id="cc-notes" rows="3" style="resize:vertical" placeholder="End of day notes..."></textarea>
+</div>
+
+<div class="btn-row no-print" style="margin-bottom:20px">
+  <button class="btn btn-primary" onclick="saveCash()">💾 Save</button>
+  <button class="btn" onclick="window.print()">🖨️ Print</button>
+  <button class="btn" onclick="clearAll()">🗑️ Clear</button>
+</div>
+
+<script>
+const DENOMS=[{l:'$100',v:100},{l:'$50',v:50},{l:'$20',v:20},{l:'$10',v:10},{l:'$5',v:5},{l:'$1',v:1},{l:'Quarters',v:.25},{l:'Dimes',v:.10},{l:'Nickels',v:.05},{l:'Pennies',v:.01}];
+const fmt=n=>'$'+n.toFixed(2);
+
+function buildTable(tbodyId,prefix){
+  const tbody=document.getElementById(tbodyId);
+  tbody.innerHTML=DENOMS.map((d,i)=>`<tr>
+    <td>${d.l}</td>
+    <td><input type="number" id="${prefix}-${i}" min="0" step="1" value="0" oninput="calc()" style="width:80px;padding:5px 8px;text-align:right;font-family:var(--mono)"></td>
+    <td class="td-right" id="${prefix}-${i}-val">$0.00</td></tr>`).join('');
+}
+buildTable('drawer-tbody','dr');
+buildTable('safe-tbody','sf');
+
+function sumSection(prefix){
+  return DENOMS.reduce((sum,d,i)=>{
+    const cnt=parseFloat(document.getElementById(`${prefix}-${i}`)?.value)||0;
+    const val=cnt*d.v;
+    const el=document.getElementById(`${prefix}-${i}-val`);
+    if(el)el.textContent=fmt(val);
+    return sum+val;
+  },0);
+}
+
+function calc(){
+  const drawer=sumSection('dr');
+  const safe=sumSection('sf');
+  document.getElementById('drawer-total').textContent=fmt(drawer);
+  document.getElementById('safe-total').textContent=fmt(safe);
+  const cards=parseFloat(document.getElementById('cc-cards').value)||0;
+  const checks=parseFloat(document.getElementById('cc-checks').value)||0;
+  const openReg=parseFloat(document.getElementById('cc-open-reg').value)||0;
+  const closeReg=parseFloat(document.getElementById('cc-close-reg').value)||0;
+  const float=parseFloat(document.getElementById('cc-float').value)||0;
+  const netSales=closeReg-openReg;
+  const cashSales=netSales-cards-checks;
+  const expected=cashSales+float;
+  const actual=drawer+safe;
+  const os=actual-expected;
+  document.getElementById('sum-netsales').textContent=fmt(netSales);
+  document.getElementById('sum-cards').textContent=fmt(cards);
+  document.getElementById('sum-checks').textContent=fmt(checks);
+  document.getElementById('sum-cashsales').textContent=fmt(cashSales);
+  document.getElementById('sum-float').textContent=fmt(float);
+  document.getElementById('sum-expected').textContent=fmt(expected);
+  document.getElementById('sum-actual').textContent=fmt(actual);
+  const osel=document.getElementById('os-display');
+  const osamount=document.getElementById('os-amount');
+  osamount.textContent=(os>=0?'+':'')+fmt(os);
+  if(Math.abs(os)<0.005){osel.style.background='#f0fdf4';osel.style.borderColor='#86efac';osamount.style.color='#16a34a';}
+  else if(os<0){osel.style.background='#fef2f2';osel.style.borderColor='#fca5a5';osamount.style.color='#dc2626';}
+  else{osel.style.background='#fff7ed';osel.style.borderColor='#fed7aa';osamount.style.color='#d97706';}
+}
+
+document.getElementById('cc-date').value=new Date().toISOString().split('T')[0];
+
+function saveCash(){
+  try{localStorage.setItem('cashcontrol646202',JSON.stringify({date:document.getElementById('cc-date').value,notes:document.getElementById('cc-notes').value,saved:new Date().toISOString()}));}catch(e){}
+  alert('Saved!');
+}
+function clearAll(){if(confirm('Clear all entries?')){document.querySelectorAll('input[type=number]').forEach(i=>i.value=0);document.getElementById('cc-notes').value='';calc();}}
+
+calc();
+</script>
+</body></html>
