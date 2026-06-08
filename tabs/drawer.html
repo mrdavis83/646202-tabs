@@ -5,216 +5,462 @@
 <title>Drawer — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--navy:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--blue:#3b82f6;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
-.balance-display{background:var(--accent2);color:#fff;border-radius:12px;padding:28px 24px;text-align:center;margin-bottom:20px}
+
+/* Inner tab bar */
+.tab-bar{display:flex;gap:4px;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:0}
+.tab-pill{padding:8px 20px;border:1px solid transparent;border-bottom:none;border-radius:7px 7px 0 0;font-size:13px;font-weight:600;cursor:pointer;color:var(--text2);background:transparent;margin-bottom:-2px;transition:all .15s}
+.tab-pill:hover{background:var(--surface2)}
+.tab-pill.active{background:var(--surface);border-color:var(--border);border-bottom-color:var(--surface);color:var(--navy)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:14px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{opacity:.88}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-green:hover{opacity:.88}
+.btn-red{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-red:hover{opacity:.88}
+.btn-amber{background:var(--amber);color:#fff;border-color:var(--amber)}
+.btn-amber:hover{opacity:.88}
+.btn-blue{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-blue:hover{opacity:.88}
+.btn-danger{border-color:#fca5a5;color:var(--red)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Tables */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 10px;background:var(--surface2);border-bottom:1px solid var(--border)}
+td{padding:8px 10px;border-bottom:1px solid var(--border);font-size:13px}
+tr:last-child td{border-bottom:none}
+.td-right{text-align:right;font-family:var(--mono)}
+.td-total{font-weight:700;background:var(--surface2);font-family:var(--mono)}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
+
+/* Inputs */
+input,select,textarea{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
+input:focus,select:focus{border-color:var(--navy)}
+input[type=number]{text-align:right;font-family:var(--mono)}
+
+/* ── DRAWER TAB ── */
+.balance-display{background:var(--navy);color:#fff;border-radius:12px;padding:28px 24px;text-align:center;margin-bottom:20px}
 .balance-label{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;opacity:.7;margin-bottom:8px}
 .balance-amount{font-size:64px;font-weight:700;font-family:var(--mono);letter-spacing:.02em;line-height:1}
 .balance-sub{font-size:13px;opacity:.6;margin-top:8px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
-.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:12px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap}
-.btn:hover{background:var(--surface2)}
-.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
-.btn-primary:hover{background:#162d4a}
-.btn-green{background:#16a34a;color:#fff;border-color:#16a34a}
-.btn-green:hover{background:#15803d}
-.btn-red{background:#dc2626;color:#fff;border-color:#dc2626}
-.btn-red:hover{background:#b91c1c}
-.btn-amber{background:#d97706;color:#fff;border-color:#d97706}
-.btn-amber:hover{background:#b45309}
-.btn-blue{background:#3b82f6;color:#fff;border-color:#3b82f6}
-.btn-blue:hover{background:#2563eb}
-.btn-sm{padding:4px 10px;font-size:12px}
-.btn-danger{border-color:#fca5a5;color:var(--red)}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap}
-input,select,textarea{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;background:var(--surface);color:var(--text);outline:none;transition:border-color .15s}
-input:focus,select:focus{border-color:var(--accent2)}
 .txn-form{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px}
 .txn-form.open{display:block}
 .txn-form-row{display:grid;grid-template-columns:1fr 2fr auto;gap:8px;align-items:end}
 .form-label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:8px 12px;background:var(--surface2);border-bottom:1px solid var(--border)}
-td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
-tr:last-child td{border-bottom:none}
-.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff}
 .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
 .stat-label{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
 .stat-val{font-size:22px;font-weight:700;font-family:var(--mono)}
-@media(max-width:768px){.summary-grid{grid-template-columns:1fr 1fr}.txn-form-row{grid-template-columns:1fr 1fr}}
+
+/* ── CASH CONTROL TAB ── */
+.info-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.info-grid label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+.denom-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.sales-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.sales-grid label{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:4px}
+.summary-card{background:var(--surface);border:2px solid var(--border);border-radius:8px;padding:18px;margin-bottom:16px}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.summary-row:last-child{border-bottom:none}
+.summary-label{color:var(--text2)}
+.summary-val{font-family:var(--mono);font-weight:600}
+.os-display{text-align:center;padding:24px;border-radius:8px;margin-bottom:16px;border:2px solid var(--border)}
+.os-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;color:var(--text2)}
+.os-amount{font-size:52px;font-weight:700;font-family:var(--mono);line-height:1}
+
+@media print{.btn-row,.no-print,.tab-bar{display:none}.card{box-shadow:none;border:1px solid #ccc}}
+@media(max-width:768px){.info-grid{grid-template-columns:1fr 1fr}.denom-grid{grid-template-columns:1fr}.sales-grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:1fr 1fr}.txn-form-row{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<div class="balance-display">
-  <div class="balance-label">💵 Current Drawer Balance</div>
-  <div class="balance-amount" id="balance">$0.00</div>
-  <div class="balance-sub" id="balance-sub">Set opening count to begin</div>
+<div class="tab-bar">
+  <button class="tab-pill active" onclick="switchTab('drawer',this)">&#x1F4B5; Drawer</button>
+  <button class="tab-pill" onclick="switchTab('cash',this)">&#x1F9FE; Cash Control</button>
 </div>
 
-<!-- OPENING COUNT -->
-<div class="card" id="opening-card">
-  <div class="card-title">Opening Count</div>
-  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
-    <div><label class="form-label">$100s</label><input type="number" id="op-100" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">$50s</label><input type="number" id="op-50" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">$20s</label><input type="number" id="op-20" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">$10s</label><input type="number" id="op-10" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">$5s</label><input type="number" id="op-5" min="0" value="8" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">$1s</label><input type="number" id="op-1" min="0" value="10" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">Quarters</label><input type="number" id="op-q" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">Dimes</label><input type="number" id="op-d" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">Nickels</label><input type="number" id="op-n" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-    <div><label class="form-label">Pennies</label><input type="number" id="op-p" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
-  </div>
-  <button class="btn btn-primary" onclick="setOpening()">Set Opening Count</button>
-</div>
+<!-- ═══════════════════════════════════
+     DRAWER TAB
+═══════════════════════════════════ -->
+<div class="tab-panel active" id="panel-drawer">
 
-<!-- ADD TRANSACTION -->
-<div class="card">
-  <div class="card-title">Add Transaction</div>
-  <div class="btn-row">
-    <button class="btn btn-green" onclick="openForm('sale')">💰 Sale</button>
-    <button class="btn btn-red" onclick="openForm('paidout')">💸 Paid Out</button>
-    <button class="btn btn-amber" onclick="openForm('refund')">🔄 Refund</button>
-    <button class="btn btn-blue" onclick="openForm('drop')">📥 Safe Drop</button>
+  <div class="balance-display">
+    <div class="balance-label">&#x1F4B5; Current Drawer Balance</div>
+    <div class="balance-amount" id="balance">$0.00</div>
+    <div class="balance-sub" id="balance-sub">Set opening count to begin</div>
   </div>
-  <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-    <span style="font-size:12px;color:var(--text3);align-self:center">Quick:</span>
-    <button class="btn btn-sm" onclick="quickTxn('paidout',20,'Coffee / supplies run')">☕ Coffee Run -$20</button>
-    <button class="btn btn-sm" onclick="quickTxn('paidout',0,'')">💸 Custom Paid Out</button>
-    <button class="btn btn-sm" onclick="quickTxn('drop',0,'')">📥 Quick Drop</button>
+
+  <!-- Opening count -->
+  <div class="card" id="opening-card">
+    <div class="card-title">Opening Count</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
+      <div><label class="form-label">$100s</label><input type="number" id="op-100" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">$50s</label><input type="number" id="op-50" min="0" value="0" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">$20s</label><input type="number" id="op-20" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">$10s</label><input type="number" id="op-10" min="0" value="4" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">$5s</label><input type="number" id="op-5" min="0" value="8" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">$1s</label><input type="number" id="op-1" min="0" value="10" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">Quarters</label><input type="number" id="op-q" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">Dimes</label><input type="number" id="op-d" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">Nickels</label><input type="number" id="op-n" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+      <div><label class="form-label">Pennies</label><input type="number" id="op-p" min="0" value="20" style="width:100%;text-align:right;font-family:var(--mono)"></div>
+    </div>
+    <button class="btn btn-primary" onclick="setOpening()">Set Opening Count</button>
   </div>
-  <div class="txn-form" id="txn-form">
-    <div class="txn-form-row">
-      <div><label class="form-label">Amount ($)</label><input type="number" id="txn-amt" step="0.01" min="0" placeholder="0.00" style="font-family:var(--mono)"></div>
-      <div><label class="form-label">Description</label><input id="txn-desc" placeholder="Enter description..."></div>
-      <div style="padding-top:18px"><button class="btn btn-primary" onclick="addTxn()">Add</button> <button class="btn" onclick="closeForm()">Cancel</button></div>
+
+  <!-- Add transaction -->
+  <div class="card">
+    <div class="card-title">Add Transaction</div>
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="openForm('sale')">&#x1F4B0; Sale</button>
+      <button class="btn btn-red" onclick="openForm('paidout')">&#x1F4B8; Paid Out</button>
+      <button class="btn btn-amber" onclick="openForm('refund')">&#x1F504; Refund</button>
+      <button class="btn btn-blue" onclick="openForm('drop')">&#x1F4E5; Safe Drop</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <span style="font-size:12px;color:var(--text3);align-self:center">Quick:</span>
+      <button class="btn btn-sm" onclick="quickTxn('paidout',20,'Coffee / supplies run')">&#x2615; Coffee Run -$20</button>
+      <button class="btn btn-sm" onclick="quickTxn('paidout',0,'')">&#x1F4B8; Custom Paid Out</button>
+      <button class="btn btn-sm" onclick="quickTxn('drop',0,'')">&#x1F4E5; Quick Drop</button>
+    </div>
+    <div class="txn-form" id="txn-form">
+      <div class="txn-form-row">
+        <div><label class="form-label">Amount ($)</label><input type="number" id="txn-amt" step="0.01" min="0" placeholder="0.00" style="font-family:var(--mono)"></div>
+        <div><label class="form-label">Description</label><input id="txn-desc" placeholder="Enter description..."></div>
+        <div style="padding-top:18px"><button class="btn btn-primary" onclick="addTxn()">Add</button> <button class="btn" onclick="closeForm()">Cancel</button></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TRANSACTION LOG -->
-<div class="card">
-  <div class="card-title">Transaction Log <span id="txn-count" style="font-weight:400;color:var(--text3)"></span></div>
-  <div style="overflow-x:auto">
-    <table><thead><tr><th>Time</th><th>Type</th><th>Amount</th><th>Description</th><th>Balance</th><th></th></tr></thead>
-    <tbody id="txn-tbody"><tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr></tbody></table>
+  <!-- Transaction log -->
+  <div class="card">
+    <div class="card-title">Transaction Log <span id="txn-count" style="font-weight:400;color:var(--text3)"></span></div>
+    <div style="overflow-x:auto">
+      <table><thead><tr><th>Time</th><th>Type</th><th>Amount</th><th>Description</th><th>Balance</th><th></th></tr></thead>
+      <tbody id="txn-tbody"><tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr></tbody></table>
+    </div>
   </div>
-</div>
 
-<!-- SUMMARY -->
-<div class="card">
-  <div class="card-title">Day Summary</div>
-  <div class="summary-grid">
-    <div class="stat"><div class="stat-label">Total Sales</div><div class="stat-val green" id="sum-sales">$0.00</div></div>
-    <div class="stat"><div class="stat-label">Total Paid Outs</div><div class="stat-val red" id="sum-paidouts">$0.00</div></div>
-    <div class="stat"><div class="stat-label">Total Drops</div><div class="stat-val" style="color:#3b82f6" id="sum-drops">$0.00</div></div>
-    <div class="stat"><div class="stat-label">Expected Balance</div><div class="stat-val" id="sum-expected">$0.00</div></div>
+  <!-- Summary -->
+  <div class="card">
+    <div class="card-title">Day Summary</div>
+    <div class="summary-grid">
+      <div class="stat"><div class="stat-label">Total Sales</div><div class="stat-val" style="color:var(--green)" id="sum-sales">$0.00</div></div>
+      <div class="stat"><div class="stat-label">Total Paid Outs</div><div class="stat-val" style="color:var(--red)" id="sum-paidouts">$0.00</div></div>
+      <div class="stat"><div class="stat-label">Total Drops</div><div class="stat-val" style="color:var(--blue)" id="sum-drops">$0.00</div></div>
+      <div class="stat"><div class="stat-label">Expected Balance</div><div class="stat-val" id="sum-expected">$0.00</div></div>
+    </div>
   </div>
-</div>
 
-<div style="display:flex;gap:10px;margin-top:4px">
-  <button class="btn btn-danger" onclick="newDay()">🗑️ New Day (Reset)</button>
-</div>
+  <div class="no-print" style="margin-bottom:16px">
+    <button class="btn btn-danger" onclick="newDay()">&#x1F5D1; New Day (Reset)</button>
+  </div>
+
+</div><!-- /panel-drawer -->
+
+<!-- ═══════════════════════════════════
+     CASH CONTROL TAB
+═══════════════════════════════════ -->
+<div class="tab-panel" id="panel-cash">
+
+  <div class="card">
+    <div class="card-title">Store Information</div>
+    <div class="info-grid">
+      <div><label>Store #</label><input value="646202" readonly style="background:var(--surface2)"></div>
+      <div><label>Date</label><input type="date" id="cc-date"></div>
+      <div><label>Manager</label><input id="cc-mgr" placeholder="Name"></div>
+      <div><label>Opener</label><input id="cc-opener" placeholder="Name"></div>
+      <div><label>Closer</label><input id="cc-closer" placeholder="Name"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Cash Count</div>
+    <div class="denom-grid">
+      <div>
+        <div style="font-weight:600;margin-bottom:10px;color:var(--text2);font-size:13px">&#x1F4B5; Cash Drawer</div>
+        <table><thead><tr><th>Bill / Coin</th><th>Count</th><th>Total</th></tr></thead>
+        <tbody id="drawer-tbody"></tbody>
+        <tfoot><tr><td colspan="2" class="td-total">Drawer Total</td><td class="td-total td-right" id="drawer-total">$0.00</td></tr></tfoot></table>
+      </div>
+      <div>
+        <div style="font-weight:600;margin-bottom:10px;color:var(--text2);font-size:13px">&#x1F512; Safe</div>
+        <table><thead><tr><th>Bill / Coin</th><th>Count</th><th>Total</th></tr></thead>
+        <tbody id="safe-tbody"></tbody>
+        <tfoot><tr><td colspan="2" class="td-total">Safe Total</td><td class="td-total td-right" id="safe-total">$0.00</td></tr></tfoot></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sales</div>
+    <div class="sales-grid">
+      <div><label>Credit Card Total</label><input type="number" id="cc-cards" step="0.01" value="0" oninput="ccCalc()"></div>
+      <div><label>Checks Total</label><input type="number" id="cc-checks" step="0.01" value="0" oninput="ccCalc()"></div>
+      <div><label>Coupons / Discounts</label><input type="number" id="cc-coupons" step="0.01" value="0" oninput="ccCalc()"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Register</div>
+    <div class="sales-grid">
+      <div><label>Opening Reading ($)</label><input type="number" id="cc-open-reg" step="0.01" value="0" oninput="ccCalc()"></div>
+      <div><label>Closing Reading ($)</label><input type="number" id="cc-close-reg" step="0.01" value="0" oninput="ccCalc()"></div>
+      <div><label>Opening Float ($)</label><input type="number" id="cc-float" step="0.01" value="200" oninput="ccCalc()"></div>
+    </div>
+  </div>
+
+  <div id="os-display" class="os-display">
+    <div class="os-label">Over / Short</div>
+    <div class="os-amount" id="os-amount">$0.00</div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-row"><span class="summary-label">Net Sales (Register)</span><span class="summary-val" id="sum-netsales">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">Credit Cards</span><span class="summary-val" id="sum-cc-cards">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">Checks</span><span class="summary-val" id="sum-checks">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">Net Cash Sales</span><span class="summary-val" id="sum-cashsales">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">+ Opening Float</span><span class="summary-val" id="sum-float">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">Expected Cash</span><span class="summary-val" id="sum-cc-expected">$0.00</span></div>
+    <div class="summary-row"><span class="summary-label">Actual Cash (Drawer + Safe)</span><span class="summary-val" id="sum-actual">$0.00</span></div>
+  </div>
+
+  <div class="card no-print">
+    <div class="card-title">Notes</div>
+    <textarea id="cc-notes" rows="3" style="resize:vertical;width:100%" placeholder="End of day notes..."></textarea>
+  </div>
+
+  <div class="btn-row no-print" style="margin-bottom:20px">
+    <button class="btn btn-primary" onclick="saveCash()">&#x1F4BE; Save</button>
+    <button class="btn" onclick="window.print()">&#x1F5A8; Print</button>
+    <button class="btn btn-danger" onclick="clearCash()">&#x1F5D1; Clear</button>
+  </div>
+
+</div><!-- /panel-cash -->
 
 <script>
-const fmt=n=>'$'+Math.abs(n).toFixed(2);
-const TXTYPE={sale:{label:'Sale',color:'#16a34a',sign:1},paidout:{label:'Paid Out',color:'#dc2626',sign:-1},refund:{label:'Refund',color:'#d97706',sign:-1},drop:{label:'Drop',color:'#3b82f6',sign:-1}};
-let state={balance:0,opening:0,transactions:[],date:new Date().toDateString()};
-let currentType='sale';
+'use strict';
 
-function load(){try{const d=JSON.parse(localStorage.getItem('drawer646202')||'{}');if(d.date===new Date().toDateString()){state=d;}else{newDay(true);}}catch(e){}}
-function save(){try{localStorage.setItem('drawer646202',JSON.stringify(state));}catch(e){}}
-
-function setOpening(){
-  const vals=[[100,'op-100'],[50,'op-50'],[20,'op-20'],[10,'op-10'],[5,'op-5'],[1,'op-1'],[.25,'op-q'],[.10,'op-d'],[.05,'op-n'],[.01,'op-p']];
-  const total=vals.reduce((s,[v,id])=>s+(parseFloat(document.getElementById(id).value)||0)*v,0);
-  state.opening=total;
-  state.balance=total;
-  state.transactions=[{id:Date.now(),type:'opening',label:'Opening Count',amount:total,balance:total,time:now()}];
-  save();render();
-  document.getElementById('opening-card').style.display='none';
+// ── Tab switching ─────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + id).classList.add('active');
 }
 
-function openForm(type){currentType=type;document.getElementById('txn-form').classList.add('open');document.getElementById('txn-amt').value='';document.getElementById('txn-desc').value='';document.getElementById('txn-amt').focus();}
-function closeForm(){document.getElementById('txn-form').classList.remove('open');}
+// ════════════════════════════════════════
+// DRAWER TAB
+// ════════════════════════════════════════
+const fmt = n => '$' + Math.abs(n).toFixed(2);
+const TXTYPE = {
+  sale:    { label:'Sale',     color:'#16a34a', sign: 1 },
+  paidout: { label:'Paid Out', color:'#dc2626', sign:-1 },
+  refund:  { label:'Refund',   color:'#d97706', sign:-1 },
+  drop:    { label:'Drop',     color:'#3b82f6', sign:-1 }
+};
+let state = { balance:0, opening:0, transactions:[], date:new Date().toDateString() };
+let currentType = 'sale';
 
-function quickTxn(type,amt,desc){
-  if(amt===0){openForm(type);return;}
-  addTxnData(type,amt,desc);
+function dLoad() {
+  try {
+    const d = JSON.parse(localStorage.getItem('drawer646202') || '{}');
+    if (d.date === new Date().toDateString()) { state = d; }
+    else { newDay(true); }
+  } catch(e) {}
+}
+function dSave() { try { localStorage.setItem('drawer646202', JSON.stringify(state)); } catch(e) {} }
+
+function setOpening() {
+  const vals = [[100,'op-100'],[50,'op-50'],[20,'op-20'],[10,'op-10'],[5,'op-5'],[1,'op-1'],[.25,'op-q'],[.10,'op-d'],[.05,'op-n'],[.01,'op-p']];
+  const total = vals.reduce((s,[v,id]) => s + (parseFloat(document.getElementById(id).value)||0)*v, 0);
+  state.opening = total;
+  state.balance = total;
+  state.transactions = [{ id:Date.now(), type:'opening', label:'Opening Count', amount:total, balance:total, time:txNow() }];
+  dSave(); dRender();
+  document.getElementById('opening-card').style.display = 'none';
 }
 
-function addTxn(){
-  const amt=parseFloat(document.getElementById('txn-amt').value);
-  const desc=document.getElementById('txn-desc').value.trim();
-  if(!amt||amt<=0)return;
-  addTxnData(currentType,amt,desc);
+function openForm(type) {
+  currentType = type;
+  document.getElementById('txn-form').classList.add('open');
+  document.getElementById('txn-amt').value = '';
+  document.getElementById('txn-desc').value = '';
+  document.getElementById('txn-amt').focus();
+}
+function closeForm() { document.getElementById('txn-form').classList.remove('open'); }
+
+function quickTxn(type, amt, desc) {
+  if (amt === 0) { openForm(type); return; }
+  addTxnData(type, amt, desc);
+}
+
+function addTxn() {
+  const amt = parseFloat(document.getElementById('txn-amt').value);
+  const desc = document.getElementById('txn-desc').value.trim();
+  if (!amt || amt <= 0) return;
+  addTxnData(currentType, amt, desc);
   closeForm();
 }
 
-function addTxnData(type,amt,desc){
-  const t=TXTYPE[type];
-  const change=amt*t.sign;
-  state.balance+=change;
-  state.transactions.push({id:Date.now(),type,label:t.label,amount:change,balance:state.balance,desc,time:now()});
-  save();render();
+function addTxnData(type, amt, desc) {
+  const t = TXTYPE[type];
+  const change = amt * t.sign;
+  state.balance += change;
+  state.transactions.push({ id:Date.now(), type, label:t.label, amount:change, balance:state.balance, desc, time:txNow() });
+  dSave(); dRender();
 }
 
-function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function txNow() { return new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', hour12:true }); }
 
-window.delTxn=id=>{
-  const t=state.transactions.find(t=>t.id===id);
-  if(!t||!confirm('Delete transaction?'))return;
-  const idx=state.transactions.indexOf(t);
-  state.transactions.splice(idx,1);
-  // Recalculate running balance
-  let bal=state.opening;
-  state.transactions.forEach((t,i)=>{if(i>0){bal+=t.amount;t.balance=bal;}});
-  state.balance=bal;
-  save();render();
+window.delTxn = id => {
+  const t = state.transactions.find(t => t.id === id);
+  if (!t || !confirm('Delete this transaction?')) return;
+  state.transactions.splice(state.transactions.indexOf(t), 1);
+  let bal = state.opening;
+  state.transactions.forEach((t, i) => { if (i > 0) { bal += t.amount; t.balance = bal; } });
+  state.balance = bal;
+  dSave(); dRender();
 };
 
-function render(){
-  document.getElementById('balance').textContent=fmt(state.balance);
-  document.getElementById('balance-sub').textContent=`Opening: ${fmt(state.opening)} · Transactions: ${state.transactions.length-1}`;
-  const tbody=document.getElementById('txn-tbody');
-  if(state.transactions.length<=1){tbody.innerHTML='<tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr>';return;}
-  tbody.innerHTML=[...state.transactions].reverse().map(t=>{
-    const c=TXTYPE[t.type]||{color:'#475569',label:t.label};
-    return `<tr>
-      <td style="font-family:var(--mono);font-size:12px;color:var(--text3)">${t.time}</td>
-      <td><span class="badge" style="background:${c.color}">${t.label}</span></td>
-      <td style="font-family:var(--mono);font-weight:600;color:${t.amount>=0?'#16a34a':'#dc2626'}">${t.amount>=0?'+':''}${fmt(t.amount)}</td>
-      <td style="color:var(--text2)">${t.desc||''}</td>
-      <td style="font-family:var(--mono);font-weight:600">${fmt(t.balance)}</td>
-      <td>${t.type!=='opening'?`<button class="btn btn-sm btn-danger" onclick="delTxn(${t.id})">Del</button>`:''}</td>
-    </tr>`;
-  }).join('');
-  document.getElementById('txn-count').textContent=`(${state.transactions.length-1} transactions)`;
-  const sales=state.transactions.filter(t=>t.type==='sale').reduce((s,t)=>s+t.amount,0);
-  const paidouts=state.transactions.filter(t=>t.type==='paidout'||t.type==='refund').reduce((s,t)=>s+Math.abs(t.amount),0);
-  const drops=state.transactions.filter(t=>t.type==='drop').reduce((s,t)=>s+Math.abs(t.amount),0);
-  document.getElementById('sum-sales').textContent=fmt(sales);
-  document.getElementById('sum-paidouts').textContent=fmt(paidouts);
-  document.getElementById('sum-drops').textContent=fmt(drops);
-  document.getElementById('sum-expected').textContent=fmt(state.balance);
+function dRender() {
+  document.getElementById('balance').textContent = fmt(state.balance);
+  document.getElementById('balance-sub').textContent =
+    'Opening: ' + fmt(state.opening) + ' \u00b7 Transactions: ' + (state.transactions.length - 1);
+
+  const tbody = document.getElementById('txn-tbody');
+  if (state.transactions.length <= 1) {
+    tbody.innerHTML = '<tr><td colspan="6" style="color:var(--text3);text-align:center;padding:20px">No transactions yet</td></tr>';
+  } else {
+    tbody.innerHTML = [...state.transactions].reverse().map(t => {
+      const c = TXTYPE[t.type] || { color:'#475569', label:t.label };
+      return '<tr>' +
+        '<td style="font-family:var(--mono);font-size:12px;color:var(--text3)">' + t.time + '</td>' +
+        '<td><span class="badge" style="background:' + c.color + '">' + t.label + '</span></td>' +
+        '<td style="font-family:var(--mono);font-weight:600;color:' + (t.amount >= 0 ? '#16a34a' : '#dc2626') + '">' + (t.amount >= 0 ? '+' : '') + fmt(t.amount) + '</td>' +
+        '<td style="color:var(--text2)">' + (t.desc || '') + '</td>' +
+        '<td style="font-family:var(--mono);font-weight:600">' + fmt(t.balance) + '</td>' +
+        '<td>' + (t.type !== 'opening' ? '<button class="btn btn-sm btn-danger" onclick="delTxn(' + t.id + ')">Del</button>' : '') + '</td>' +
+      '</tr>';
+    }).join('');
+  }
+
+  document.getElementById('txn-count').textContent = '(' + (state.transactions.length - 1) + ' transactions)';
+  const sales    = state.transactions.filter(t => t.type === 'sale').reduce((s,t) => s + t.amount, 0);
+  const paidouts = state.transactions.filter(t => t.type === 'paidout' || t.type === 'refund').reduce((s,t) => s + Math.abs(t.amount), 0);
+  const drops    = state.transactions.filter(t => t.type === 'drop').reduce((s,t) => s + Math.abs(t.amount), 0);
+  document.getElementById('sum-sales').textContent    = fmt(sales);
+  document.getElementById('sum-paidouts').textContent = fmt(paidouts);
+  document.getElementById('sum-drops').textContent    = fmt(drops);
+  document.getElementById('sum-expected').textContent = fmt(state.balance);
 }
 
-function newDay(silent){
-  if(!silent&&!confirm('Start a new day? This will clear all transactions.'))return;
-  state={balance:0,opening:0,transactions:[],date:new Date().toDateString()};
-  save();document.getElementById('opening-card').style.display='';render();
+function newDay(silent) {
+  if (!silent && !confirm('Start a new day? This will clear all transactions.')) return;
+  state = { balance:0, opening:0, transactions:[], date:new Date().toDateString() };
+  dSave(); document.getElementById('opening-card').style.display = ''; dRender();
 }
 
-// Check midnight reset
-function checkMidnight(){const d=new Date().toDateString();if(state.date&&state.date!==d)newDay(true);}
-setInterval(checkMidnight,60000);
+setInterval(() => { if (state.date !== new Date().toDateString()) newDay(true); }, 60000);
 
-load();render();
-if(state.opening>0)document.getElementById('opening-card').style.display='none';
+// ════════════════════════════════════════
+// CASH CONTROL TAB
+// ════════════════════════════════════════
+const DENOMS = [
+  {l:'$100',v:100},{l:'$50',v:50},{l:'$20',v:20},{l:'$10',v:10},{l:'$5',v:5},{l:'$1',v:1},
+  {l:'Quarters',v:.25},{l:'Dimes',v:.10},{l:'Nickels',v:.05},{l:'Pennies',v:.01}
+];
+const ccFmt = n => '$' + n.toFixed(2);
+
+function buildTable(tbodyId, prefix) {
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = DENOMS.map((d,i) =>
+    '<tr><td>' + d.l + '</td>' +
+    '<td><input type="number" id="' + prefix + '-' + i + '" min="0" step="1" value="0" oninput="ccCalc()" style="width:80px;padding:5px 8px;text-align:right;font-family:var(--mono)"></td>' +
+    '<td class="td-right" id="' + prefix + '-' + i + '-val">$0.00</td></tr>'
+  ).join('');
+}
+
+function sumSection(prefix) {
+  return DENOMS.reduce((sum,d,i) => {
+    const cnt = parseFloat(document.getElementById(prefix + '-' + i)?.value) || 0;
+    const val = cnt * d.v;
+    const el = document.getElementById(prefix + '-' + i + '-val');
+    if (el) el.textContent = ccFmt(val);
+    return sum + val;
+  }, 0);
+}
+
+function ccCalc() {
+  const drawer = sumSection('dr');
+  const safe   = sumSection('sf');
+  document.getElementById('drawer-total').textContent = ccFmt(drawer);
+  document.getElementById('safe-total').textContent   = ccFmt(safe);
+  const cards   = parseFloat(document.getElementById('cc-cards').value)    || 0;
+  const checks  = parseFloat(document.getElementById('cc-checks').value)   || 0;
+  const openReg = parseFloat(document.getElementById('cc-open-reg').value) || 0;
+  const closeReg= parseFloat(document.getElementById('cc-close-reg').value)|| 0;
+  const float   = parseFloat(document.getElementById('cc-float').value)    || 0;
+  const netSales  = closeReg - openReg;
+  const cashSales = netSales - cards - checks;
+  const expected  = cashSales + float;
+  const actual    = drawer + safe;
+  const os        = actual - expected;
+  document.getElementById('sum-netsales').textContent   = ccFmt(netSales);
+  document.getElementById('sum-cc-cards').textContent   = ccFmt(cards);
+  document.getElementById('sum-checks').textContent     = ccFmt(checks);
+  document.getElementById('sum-cashsales').textContent  = ccFmt(cashSales);
+  document.getElementById('sum-float').textContent      = ccFmt(float);
+  document.getElementById('sum-cc-expected').textContent= ccFmt(expected);
+  document.getElementById('sum-actual').textContent     = ccFmt(actual);
+  const osel = document.getElementById('os-display');
+  const osamt = document.getElementById('os-amount');
+  osamt.textContent = (os >= 0 ? '+' : '') + ccFmt(os);
+  if (Math.abs(os) < 0.005) { osel.style.background='#f0fdf4'; osel.style.borderColor='#86efac'; osamt.style.color='#16a34a'; }
+  else if (os < 0)          { osel.style.background='#fef2f2'; osel.style.borderColor='#fca5a5'; osamt.style.color='#dc2626'; }
+  else                      { osel.style.background='#fff7ed'; osel.style.borderColor='#fed7aa'; osamt.style.color='#d97706'; }
+}
+
+function saveCash() {
+  try { localStorage.setItem('cashcontrol646202', JSON.stringify({ date:document.getElementById('cc-date').value, notes:document.getElementById('cc-notes').value, saved:new Date().toISOString() })); } catch(e) {}
+  const btn = event.target; const orig = btn.textContent;
+  btn.textContent = '✓ Saved'; btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
+}
+
+function clearCash() {
+  if (!confirm('Clear all cash control entries?')) return;
+  document.querySelectorAll('#panel-cash input[type=number]').forEach(i => i.value = 0);
+  document.getElementById('cc-notes').value = '';
+  ccCalc();
+}
+
+// ── Boot ─────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  // Drawer
+  dLoad();
+  dRender();
+  if (state.opening > 0) document.getElementById('opening-card').style.display = 'none';
+
+  // Cash control
+  buildTable('drawer-tbody', 'dr');
+  buildTable('safe-tbody', 'sf');
+  document.getElementById('cc-date').value = new Date().toISOString().split('T')[0];
+  ccCalc();
+});
 </script>
-</body></html>
+</body>
+</html>
