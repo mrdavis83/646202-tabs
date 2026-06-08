@@ -41,9 +41,125 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
   .topbar-brand span:last-child{display:none}
   .tab-btn{padding:0 10px;font-size:12px;font-weight:700}
 }
+
+  /* ── LOGIN SCREEN ── */
+  #login-screen {
+    position: fixed;
+    inset: 0;
+    background: #0f172a;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    font-family: var(--font);
+  }
+  .login-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .login-logo .store-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: .01em;
+  }
+  .login-logo .store-num {
+    font-size: 13px;
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .login-box {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    width: 340px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+  .login-box label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #64748b;
+    align-self: flex-start;
+  }
+  .login-box input {
+    width: 100%;
+    background: #0f172a;
+    border: 1.5px solid #334155;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #f1f5f9;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-align: center;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .login-box input:focus { border-color: #e8292d; }
+  .login-btn {
+    width: 100%;
+    background: #e8292d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .15s;
+    letter-spacing: .03em;
+  }
+  .login-btn:hover { opacity: .88; }
+  #login-error {
+    font-size: 12px;
+    color: #e8292d;
+    font-weight: 600;
+    height: 16px;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  #login-error.show { opacity: 1; }
+  .login-hint {
+    font-size: 11px;
+    color: #475569;
+  }
+
 </style>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-logo">
+    <div class="store-name">Firestone Complete Auto Care</div>
+    <div class="store-num">Store #646202 &nbsp;&bull;&nbsp; Webster, NY</div>
+  </div>
+  <div class="login-box">
+    <label>Access Code</label>
+    <input id="pass-input" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;" maxlength="10" autocomplete="off" onkeydown="checkPass(event)">
+    <button class="login-btn" onclick="checkPassBtn()">Enter</button>
+    <div id="login-error">Incorrect code &mdash; try again</div>
+  </div>
+  <div class="login-hint">Authorized personnel only</div>
+</div>
+
+
 
 <header class="topbar">
   <div class="topbar-brand">
@@ -189,6 +305,40 @@ function showTab(id) {
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=Webster,NY,US&appid=${OWM}&units=imperial`)
     .then(r=>r.json()).then(d=>{try{localStorage.setItem(CK,JSON.stringify({ts:Date.now(),d}));}catch(e){}render(d);}).catch(()=>{});
 })();
+
+// ── LOGIN ──
+function checkPass(e) {
+  if (e.key !== 'Enter') return;
+  submitPass();
+}
+function checkPassBtn() {
+  submitPass();
+}
+function submitPass() {
+  const val = document.getElementById('pass-input').value;
+  const err = document.getElementById('login-error');
+  if (val === '14580') {
+    document.getElementById('login-screen').style.display = 'none';
+    try { sessionStorage.setItem('auth646202', '1'); } catch(e) {}
+  } else {
+    err.classList.add('show');
+    document.getElementById('pass-input').value = '';
+    document.getElementById('pass-input').focus();
+    setTimeout(() => err.classList.remove('show'), 2500);
+  }
+}
+window.addEventListener('load', () => {
+  // Check session
+  try {
+    if (sessionStorage.getItem('auth646202') === '1') {
+      document.getElementById('login-screen').style.display = 'none';
+      return;
+    }
+  } catch(e) {}
+  const inp = document.getElementById('pass-input');
+  if (inp) inp.focus();
+});
+
 </script>
 </body>
 </html>
