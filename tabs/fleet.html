@@ -1,634 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fleet  Bridgestone Firestone Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleet</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
-  --accent:#e8292d; --accent2:#1e3a5f;
-  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-  --green:#16a34a; --amber:#d97706; --red:#dc2626;
-  --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-}
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
-body{
-  margin:0;padding:20px;
-  background:var(--bg);
-  font-family:var(--font);
-  color:var(--text);
-  font-size:14px;
-  line-height:1.5;
-}
-
-/*  BUTTONS  */
-.btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:7px 14px;border-radius:6px;border:1px solid var(--border);
-  background:var(--surface);color:var(--text);font-family:var(--font);
-  font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;
-}
-.btn:hover{background:var(--surface2);}
-.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2);}
-.btn-primary:hover{background:#162d4d;border-color:#162d4d;}
-.btn-danger{color:var(--red);border-color:var(--red);}
-.btn-danger:hover{background:#fef2f2;}
-.btn-sm{padding:4px 10px;font-size:12px;}
-.btn-accent{background:var(--accent);color:#fff;border-color:var(--accent);}
-.btn-accent:hover{background:#c82327;}
-
-/*  CARDS  */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
-}
-
-/*  TABLES  */
-table{width:100%;border-collapse:collapse;}
-th{
-  background:var(--surface2);
-  padding:8px 12px;
-  text-align:left;
-  font-size:12px;font-weight:600;
-  color:var(--text2);
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
-}
-td{
-  padding:9px 12px;
-  border-bottom:1px solid var(--border);
-  font-size:13px;
-  color:var(--text);
-}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:var(--surface2);}
-
-/*  STATUS BADGES  */
-.badge{
-  display:inline-flex;align-items:center;
-  padding:2px 8px;border-radius:99px;
-  font-size:11px;font-weight:600;white-space:nowrap;
-}
-.badge-ok{background:#dcfce7;color:#15803d;}
-.badge-due{background:#fef9c3;color:#a16207;}
-.badge-overdue{background:#fee2e2;color:#b91c1c;}
-.badge-count{
-  background:var(--accent2);color:#fff;
-  font-size:11px;font-weight:700;
-  padding:2px 7px;border-radius:99px;
-}
-
-/*  LAYOUT  */
-.page-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:20px;flex-wrap:wrap;gap:12px;
-}
-.page-title{
-  font-size:20px;font-weight:700;color:var(--accent2);
-  display:flex;align-items:center;gap:8px;
-}
-.page-title span{color:var(--accent);}
-
-/*  STATS BAR  */
-.stats-bar{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:20px;
-}
-@media(max-width:700px){.stats-bar{grid-template-columns:repeat(2,1fr);}}
-.stat-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:14px 18px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
-}
-.stat-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
-.stat-value{font-size:28px;font-weight:700;color:var(--text);}
-.stat-card.warn .stat-value{color:var(--amber);}
-.stat-card.danger .stat-value{color:var(--red);}
-
-/*  MAIN GRID  */
-.main-grid{
-  display:grid;
-  grid-template-columns:1fr 340px;
-  gap:16px;
-  align-items:start;
-}
-@media(max-width:960px){.main-grid{grid-template-columns:1fr;}}
-
-/*  SECTION HEADER  */
-.section-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
-}
-.section-title{font-size:14px;font-weight:700;color:var(--text);}
-
-/*  FLEET ACCOUNT CARD  */
-.account-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
-  margin-bottom:10px;
-  overflow:hidden;
-  transition:box-shadow .15s;
-}
-.account-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.1);}
-.account-header{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 16px;
-  cursor:pointer;
-  user-select:none;
-}
-.account-icon{
-  width:38px;height:38px;border-radius:8px;
-  background:var(--accent2);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-size:15px;font-weight:700;flex-shrink:0;
-}
-.account-info{flex:1;min-width:0;}
-.account-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
-.account-meta{font-size:12px;color:var(--text2);display:flex;gap:12px;flex-wrap:wrap;}
-.account-meta a{color:var(--accent2);text-decoration:none;}
-.account-meta a:hover{text-decoration:underline;}
-.account-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.discount-badge{
-  background:#eff6ff;color:#1d4ed8;
-  border:1px solid #bfdbfe;
-  font-size:11px;font-weight:600;
-  padding:2px 8px;border-radius:99px;
-}
-.chevron{
-  transition:transform .2s;color:var(--text3);font-size:14px;
-}
-.chevron.open{transform:rotate(180deg);}
-
-.account-body{
-  display:none;
-  border-top:1px solid var(--border);
-}
-.account-body.open{display:block;}
-.account-body-actions{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 16px;
-  background:var(--surface2);
-  border-bottom:1px solid var(--border);
-}
-.vehicle-table-wrap{overflow-x:auto;}
-
-/*  URGENCY LIST  */
-.urgency-list{padding:0;list-style:none;}
-.urgency-item{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 16px;
-  border-bottom:1px solid var(--border);
-}
-.urgency-item:last-child{border-bottom:none;}
-.urgency-days{
-  font-family:var(--mono);
-  font-size:12px;font-weight:700;
-  min-width:52px;text-align:right;
-}
-.urgency-days.overdue{color:var(--red);}
-.urgency-days.due-soon{color:var(--amber);}
-.urgency-company{font-size:12px;font-weight:600;color:var(--text);}
-.urgency-vehicle{font-size:11px;color:var(--text2);}
-
-/*  MODAL  */
-.modal-overlay{
-  display:none;
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.45);
-  z-index:1000;
-  align-items:center;justify-content:center;
-  padding:20px;
-}
-.modal-overlay.open{display:flex;}
-.modal{
-  background:var(--surface);
-  border-radius:10px;
-  box-shadow:0 10px 40px rgba(0,0,0,.2);
-  width:100%;max-width:520px;
-  max-height:90vh;
-  overflow-y:auto;
-  animation:modalIn .2s ease;
-}
-@keyframes modalIn{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:none;}}
-.modal-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;border-bottom:1px solid var(--border);
-}
-.modal-title{font-size:15px;font-weight:700;}
-.modal-close{
-  background:none;border:none;cursor:pointer;
-  color:var(--text3);font-size:20px;line-height:1;
-  padding:2px 6px;border-radius:4px;
-}
-.modal-close:hover{background:var(--surface2);color:var(--text);}
-.modal-body{padding:20px;}
-.modal-footer{
-  padding:14px 20px;border-top:1px solid var(--border);
-  display:flex;justify-content:flex-end;gap:8px;
-}
-
-/*  FORM  */
-.form-group{margin-bottom:14px;}
-.form-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;}
-.form-control{
-  width:100%;padding:8px 11px;
-  border:1px solid var(--border);border-radius:6px;
-  font-family:var(--font);font-size:13px;color:var(--text);
-  background:var(--surface);
-  transition:border-color .15s,box-shadow .15s;
-  outline:none;
-}
-.form-control:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(30,58,95,.1);}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
-.form-hint{font-size:11px;color:var(--text3);margin-top:3px;}
-.form-control.loading{background:var(--surface2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2a10 10 0 0 1 10 10'/%3E%3C/svg%3E") right 10px center/16px no-repeat;}
-
-/*  VIN decode status  */
-.vin-status{font-size:11px;margin-top:3px;height:14px;}
-.vin-status.ok{color:var(--green);}
-.vin-status.err{color:var(--red);}
-
-/*  EMPTY STATE  */
-.empty-state{
-  text-align:center;padding:36px 20px;color:var(--text3);
-}
-.empty-icon{font-size:36px;margin-bottom:8px;}
-.empty-text{font-size:13px;}
-
-/*  TOAST  */
-.toast-wrap{
-  position:fixed;bottom:20px;right:20px;
-  display:flex;flex-direction:column;gap:8px;
-  z-index:2000;pointer-events:none;
-}
-.toast{
-  background:var(--accent2);color:#fff;
-  padding:10px 16px;border-radius:8px;
-  font-size:13px;font-weight:500;
-  box-shadow:0 4px 16px rgba(0,0,0,.2);
-  animation:toastIn .2s ease;
-  pointer-events:auto;
-}
-.toast.success{background:#15803d;}
-.toast.error{background:var(--red);}
-@keyframes toastIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:none;}}
-
-/*  SEARCH  */
-.search-box{
-  padding:7px 11px;border:1px solid var(--border);border-radius:6px;
-  font-family:var(--font);font-size:13px;color:var(--text);
-  background:var(--surface);outline:none;width:200px;
-  transition:border-color .15s;
-}
-.search-box:focus{border-color:var(--accent2);}
-
-/*  MONO  */
-.mono{font-family:var(--mono);font-size:12px;}
-
-/*  DELETE/EDIT micro  */
-.action-btn{
-  background:none;border:none;cursor:pointer;padding:3px 6px;
-  border-radius:4px;font-size:13px;color:var(--text3);
-  transition:all .12s;
-}
-.action-btn:hover{background:var(--surface2);color:var(--text);}
-.action-btn.del:hover{background:#fee2e2;color:var(--red);}
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--navy:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--font:'Inter',sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px;line-height:1.5}
+h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+h2:first-child{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card:hover{border-color:var(--navy);box-shadow:0 4px 12px rgba(30,58,95,.12);transform:translateY(-1px)}
+.card-nolink{cursor:default}
+.card-nolink:hover{transform:none;box-shadow:0 1px 3px rgba(0,0,0,.04);border-color:var(--border)}
+.logo{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);object-fit:contain;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo img{width:32px;height:32px;object-fit:contain;border-radius:6px}
+.info{min-width:0}
+.name{font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.desc{font-size:12px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:6px;margin-top:4px;white-space:nowrap}
+.badge-acct{background:#dbeafe;color:#1d4ed8}
+.badge-phone{background:#dcfce7;color:#15803d}
+.badge-doc{background:#fef3c7;color:#b45309}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:10px}
+.info-card strong{color:var(--text)}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=eCdxKf0vr2ZFSx_Omszth3z.KKolH28gfoSEGhupx7U-1780874276.4622462-1.2.1.1-L4w5uhSAkX7iZvuieXu5L8hFwRWKa74WbcuFPVm2hp8" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-wrap" id="toastWrap"></div>
+<h2>National Account / Fleet</h2>
+<div class="grid">
 
-<!-- MODALS -->
-<!-- Add/Edit Fleet Account Modal -->
-<div class="modal-overlay" id="modalAccount">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modalAccountTitle">Add Fleet Account</span>
-      <button class="modal-close" onclick="closeModal('modalAccount')"></button>
+  <!-- Holman -->
+  <a class="card" href="https://app.storeperformancedashboard.com/resourcelibrary/external-link/bDM2aVFQZlpsTzA90" target="_blank">
+    <div class="logo"><img src="https://favicon.im/holman.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Holman</div>
+      <div class="desc">TF646202UA &nbsp;|&nbsp; 856-778-1500</div>
+      <span class="badge badge-acct">646202@Bfusa.com</span>
     </div>
-    <div class="modal-body">
-      <input type="hidden" id="editAccountId">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Company Name *</label>
-          <input class="form-control" id="fCompany" placeholder="Acme Logistics" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Account # *</label>
-          <input class="form-control" id="fAccountNum" placeholder="FLT-0001" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Contact Person</label>
-          <input class="form-control" id="fContact" placeholder="Jane Smith">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Phone</label>
-          <input class="form-control" id="fPhone" placeholder="(585) 555-0100" type="tel">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Discount %</label>
-          <input class="form-control" id="fDiscount" placeholder="10" type="number" min="0" max="100">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Service Interval (months)</label>
-          <input class="form-control" id="fInterval" placeholder="6" type="number" min="1" max="24" value="6">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Notes</label>
-        <textarea class="form-control" id="fNotes" rows="3" placeholder="Any special notes about this account"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modalAccount')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveAccount()">Save Account</button>
+  </a>
+
+  <!-- Enterprise -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/enterprise.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Enterprise</div>
+      <div class="desc">National Account</div>
+      <span class="badge badge-acct">Acct# 929907</span>
     </div>
   </div>
-</div>
 
-<!-- Add Vehicle Modal -->
-<div class="modal-overlay" id="modalVehicle">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title" id="modalVehicleTitle">Add Vehicle</span>
-      <button class="modal-close" onclick="closeModal('modalVehicle')"></button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="editVehicleId">
-      <input type="hidden" id="vehicleAccountId">
-      <div class="form-group">
-        <label class="form-label">VIN *</label>
-        <input class="form-control mono" id="fVIN" placeholder="1HGBH41JXMN109186" maxlength="17"
-               oninput="this.value=this.value.toUpperCase()" onblur="decodeVIN()">
-        <div class="vin-status" id="vinStatus"></div>
-        <div class="form-hint">Enter 17-char VIN to auto-fill Year/Make/Model via NHTSA</div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Year</label>
-          <input class="form-control" id="fYear" placeholder="2022" type="number" min="1980" max="2030">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Make</label>
-          <input class="form-control" id="fMake" placeholder="Ford">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Model</label>
-          <input class="form-control" id="fModel" placeholder="F-150">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Mileage</label>
-          <input class="form-control" id="fMileage" placeholder="45000" type="number" min="0">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Last Service Date</label>
-          <input class="form-control" id="fLastService" type="date">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Override Interval (months)</label>
-          <input class="form-control" id="fVehicleInterval" placeholder="Use account default" type="number" min="1" max="24">
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('modalVehicle')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveVehicle()">Save Vehicle</button>
+  <!-- Hertz -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/hertz.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Hertz</div>
+      <div class="desc">888-999-5980</div>
+      <span class="badge badge-acct">Acct# 929775</span>
     </div>
   </div>
-</div>
 
-<!--  -->
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-title"> <span>Fleet</span>&nbsp;Management</div>
-  <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-    <input class="search-box" id="searchBox" placeholder="  Search accounts" oninput="renderAccounts()">
-    <button class="btn btn-primary" onclick="openAddAccount()"> Add Fleet Account</button>
-  </div>
-</div>
-
-<!-- STATS BAR -->
-<div class="stats-bar" id="statsBar">
-  <div class="stat-card">
-    <div class="stat-label">Total Accounts</div>
-    <div class="stat-value" id="statAccounts">0</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">Total Vehicles</div>
-    <div class="stat-value" id="statVehicles">0</div>
-  </div>
-  <div class="stat-card warn">
-    <div class="stat-label">Due This Week</div>
-    <div class="stat-value" id="statDueWeek">0</div>
-  </div>
-  <div class="stat-card danger">
-    <div class="stat-label">Overdue</div>
-    <div class="stat-value" id="statOverdue">0</div>
-  </div>
-</div>
-
-<!-- MAIN GRID -->
-<div class="main-grid">
-
-  <!-- LEFT: Account Cards -->
-  <div id="accountsColumn">
-    <div id="accountsList"></div>
+  <!-- Wheels -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/wheels.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Wheels Maps</div>
+      <div class="desc">National Account</div>
+      <span class="badge badge-acct">Acct# 929737</span>
+    </div>
   </div>
 
-  <!-- RIGHT: Urgency Sidebar -->
-  <div>
-    <div class="card" style="position:sticky;top:20px;">
-      <div class="section-header">
-        <span class="section-title"> Service Alerts</span>
-        <span id="alertCount" class="badge badge-overdue" style="display:none;"></span>
-      </div>
-      <ul class="urgency-list" id="urgencyList">
-        <li style="padding:20px;text-align:center;color:var(--text3);font-size:13px;">
-          No alerts 
-        </li>
-      </ul>
+  <!-- Element -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/elementfleet.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Element Fleet</div>
+      <div class="desc">National Account</div>
+      <span class="badge badge-acct">Acct# 929910</span>
+    </div>
+  </div>
+
+  <!-- Emkay -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/emkay.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Emkay</div>
+      <div class="desc">National Account</div>
+    </div>
+  </div>
+
+  <!-- SilverRock -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/silverrock.com" onerror="this.parentNode.innerHTML='🛡'"></div>
+    <div class="info">
+      <div class="name">SilverRock</div>
+      <div class="desc">National Account</div>
+    </div>
+  </div>
+
+  <!-- Proguard -->
+  <div class="card card-nolink">
+    <div class="logo" style="font-size:20px">🛡</div>
+    <div class="info">
+      <div class="name">Proguard</div>
+      <div class="desc">National Account</div>
+    </div>
+  </div>
+
+  <!-- Caradvise -->
+  <div class="card card-nolink">
+    <div class="logo"><img src="https://favicon.im/caradvise.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="info">
+      <div class="name">Caradvise</div>
+      <div class="desc">National Account</div>
     </div>
   </div>
 
 </div>
 
-<script>
-/* 
-   CONSTANTS
- */
-const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
-const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
-const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
-const SMS_FROM       = '+15852572886';
-const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
-const STORAGE_KEY    = 'fleet646202';
+<h2>Quick Links</h2>
+<div class="grid">
 
-/* 
-   DATA HELPERS
- */
-function loadData() {
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { accounts: [], vehicles: [] };
-  } catch(e) { return { accounts: [], vehicles: [] }; }
-}
-function saveData(d) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
-}
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
+  <!-- Fleet List -->
+  <a class="card" href="https://docs.google.com/document/d/1awHRM2m0xW0O0IVvcE5p3fXtlEIqjn_oz5TeS2KM_14/edit" target="_blank">
+    <div class="logo" style="font-size:20px">📋</div>
+    <div class="info">
+      <div class="name">Fleet List</div>
+      <div class="desc">Google Docs reference</div>
+      <span class="badge badge-doc">Doc</span>
+    </div>
+  </a>
 
-/* 
-   DATE HELPERS
- */
-function addMonths(dateStr, months) {
-  if (!dateStr) return null;
-  const d = new Date(dateStr);
-  d.setMonth(d.getMonth() + months);
-  return d.toISOString().slice(0, 10);
-}
-function daysUntil(dateStr) {
-  if (!dateStr) return null;
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  const target = new Date(dateStr);
-  return Math.round((target - now) / 86400000);
-}
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-function statusInfo(vehicle, account) {
-  const interval = vehicle.interval || account?.interval || 6;
-  const next = vehicle.lastService ? addMonths(vehicle.lastService, interval) : null;
-  if (!next) return { status: 'ok', label: 'No Service', badge: 'badge-ok', next: null, days: null };
-  const days = daysUntil(next);
-  if (days < 0)        return { status: 'overdue',  label: 'Overdue',   badge: 'badge-overdue', next, days };
-  if (days <= 30)      return { status: 'due-soon', label: 'Due Soon',  badge: 'badge-due',     next, days };
-  return               { status: 'ok',       label: 'OK',       badge: 'badge-ok',      next, days };
-}
+</div>
 
-/* 
-   TOAST
- */
-function toast(msg, type='info') {
-  const w = document.getElementById('toastWrap');
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.textContent = msg;
-  w.appendChild(t);
-  setTimeout(() => t.remove(), 3200);
-}
-
-/* 
-   MODAL HELPERS
- */
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-// Close on backdrop click
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
-});
-
-/* 
-   ACCOUNT CRUD
- */
-function openAddAccount() {
-  document.getElementById('modalAccountTitle').textContent = 'Add Fleet Account';
-  document.getElementById('editAccountId').value = '';
-  ['fCompany','fAccountNum','fContact','fPhone','fNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('fDiscount').value = '';
-  document.getElementById('fInterval').value = '6';
-  openModal('modalAccount');
-}
-
-function openEditAccount(id) {
-  const d = loadData();
-  const a = d.accounts.find(x => x.id === id);
-  if (!a) return;
-  document.getElementById('modalAccountTitle').textContent = 'Edit Fleet Account';
-  document.getElementById('editAccountId').value = id;
-  document.getElementById('fCompany').value    = a.company    || '';
-  document.getElementById('fAccountNum').value = a.accountNum || '';
-  document.getElementById('fContact').value    = a.contact    || '';
-  document.getElementById('fPhone').value      = a.phone      || '';
-  document.getElementById('fDiscount').value   = a.discount   || '';
-  document.getElementById('fInterval').value   = a.interval   || 6;
-  document.getElementById('fNotes').value      = a.notes      || '';
-  openModal('modalAccount');
-}
-
-function saveAccount() {
-  const company    = document.getElementById('fCompany').value.trim();
-  const accountNum = document.getElementById('fAccountNum').value.trim();
-  if (!company || !accountNum) { toast('Company name and account # are required.', 'error'); return; }
-
-  const d = loadData();
-  const editId = document.getElementById('editAccountId').value;
-
-  const obj = {
-    id:         editId || uid(),
-    company,
-    accountNum,
-    contact:    document.getElementById('fContact').value.trim(),
-    phone:      document.getElementById('fPhone').value.trim(),
-    discount:   parseFloat(document.getElementById('fDiscount').value) || 0,
-    interval:   parseInt(document.getElementById('fInterval').value)   || 6,
-    notes:      document.getElementById('fNotes').value.trim(),
-    createdAt:  editId ? (d.accounts.find(x=>x.id===editId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
-  };
-
-  if (editId) {
-    const idx = d.accounts.findIndex(x => x.id === editId);
-    if (idx > -1) d.accounts[idx] = obj;
-    toast('Account updated ', 'success');
-  } else {
-    d.accounts.push(obj);
-    toast('Fleet account added ', 'success');
-  }
-
-  saveData(d);
-  closeModal('modalAccount');
-  renderAll();
-}
-
-function deleteAccount(id) {
-  if (!confirm('Delete this fleet account and all its vehicles?')) return;
-  const d = loadData();
-//  AUTO-CLOSE FIX 
-} // end of any unclosed function
-
-</script>
 </body>
 </html>
