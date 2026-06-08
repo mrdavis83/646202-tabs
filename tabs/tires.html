@@ -73,7 +73,7 @@ tr:hover td{background:var(--surface2)}
 
 <!-- TIRE SIZE CALCULATOR -->
 <div class="card">
-  <div class="card-title">&#x1F4CF; Tire Size Comparison Calculator</div>
+  <div class="card-title">Tire Size Comparison Calculator</div>
 
   <div class="preset-label">Quick Presets - Passenger</div>
   <div class="preset-row" id="presetRow1">
@@ -118,7 +118,7 @@ tr:hover td{background:var(--surface2)}
   </div>
 
   <div class="warn-banner" id="warnBanner" style="display:none">
-    &#x26A0; Exceeds 3% speedometer tolerance &mdash; may require recalibration or fail inspection.
+    Exceeds 3% speedometer tolerance -- may require recalibration or fail inspection.
   </div>
 
   <div id="resultsWrap" style="display:none;margin-top:14px;overflow-x:auto">
@@ -135,33 +135,33 @@ tr:hover td{background:var(--surface2)}
     </table>
   </div>
 
-  <div id="placeholder" class="placeholder">Enter two tire sizes above and press Calculate.</div>
+  <div id="placeholder" class="placeholder">Enter two tire sizes above and pressCalculate.</div>
 </div>
 
 <!-- RIM FITMENT + LOAD INDEX -->
 <div class="grid-2" style="margin-bottom:16px">
 
   <div class="card" style="margin-bottom:0">
-    <div class="card-title">&#x1F6DE; Rim / Tire Fitment</div>
+    <div class="card-title">Rim / Tire Fitment</div>
     <div style="overflow-x:auto">
       <table>
         <thead><tr><th>Rim</th><th>Compatible Widths</th><th>Recommended</th></tr></thead>
         <tbody>
-          <tr><td><strong>15"</strong></td><td class="mono">175&ndash;235 mm</td><td><span class="badge badge-blue">195&ndash;215 mm</span></td></tr>
-          <tr><td><strong>16"</strong></td><td class="mono">195&ndash;265 mm</td><td><span class="badge badge-blue">205&ndash;245 mm</span></td></tr>
-          <tr><td><strong>17"</strong></td><td class="mono">205&ndash;285 mm</td><td><span class="badge badge-blue">225&ndash;265 mm</span></td></tr>
-          <tr><td><strong>18"</strong></td><td class="mono">225&ndash;305 mm</td><td><span class="badge badge-blue">235&ndash;275 mm</span></td></tr>
-          <tr><td><strong>19"</strong></td><td class="mono">235&ndash;305 mm</td><td><span class="badge badge-blue">245&ndash;285 mm</span></td></tr>
-          <tr><td><strong>20"</strong></td><td class="mono">245&ndash;325 mm</td><td><span class="badge badge-blue">255&ndash;295 mm</span></td></tr>
-          <tr><td><strong>22"</strong></td><td class="mono">265&ndash;345 mm</td><td><span class="badge badge-blue">275&ndash;315 mm</span></td></tr>
+          <tr><td><strong>15"</strong></td><td class="mono">175-235 mm</td><td><span class="badge badge-blue">195-215 mm</span></td></tr>
+          <tr><td><strong>16"</strong></td><td class="mono">195-265 mm</td><td><span class="badge badge-blue">205-245 mm</span></td></tr>
+          <tr><td><strong>17"</strong></td><td class="mono">205-285 mm</td><td><span class="badge badge-blue">225-265 mm</span></td></tr>
+          <tr><td><strong>18"</strong></td><td class="mono">225-305 mm</td><td><span class="badge badge-blue">235-275 mm</span></td></tr>
+          <tr><td><strong>19"</strong></td><td class="mono">235-305 mm</td><td><span class="badge badge-blue">245-285 mm</span></td></tr>
+          <tr><td><strong>20"</strong></td><td class="mono">245-325 mm</td><td><span class="badge badge-blue">255-295 mm</span></td></tr>
+          <tr><td><strong>22"</strong></td><td class="mono">265-345 mm</td><td><span class="badge badge-blue">275-315 mm</span></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-banner">Rim width should be 70&ndash;85% of tire section width.</div>
+    <div class="info-banner">Rim width should be 70-85% of tire section width.</div>
   </div>
 
   <div class="card" style="margin-bottom:0">
-    <div class="card-title">&#x2696;&#xFE0F; Load Index Reference (70&ndash;126)</div>
+    <div class="card-title">Load Index Reference (70-126)</div>
     <div class="table-scroll">
       <table>
         <thead><tr><th>Index</th><th>kg</th><th>lbs</th><th>Index</th><th>kg</th><th>lbs</th></tr></thead>
@@ -176,7 +176,7 @@ tr:hover td{background:var(--surface2)}
 <div class="grid-2" style="margin-bottom:16px">
 
   <div class="card" style="margin-bottom:0">
-    <div class="card-title">&#x1F3CE;&#xFE0F; Speed Rating Reference</div>
+    <div class="card-title">Speed Rating Reference</div>
     <div style="overflow-x:auto">
       <table>
         <thead><tr><th>Rating</th><th>km/h</th><th>mph</th><th>Typical Use</th></tr></thead>
@@ -186,7 +186,7 @@ tr:hover td{background:var(--surface2)}
   </div>
 
   <div class="card" style="margin-bottom:0">
-    <div class="card-title">&#x1F4A1; TPMS Quick Reference</div>
+    <div class="card-title">TPMS Quick Reference</div>
     <div class="info-banner" style="margin-bottom:12px">Always verify with fitment guide before ordering.</div>
     <div class="tpms-grid" id="tpmsGrid"></div>
   </div>
@@ -195,7 +195,7 @@ tr:hover td{background:var(--surface2)}
 
 <!-- TIRE MARKING DECODER -->
 <div class="card">
-  <div class="card-title">&#x1F50D; Tire Marking Decoder</div>
+  <div class="card-title">Tire Marking Decoder</div>
   <div style="overflow-x:auto">
     <table>
       <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -288,7 +288,7 @@ function runCalc() {
     ['Overall Diameter', (oe.diameter/25.4).toFixed(2) + '"', (nw.diameter/25.4).toFixed(2) + '"', diff(oe.diameter/25.4, nw.diameter/25.4, 2, '"')],
     ['Circumference',    (oe.circum/25.4).toFixed(1) + '"',  (nw.circum/25.4).toFixed(1) + '"',  diff(oe.circum/25.4, nw.circum/25.4, 1, '"')],
     ['Revs / Mile',      oe.revsMile.toFixed(1),              nw.revsMile.toFixed(1),              diff(oe.revsMile, nw.revsMile, 1, 'rev')],
-    ['Speedo Error',     '&mdash;',                           '&mdash;',                           speedoBadge(speedoErrPct)],
+    ['Speedo Error',     '--',                           '--',                           speedoBadge(speedoErrPct)],
   ];
 
   document.getElementById('resultsBody').innerHTML = rows.map(r =>
