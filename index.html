@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>🔧 Store 646202 — Bridgestone Firestone Webster</title>
+<title>Store 646202 — Firestone Complete Auto Care</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='10' fill='%231e3a5f'/><text y='72' x='50' text-anchor='middle' font-size='56' font-family='sans-serif' font-weight='700' fill='%23e8292d'>6</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +47,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);display:flex
 
 <header class="topbar">
   <div class="topbar-brand">
-    🔧 Bridgestone Firestone
+    Firestone Complete Auto Care
     <span class="store-num">#646202</span>
     <span style="opacity:.5;font-weight:400;font-size:13px">Webster, NY</span>
   </div>
@@ -161,7 +161,7 @@ function showTab(id) {
     const now=new Date();
     const c=document.getElementById('clock');
     const d=document.getElementById('date');
-    if(c) c.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+    if(c){let h=now.getHours();const ap=h>=12?'PM':'AM';h=h%12||12;c.textContent=pad(h)+':'+pad(now.getMinutes())+':'+pad(now.getSeconds())+' '+ap;}
     if(d) d.textContent=DAYS[now.getDay()]+' '+MONTHS[now.getMonth()]+' '+now.getDate();
   }
   tick(); setInterval(tick,1000);
