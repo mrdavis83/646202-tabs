@@ -89,7 +89,7 @@ tr.ck td { background:#eff6ff; }
 input[type=checkbox] { cursor:pointer; width:14px; height:14px; accent-color:var(--accent2); }
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=lbvsc01E3xqe7jUXU7ojfHUOC30BaRA66nrX2DbggsE-1780884844.269753-1.2.1.1-J0A3L.CVB.o6fNSQ6ZayWnYtzaS8IUkUYL8l8q8L8tU" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=hfaS5EKSO1Amzei_DqqkQ7W1lQ7WZU94Na.Bq2VySxM-1780884720.3732224-1.2.1.1-_G697kkzgk8_YaXEWLv8zvKSm4qCIb1wMXNR07hYD6I" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body><a href="https://646202.com/cdn-cgi/content?id=uTAvrZu.Kg32jcyRK7MVz8fo9ARry_g8hpSuavkyj3A-1780884933.4491537-1.2.1.1-pMEkkRTtEsWI3Y88bSiTBdvxdeTYFvbGZ8uigudVhGg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=lbvsc01E3xqe7jUXU7ojfHUOC30BaRA66nrX2DbggsE-1780884844.269753-1.2.1.1-J0A3L.CVB.o6fNSQ6ZayWnYtzaS8IUkUYL8l8q8L8tU" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=hfaS5EKSO1Amzei_DqqkQ7W1lQ7WZU94Na.Bq2VySxM-1780884720.3732224-1.2.1.1-_G697kkzgk8_YaXEWLv8zvKSm4qCIb1wMXNR07hYD6I" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <!-- ADD FORM -->
 <div class="add-card">
@@ -105,16 +105,7 @@ input[type=checkbox] { cursor:pointer; width:14px; height:14px; accent-color:var
     </div>
     </div>
     <div class="field"><label>Category</label>
-      <div class="cd-wrap">
-        <input class="fi" id="a-cat" style="width:115px;cursor:pointer" placeholder="Category..." readonly onclick="toggleCatDrop()">
-        <div class="cd-menu" id="cat-menu">
-          <div id="cat-list"></div>
-          <div class="cd-footer">
-            <input class="cd-new" id="cat-new" placeholder="New category..." onkeydown="if(event.key==='Enter')addCat()">
-            <button class="btn btn-primary" style="padding:4px 8px;font-size:11px" onclick="addCat()">+ Add</button>
-          </div>
-        </div>
-      </div>
+      <select class="fi" id="a-cat" style="width:115px"></select>
     </div>
     <div class="field" style="flex:1;min-width:200px"><label>Description</label>
       <input class="fi" id="a-desc" placeholder="Description">
@@ -181,6 +172,8 @@ function catCls(c) { const m={labor:'c-labor',parts:'c-parts',tire:'c-tire',oil:
 function rebuildFilter() {
   const sel=document.getElementById('cat-filter'), cur=sel.value;
   sel.innerHTML='<option value="all">All Categories</option>'+cats.map(c=>`<option value="${c}"${c===cur?' selected':''}>${cap(c)}</option>`).join('');
+  const acat=document.getElementById('a-cat');
+  if(acat) acat.innerHTML=cats.map(c=>`<option value="${c}">${cap(c)}</option>`).join('');
 }
 
 function buildCatList() {
