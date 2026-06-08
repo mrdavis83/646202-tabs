@@ -102,13 +102,13 @@ tr:hover td{background:var(--surface2)}
     <div class="input-group">
       <label>OE Size (Original)</label>
       <input class="tire-input" id="oeInput" type="text" placeholder="225/60R16" maxlength="16">
-      <span class="hint">e.g. 225/60R16 or LT265/75R16C</span>
+      <span class="hint">e.g. 225/60R16 or 235/40/16</span>
       <span class="parse-err" id="oeErr"></span>
     </div>
     <div class="input-group">
       <label>New Size (Replacement)</label>
       <input class="tire-input" id="newInput" type="text" placeholder="235/55R17" maxlength="16">
-      <span class="hint">e.g. 235/55R17</span>
+      <span class="hint">e.g. 235/55R17 or 235/55/17</span>
       <span class="parse-err" id="newErr"></span>
     </div>
     <div style="display:flex;gap:8px;padding-bottom:2px">
@@ -224,11 +224,22 @@ tr:hover td{background:var(--surface2)}
 function parse(raw) {
   if (!raw) return null;
   const s = raw.trim().toUpperCase().replace(/\s/g, '');
-  const m = s.match(/^(?:P|LT|ST|T)?(\d{3})\/(\d{2,3})[RBD](\d{1,2}\.?\d?)/);
-  if (!m) return null;
-  const w = parseFloat(m[1]), a = parseFloat(m[2]), r = parseFloat(m[3]);
-  if (isNaN(w) || isNaN(a) || isNaN(r)) return null;
-  return { w, a, r };
+
+  // Format 1: standard  225/60R16  or  LT265/75R16C
+  const m1 = s.match(/^(?:P|LT|ST|T)?(\d{3})\/(\d{2,3})[RBD](\d{1,2}\.?\d?)/);
+  if (m1) {
+    const w = parseFloat(m1[1]), a = parseFloat(m1[2]), r = parseFloat(m1[3]);
+    if (!isNaN(w) && !isNaN(a) && !isNaN(r)) return { w, a, r };
+  }
+
+  // Format 2: slash-only  235/40/16  (no R)
+  const m2 = s.match(/^(?:P|LT|ST|T)?(\d{3})\/(\d{2,3})\/(\d{1,2}\.?\d?)$/);
+  if (m2) {
+    const w = parseFloat(m2[1]), a = parseFloat(m2[2]), r = parseFloat(m2[3]);
+    if (!isNaN(w) && !isNaN(a) && !isNaN(r)) return { w, a, r };
+  }
+
+  return null;
 }
 
 function metrics(p) {
