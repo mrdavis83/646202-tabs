@@ -2,43 +2,50 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>United Auto Supply - Connecting...</title>
+<title>United Auto Supply - Signing In...</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:#0f172a;color:#fff;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  height:100vh;gap:14px;text-align:center}
-.logo{font-size:48px;font-weight:900;color:#e8292d}
-.msg{font-size:15px;color:#94a3b8}
-.count{font-size:42px;font-weight:700;color:#e8292d;min-width:60px}
-.sub{font-size:12px;color:#334155}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;height:100vh;gap:16px;text-align:center}
+.logo{font-size:52px;font-weight:900;color:#e8292d;letter-spacing:-2px}
+.brand{font-size:13px;color:#64748b;letter-spacing:.1em;text-transform:uppercase}
+.msg{font-size:15px;color:#94a3b8;margin-top:8px}
+.count{font-size:64px;font-weight:800;color:#e8292d;line-height:1;min-height:80px}
+.bar-wrap{width:200px;height:4px;background:#1e293b;border-radius:2px;margin-top:4px}
+.bar{height:100%;background:#e8292d;border-radius:2px;width:0;transition:width 3s linear}
 </style>
 </head>
 <body>
 <div class="logo">UAS</div>
-<div class="msg">Logging in automatically in</div>
+<div class="brand">United Auto Supply</div>
+<div class="msg">Signing you in automatically in</div>
 <div class="count" id="count">3</div>
-<div class="sub">United Auto Supply</div>
+<div class="bar-wrap"><div class="bar" id="bar"></div></div>
 
-<!-- Hidden form that posts directly to UAS wp-login -->
-<form id="uasForm" method="POST" action="https://unitedautosupply.com/wp-login.php?wpe-login=true">
-  <input type="hidden" name="log" value="UAS62722">
+<form id="f" method="POST" action="https://login.acdelcoconnection.com/do_login.php">
+  <input type="hidden" name="nexpartuname" value="UAS62722">
   <input type="hidden" name="pwd" value="U@S62722">
-  <input type="hidden" name="rememberme" value="forever">
-  <input type="hidden" name="wp-submit" value="Log In">
-  <input type="hidden" name="redirect_to" value="https://unitedautosupply.com/">
-  <input type="hidden" name="testcookie" value="1">
+  <input type="hidden" name="remember_me" value="1">
+  <input type="hidden" name="return_url" value="https://www.gmparts.com/technical-resources/ebusiness-tools">
+  <input type="hidden" name="mProvider" value="connection">
+  <input type="hidden" name="msProvider" value="connection">
+  <input type="hidden" name="lang" value="">
+  <input type="hidden" name="language" value="">
+  <input type="hidden" name="logout_url" value="https://www.gmparts.com/technical-resources/ebusiness-tools">
 </form>
 
 <script>
 var n = 3;
 var el = document.getElementById('count');
-var interval = setInterval(function(){
+setTimeout(function(){ document.getElementById('bar').style.width = '100%'; }, 50);
+var t = setInterval(function(){
   n--;
   el.textContent = n;
   if(n <= 0){
-    clearInterval(interval);
-    el.textContent = '...';
-    document.getElementById('uasForm').submit();
+    clearInterval(t);
+    el.textContent = '';
+    document.getElementById('f').submit();
   }
 }, 1000);
 </script>
