@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>On Call</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;
+  --navy:#1e3a5f;--accent:#e8292d;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --green:#16a34a;--red:#dc2626;--font:'Inter',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px;line-height:1.5}
+
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.page-title{font-size:18px;font-weight:700;color:var(--navy)}
+.page-sub{font-size:13px;color:var(--text3);margin-top:2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+
+.greeting-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.card-header{
+  background:var(--navy);color:#fff;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.card-title-text{font-weight:700;font-size:14px;flex:1;min-width:0}
+.card-title-input{
+  font-weight:700;font-size:14px;flex:1;min-width:0;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  border-radius:5px;padding:3px 8px;color:#fff;font-family:var(--font);outline:none;
+}
+.card-title-input::placeholder{color:rgba(255,255,255,.5)}
+.card-body{padding:16px;flex:1;display:flex;flex-direction:column;gap:10px}
+.greeting-text{
+  font-size:13px;color:var(--text2);line-height:1.7;flex:1;
+  min-height:80px;white-space:pre-wrap;
+}
+.greeting-textarea{
+  width:100%;font-size:13px;color:var(--text);line-height:1.7;
+  border:1.5px solid var(--border);border-radius:7px;padding:10px 12px;
+  font-family:var(--font);resize:vertical;min-height:120px;outline:none;
+  transition:border-color .15s;background:var(--surface);
+}
+.greeting-textarea:focus{border-color:var(--navy)}
+
+.card-footer{
+  padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;
+  font-family:var(--font);cursor:pointer;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);transition:all .15s;
+}
+.btn:hover{background:var(--surface2)}
+.btn-edit{border-color:var(--navy);color:var(--navy)}
+.btn-edit:hover{background:#eff6ff}
+.btn-save{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-save:hover{opacity:.88}
+.btn-cancel{color:var(--text2)}
+.btn-delete{color:var(--red);border-color:#fca5a5}
+.btn-delete:hover{background:#fef2f2}
+.btn-copy{color:var(--text2)}
+.btn-copy:hover{background:var(--surface2)}
+.btn-copied{color:var(--green);border-color:#bbf7d0}
+
+.add-card-btn{
+  background:var(--surface);border:2px dashed var(--border);border-radius:10px;
+  padding:32px 20px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;cursor:pointer;color:var(--text3);
+  font-size:13px;font-weight:600;transition:all .15s;
+}
+.add-card-btn:hover{border-color:var(--navy);color:var(--navy);background:#f8fafc}
+.add-card-btn .plus{font-size:28px;font-weight:300;line-height:1;color:var(--text3)}
+.add-card-btn:hover .plus{color:var(--navy)}
+
+.saved-toast{
+  position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;
+  padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.saved-toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <div class="page-title">On Call Greetings</div>
+    <div class="page-sub">Firestone phone greetings -- click Edit to customize, Add to create new</div>
+  </div>
+</div>
+
+<div class="grid" id="greetingGrid"></div>
+
+<div class="saved-toast" id="toast"></div>
+
+<script>
+'use strict';
+
+const DATA_URL = '/data/oncall-greetings.json';
+
+const DEFAULTS = [
+  {
+    id: 'g1',
+    title: 'Standard Opening',
+    text: 'Thank you for calling Firestone Complete Auto Care in Webster, this is [NAME], how can I help you today?'
+  },
+  {
+    id: 'g2',
+    title: 'Appointment Greeting',
+    text: 'Thank you for calling Firestone Complete Auto Care, Webster location. This is [NAME]. Are you calling to schedule an appointment or do you have a question about your vehicle?'
+  },
+  {
+    id: 'g3',
+    title: 'Busy / Hold',
+    text: 'Thank you for calling Firestone Complete Auto Care. We are currently assisting other customers. Can I place you on a brief hold, or would you like to leave a callback number?'
+  },
+  {
+    id: 'g4',
+    title: 'Vehicle Ready',
+    text: 'Hi, this is [NAME] calling from Firestone Complete Auto Care in Webster. I am calling to let you know your vehicle is ready for pickup. Our hours today are [HOURS]. Please call us back at 585-671-6164 if you have any questions. Thank you!'
+  },
+  {
+    id: 'g5',
+    title: 'Estimate Call',
+    text: 'Hi, may I speak with [CUSTOMER NAME]? This is [NAME] calling from Firestone in Webster. We have completed our inspection on your vehicle and I have your estimate ready. Do you have a moment to go over what we found?'
+  },
+  {
+    id: 'g6',
+    title: 'Closing',
+    text: 'Thank you for calling Firestone Complete Auto Care in Webster. Is there anything else I can help you with today? We appreciate your business and look forward to seeing you. Have a great day!'
+  }
+];
+
+let greetings = [];
+
+async function load() {
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    if (r.ok) {
+      const data = await r.json();
+      greetings = data.length ? data : DEFAULTS;
+    } else {
+      greetings = DEFAULTS;
+    }
+  } catch(e) {
+    greetings = DEFAULTS;
+  }
+  render();
+}
+
+async function save() {
+  try {
+    await fetch(DATA_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(greetings, null, 2)
+    });
+    showToast('Saved');
+  } catch(e) {
+    showToast('Save failed');
+  }
+}
+
+function render() {
+  const grid = document.getElementById('greetingGrid');
+  grid.innerHTML = '';
+
+  greetings.forEach((g, i) => {
+    const card = document.createElement('div');
+    card.className = 'greeting-card';
+    card.dataset.id = g.id;
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-title-text">${esc(g.title)}</span>
+      </div>
+      <div class="card-body">
+        <div class="greeting-text">${esc(g.text)}</div>
+      </div>
+      <div class="card-footer">
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-edit" onclick="editCard('${g.id}')">Edit</button>
+          <button class="btn btn-copy" onclick="copyCard('${g.id}', this)">Copy</button>
+        </div>
+        <button class="btn btn-delete" onclick="deleteCard('${g.id}')">Delete</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+
+  // Add card button
+  const addBtn = document.createElement('div');
+  addBtn.className = 'add-card-btn';
+  addBtn.onclick = addCard;
+  addBtn.innerHTML = '<span class="plus">+</span><span>Add Greeting</span>';
+  grid.appendChild(addBtn);
+}
+
+function editCard(id) {
+  const g = greetings.find(x => x.id === id);
+  if (!g) return;
+  const card = document.querySelector(`.greeting-card[data-id="${id}"]`);
+  card.innerHTML = `
+    <div class="card-header">
+      <input class="card-title-input" id="title-${id}" value="${esc(g.title)}" placeholder="Greeting title">
+    </div>
+    <div class="card-body">
+      <textarea class="greeting-textarea" id="text-${id}">${esc(g.text)}</textarea>
+    </div>
+    <div class="card-footer">
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-save" onclick="saveCard('${id}')">Save</button>
+        <button class="btn btn-cancel" onclick="render()">Cancel</button>
+      </div>
+      <button class="btn btn-delete" onclick="deleteCard('${id}')">Delete</button>
+    </div>`;
+  document.getElementById(`title-${id}`).focus();
+}
+
+function saveCard(id) {
+  const g = greetings.find(x => x.id === id);
+  if (!g) return;
+  g.title = document.getElementById(`title-${id}`).value.trim() || g.title;
+  g.text  = document.getElementById(`text-${id}`).value.trim() || g.text;
+  render();
+  save();
+}
+
+function deleteCard(id) {
+  if (!confirm('Delete this greeting?')) return;
+  greetings = greetings.filter(x => x.id !== id);
+  render();
+  save();
+}
+
+function addCard() {
+  const id = 'g' + Date.now();
+  greetings.push({ id, title: 'New Greeting', text: 'Thank you for calling Firestone Complete Auto Care in Webster...' });
+  render();
+  editCard(id);
+  save();
+}
+
+function copyCard(id, btn) {
+  const g = greetings.find(x => x.id === id);
+  if (!g) return;
+  navigator.clipboard.writeText(g.text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.className = 'btn btn-copied';
+    setTimeout(() => { btn.textContent = orig; btn.className = 'btn btn-copy'; }, 1500);
+  });
+}
+
+function esc(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+load();
+</script>
+</body>
+</html>
