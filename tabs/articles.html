@@ -46,9 +46,15 @@ tr:hover td{background:var(--surface2)}
 .editable-cell:hover { border-color: var(--border) !important; background: var(--surface2) !important; cursor: text; }
 .editable-cell:focus { border-color: var(--accent2) !important; background: var(--surface) !important; }
 .inline-cat-select:hover { border-color: var(--border) !important; background: var(--surface2) !important; }
+
+th .sort-icon { font-size:10px; opacity:0.4; margin-left:3px; }
+th:hover { background: #e2e8f0 !important; }
+th:hover .sort-icon { opacity:0.7; }
+th.sort-active { color: var(--accent2); }
+th.sort-active .sort-icon { opacity:1; color: var(--accent2); }
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body><a href="https://646202.com/cdn-cgi/content?id=u_bfOn47EHoRy601KhYVmfpLxWXxDoPZCdo.39DNb6c-1780877128.2980783-1.2.1.1-J2VKx.18qSIs6uT72bEe127lI8XOcGtrq9RVAqSidpQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
@@ -89,7 +95,15 @@ tr:hover td{background:var(--surface2)}
 
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Article #</th><th>Category</th><th>Description</th><th>Supplier</th><th>Price</th><th>Notes</th><th></th></tr></thead>
+    <thead><tr>
+  <th onclick="sortBy('num')" id="th-num" style="cursor:pointer;user-select:none;white-space:nowrap">Article # <span class="sort-icon" id="si-num"></span></th>
+  <th onclick="sortBy('cat')" id="th-cat" style="cursor:pointer;user-select:none;white-space:nowrap">Category <span class="sort-icon" id="si-cat"></span></th>
+  <th onclick="sortBy('desc')" id="th-desc" style="cursor:pointer;user-select:none;white-space:nowrap">Description <span class="sort-icon" id="si-desc"></span></th>
+  <th onclick="sortBy('sup')" id="th-sup" style="cursor:pointer;user-select:none;white-space:nowrap">Supplier <span class="sort-icon" id="si-sup"></span></th>
+  <th onclick="sortBy('price')" id="th-price" style="cursor:pointer;user-select:none;white-space:nowrap">Price <span class="sort-icon" id="si-price"></span></th>
+  <th onclick="sortBy('notes')" id="th-notes" style="cursor:pointer;user-select:none;white-space:nowrap">Notes <span class="sort-icon" id="si-notes"></span></th>
+  <th></th>
+</tr></thead>
     <tbody id="articles-tbody"></tbody>
   </table>
 </div>
@@ -113,7 +127,7 @@ function render() {
   // styles applied after render below
   tbody.innerHTML = filtered.length === 0
     ? '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text3)">No articles match</td></tr>'
-    : filtered.map(a => `<tr data-num="${a.num}">
+    : getSortedArticles(filtered).map(a => `<tr data-num="${a.num}">
         <td style="font-family:var(--mono);font-weight:700">${a.num}</td>
         <td>
           <select class="inline-cat-select" data-num="${a.num}" onchange="updateField('${a.num}','cat',this.value)"
@@ -241,6 +255,41 @@ function applyCatStyle(sel) {
   sel.style.fontSize = '11px';
   sel.style.textTransform = 'uppercase';
   sel.style.letterSpacing = '0.04em';
+}
+
+
+// ── SORT ──
+let sortField = null;
+let sortDir = 1; // 1=asc, -1=desc
+
+function sortBy(field) {
+  if (sortField === field) {
+    sortDir *= -1;
+  } else {
+    sortField = field;
+    sortDir = 1;
+  }
+  // Update header indicators
+  document.querySelectorAll('th[id^="th-"]').forEach(th => {
+    th.classList.remove('sort-active');
+  });
+  document.querySelectorAll('.sort-icon').forEach(si => si.textContent = '');
+  const activeTh = document.getElementById('th-' + field);
+  const activeSi = document.getElementById('si-' + field);
+  if (activeTh) activeTh.classList.add('sort-active');
+  if (activeSi) activeSi.textContent = sortDir === 1 ? ' ▲' : ' ▼';
+  render();
+}
+
+function getSortedArticles(arr) {
+  if (!sortField) return arr;
+  return [...arr].sort((a, b) => {
+    const av = (a[sortField] || '').toLowerCase();
+    const bv = (b[sortField] || '').toLowerCase();
+    if (av < bv) return -1 * sortDir;
+    if (av > bv) return  1 * sortDir;
+    return 0;
+  });
 }
 
 // ── CATEGORY MANAGEMENT ──
