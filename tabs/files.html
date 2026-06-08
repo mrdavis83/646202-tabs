@@ -152,7 +152,7 @@ input[type=file] { display: none; }
     <div class="card">
       <div class="card-hd">
         <span class="card-title">Upload Files</span>
-        <span style="font-size:11px;font-family:var(--mono);color:var(--text3)">/data/uploads/</span>
+        <span style="font-size:11px;font-family:var(--mono);color:var(--text3)">appears in files/uploads/</span>
       </div>
       <div style="padding:14px">
         <div class="drop-zone" id="dropZone"
@@ -237,6 +237,8 @@ input[type=file] { display: none; }
 
 const FILES  = '/files/';
 const UPLOAD = '/data/uploads/';
+// NOTE: /files/uploads/ is a symlink to /data/uploads/
+// So uploaded files appear in the browser under Files > uploads/
 const BM_KEY = 'files_bm_646202';
 const RC_KEY = 'files_rc_646202';
 
@@ -466,7 +468,7 @@ async function doUpload() {
     banner.className = 'banner banner-ok';
     banner.textContent = ok + ' file' + (ok!==1?'s':'') + ' uploaded successfully.';
     toast(ok + ' file' + (ok!==1?'s':'') + ' uploaded', 't-ok');
-    loadDir(curPath);
+    loadDir('uploads');  // navigate browser to show the uploads folder
   } else {
     banner.className = 'banner banner-err';
     banner.textContent = ok + ' uploaded. Failed: ' + fail.join(', ');
