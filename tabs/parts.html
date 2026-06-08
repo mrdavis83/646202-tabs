@@ -136,7 +136,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
   <div class="section-label">Local & Primary Suppliers</div>
   <div class="vendor-grid">
 
-    <a class="vendor-card" href="/uas-login.html" target="_blank">
+    <a class="vendor-card" href="#" onclick="uasLogin();return false;">
       <div class="vendor-logo-placeholder">UAS</div>
       <div class="vendor-info">
         <div class="vendor-name">United Auto Supply</div>
@@ -582,6 +582,40 @@ document.addEventListener('DOMContentLoaded', () => {
   loadVinHistory();
   try { document.getElementById('parts-notes').value = localStorage.getItem('partsnotes646202') || ''; } catch(e) {}
 });
+
+// ── UAS Auto-Login
+function uasLogin() {
+  // Open UAS login page in a new tab - get a reference to it
+  var w = window.open('https://www.unitedautosupply.com/login', '_blank');
+  if (!w) { window.open('https://www.unitedautosupply.com/login', '_blank'); return; }
+
+  // Wait 3 seconds, then write a self-submitting form into the new window
+  // This works because we write BEFORE the page finishes loading cross-origin
+  // and the form action posts directly to UAS
+  setTimeout(function() {
+    try {
+      // Write a form directly into the new window that auto-submits
+      w.document.open();
+      w.document.write('<html><head><title>Logging in...</title></head><body>'
+        + '<p style="font-family:sans-serif;padding:20px">Logging in to United Auto Supply...</p>'
+        + '<form id="f" method="POST" action="https://unitedautosupply.com/wp-login.php?wpe-login=true">'
+        + '<input type="hidden" name="log" value="UAS62722">'
+        + '<input type="hidden" name="pwd" value="U@S62722">'
+        + '<input type="hidden" name="rememberme" value="forever">'
+        + '<input type="hidden" name="wp-submit" value="Log In">'
+        + '<input type="hidden" name="redirect_to" value="https://unitedautosupply.com/">'
+        + '<input type="hidden" name="testcookie" value="1">'
+        + '</form>'
+        + '<script>document.getElementById("f").submit();<\/script>'
+        + '</body></html>');
+      w.document.close();
+    } catch(e) {
+      // If cross-origin blocked (page already loaded), fall back to relay page
+      w.location.href = '/uas-login.html';
+    }
+  }, 3000);
+}
+
 </script>
 </body>
 </html>
