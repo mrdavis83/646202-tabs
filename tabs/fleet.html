@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fleet â Bridgestone Firestone Dashboard</title>
+<title>Fleet  Bridgestone Firestone Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@ body{
   line-height:1.5;
 }
 
-/* ââ BUTTONS ââ */
+/*  BUTTONS  */
 .btn{
   display:inline-flex;align-items:center;gap:6px;
   padding:7px 14px;border-radius:6px;border:1px solid var(--border);
@@ -43,7 +43,7 @@ body{
 .btn-accent{background:var(--accent);color:#fff;border-color:var(--accent);}
 .btn-accent:hover{background:#c82327;}
 
-/* ââ CARDS ââ */
+/*  CARDS  */
 .card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -51,7 +51,7 @@ body{
   box-shadow:0 1px 3px rgba(0,0,0,.06);
 }
 
-/* ââ TABLES ââ */
+/*  TABLES  */
 table{width:100%;border-collapse:collapse;}
 th{
   background:var(--surface2);
@@ -71,7 +71,7 @@ td{
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:var(--surface2);}
 
-/* ââ STATUS BADGES ââ */
+/*  STATUS BADGES  */
 .badge{
   display:inline-flex;align-items:center;
   padding:2px 8px;border-radius:99px;
@@ -86,7 +86,7 @@ tr:hover td{background:var(--surface2);}
   padding:2px 7px;border-radius:99px;
 }
 
-/* ââ LAYOUT ââ */
+/*  LAYOUT  */
 .page-header{
   display:flex;align-items:center;justify-content:space-between;
   margin-bottom:20px;flex-wrap:wrap;gap:12px;
@@ -97,7 +97,7 @@ tr:hover td{background:var(--surface2);}
 }
 .page-title span{color:var(--accent);}
 
-/* ââ STATS BAR ââ */
+/*  STATS BAR  */
 .stats-bar{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -117,7 +117,7 @@ tr:hover td{background:var(--surface2);}
 .stat-card.warn .stat-value{color:var(--amber);}
 .stat-card.danger .stat-value{color:var(--red);}
 
-/* ââ MAIN GRID ââ */
+/*  MAIN GRID  */
 .main-grid{
   display:grid;
   grid-template-columns:1fr 340px;
@@ -126,7 +126,7 @@ tr:hover td{background:var(--surface2);}
 }
 @media(max-width:960px){.main-grid{grid-template-columns:1fr;}}
 
-/* ââ SECTION HEADER ââ */
+/*  SECTION HEADER  */
 .section-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:14px 16px;
@@ -134,7 +134,7 @@ tr:hover td{background:var(--surface2);}
 }
 .section-title{font-size:14px;font-weight:700;color:var(--text);}
 
-/* ââ FLEET ACCOUNT CARD ââ */
+/*  FLEET ACCOUNT CARD  */
 .account-card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -187,7 +187,7 @@ tr:hover td{background:var(--surface2);}
 }
 .vehicle-table-wrap{overflow-x:auto;}
 
-/* ââ URGENCY LIST ââ */
+/*  URGENCY LIST  */
 .urgency-list{padding:0;list-style:none;}
 .urgency-item{
   display:flex;align-items:center;gap:10px;
@@ -205,7 +205,7 @@ tr:hover td{background:var(--surface2);}
 .urgency-company{font-size:12px;font-weight:600;color:var(--text);}
 .urgency-vehicle{font-size:11px;color:var(--text2);}
 
-/* ââ MODAL ââ */
+/*  MODAL  */
 .modal-overlay{
   display:none;
   position:fixed;inset:0;
@@ -242,7 +242,7 @@ tr:hover td{background:var(--surface2);}
   display:flex;justify-content:flex-end;gap:8px;
 }
 
-/* ââ FORM ââ */
+/*  FORM  */
 .form-group{margin-bottom:14px;}
 .form-label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:5px;}
 .form-control{
@@ -259,19 +259,19 @@ tr:hover td{background:var(--surface2);}
 .form-hint{font-size:11px;color:var(--text3);margin-top:3px;}
 .form-control.loading{background:var(--surface2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 2a10 10 0 0 1 10 10'/%3E%3C/svg%3E") right 10px center/16px no-repeat;}
 
-/* ââ VIN decode status ââ */
+/*  VIN decode status  */
 .vin-status{font-size:11px;margin-top:3px;height:14px;}
 .vin-status.ok{color:var(--green);}
 .vin-status.err{color:var(--red);}
 
-/* ââ EMPTY STATE ââ */
+/*  EMPTY STATE  */
 .empty-state{
   text-align:center;padding:36px 20px;color:var(--text3);
 }
 .empty-icon{font-size:36px;margin-bottom:8px;}
 .empty-text{font-size:13px;}
 
-/* ââ TOAST ââ */
+/*  TOAST  */
 .toast-wrap{
   position:fixed;bottom:20px;right:20px;
   display:flex;flex-direction:column;gap:8px;
@@ -289,7 +289,7 @@ tr:hover td{background:var(--surface2);}
 .toast.error{background:var(--red);}
 @keyframes toastIn{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:none;}}
 
-/* ââ SEARCH ââ */
+/*  SEARCH  */
 .search-box{
   padding:7px 11px;border:1px solid var(--border);border-radius:6px;
   font-family:var(--font);font-size:13px;color:var(--text);
@@ -298,10 +298,10 @@ tr:hover td{background:var(--surface2);}
 }
 .search-box:focus{border-color:var(--accent2);}
 
-/* ââ MONO ââ */
+/*  MONO  */
 .mono{font-family:var(--mono);font-size:12px;}
 
-/* ââ DELETE/EDIT micro ââ */
+/*  DELETE/EDIT micro  */
 .action-btn{
   background:none;border:none;cursor:pointer;padding:3px 6px;
   border-radius:4px;font-size:13px;color:var(--text3);
@@ -322,7 +322,7 @@ tr:hover td{background:var(--surface2);}
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title" id="modalAccountTitle">Add Fleet Account</span>
-      <button class="modal-close" onclick="closeModal('modalAccount')">Ã</button>
+      <button class="modal-close" onclick="closeModal('modalAccount')"></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="editAccountId">
@@ -358,7 +358,7 @@ tr:hover td{background:var(--surface2);}
       </div>
       <div class="form-group">
         <label class="form-label">Notes</label>
-        <textarea class="form-control" id="fNotes" rows="3" placeholder="Any special notes about this accountâ¦"></textarea>
+        <textarea class="form-control" id="fNotes" rows="3" placeholder="Any special notes about this account"></textarea>
       </div>
     </div>
     <div class="modal-footer">
@@ -373,7 +373,7 @@ tr:hover td{background:var(--surface2);}
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title" id="modalVehicleTitle">Add Vehicle</span>
-      <button class="modal-close" onclick="closeModal('modalVehicle')">Ã</button>
+      <button class="modal-close" onclick="closeModal('modalVehicle')"></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="editVehicleId">
@@ -423,13 +423,13 @@ tr:hover td{background:var(--surface2);}
   </div>
 </div>
 
-<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<!--  -->
 <!-- PAGE HEADER -->
 <div class="page-header">
-  <div class="page-title">ð <span>Fleet</span>&nbsp;Management</div>
+  <div class="page-title"> <span>Fleet</span>&nbsp;Management</div>
   <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-    <input class="search-box" id="searchBox" placeholder="ð  Search accountsâ¦" oninput="renderAccounts()">
-    <button class="btn btn-primary" onclick="openAddAccount()">ï¼ Add Fleet Account</button>
+    <input class="search-box" id="searchBox" placeholder="  Search accounts" oninput="renderAccounts()">
+    <button class="btn btn-primary" onclick="openAddAccount()"> Add Fleet Account</button>
   </div>
 </div>
 
@@ -465,12 +465,12 @@ tr:hover td{background:var(--surface2);}
   <div>
     <div class="card" style="position:sticky;top:20px;">
       <div class="section-header">
-        <span class="section-title">â ï¸ Service Alerts</span>
+        <span class="section-title"> Service Alerts</span>
         <span id="alertCount" class="badge badge-overdue" style="display:none;"></span>
       </div>
       <ul class="urgency-list" id="urgencyList">
         <li style="padding:20px;text-align:center;color:var(--text3);font-size:13px;">
-          No alerts ð
+          No alerts 
         </li>
       </ul>
     </div>
@@ -479,9 +479,9 @@ tr:hover td{background:var(--surface2);}
 </div>
 
 <script>
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    CONSTANTS
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
 const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
 const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
@@ -489,9 +489,9 @@ const SMS_FROM       = '+15852572886';
 const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
 const STORAGE_KEY    = 'fleet646202';
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    DATA HELPERS
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 function loadData() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { accounts: [], vehicles: [] };
@@ -504,9 +504,9 @@ function uid() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    DATE HELPERS
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 function addMonths(dateStr, months) {
   if (!dateStr) return null;
   const d = new Date(dateStr);
@@ -521,7 +521,7 @@ function daysUntil(dateStr) {
   return Math.round((target - now) / 86400000);
 }
 function formatDate(dateStr) {
-  if (!dateStr) return 'â';
+  if (!dateStr) return '';
   const d = new Date(dateStr);
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
@@ -535,9 +535,9 @@ function statusInfo(vehicle, account) {
   return               { status: 'ok',       label: 'OK',       badge: 'badge-ok',      next, days };
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    TOAST
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 function toast(msg, type='info') {
   const w = document.getElementById('toastWrap');
   const t = document.createElement('div');
@@ -547,9 +547,9 @@ function toast(msg, type='info') {
   setTimeout(() => t.remove(), 3200);
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    MODAL HELPERS
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 function openModal(id) {
   document.getElementById(id).classList.add('open');
 }
@@ -561,9 +561,9 @@ document.querySelectorAll('.modal-overlay').forEach(el => {
   el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
 
-/* âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+/* 
    ACCOUNT CRUD
-âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+ */
 function openAddAccount() {
   document.getElementById('modalAccountTitle').textContent = 'Add Fleet Account';
   document.getElementById('editAccountId').value = '';
@@ -612,10 +612,10 @@ function saveAccount() {
   if (editId) {
     const idx = d.accounts.findIndex(x => x.id === editId);
     if (idx > -1) d.accounts[idx] = obj;
-    toast('Account updated â', 'success');
+    toast('Account updated ', 'success');
   } else {
     d.accounts.push(obj);
-    toast('Fleet account added â', 'success');
+    toast('Fleet account added ', 'success');
   }
 
   saveData(d);
@@ -626,10 +626,9 @@ function saveAccount() {
 function deleteAccount(id) {
   if (!confirm('Delete this fleet account and all its vehicles?')) return;
   const d = loadData();
-// ── AUTO-CLOSE FIX ──
+//  AUTO-CLOSE FIX 
 } // end of any unclosed function
 
-document.addEventListener("DOMContentLoaded", () => { typeof loadData==="function" && renderAccounts(); });
 </script>
 </body>
 </html>
