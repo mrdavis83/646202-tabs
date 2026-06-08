@@ -366,8 +366,11 @@ function render() {
 
 function openEntry(fp, type, url) {
   if (type === 'directory') { loadDir(fp); return; }
-  addRc(fp.split('/').pop(), url);
-  window.open(url, '_blank');
+  const name = fp.split('/').pop();
+  addRc(name, url);
+  const a = document.createElement('a');
+  a.href = url; a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
 function dlFile(url, name) {
@@ -551,7 +554,7 @@ function renderRc() {
   }
   el.innerHTML = rc.map(r => {
     const ago = timeAgo(r.ts);
-    return '<div class="rc-row" onclick="window.open(\'' + esc(r.url) + '\',\'_blank\')">' +
+    return '<div class="rc-row" data-url="' + esc(r.url) + '">' +
       '<div class="rc-icon">' + icon(r.name, 'file') + '</div>' +
       '<div class="rc-info">' +
         '<div class="rc-name">' + esc(r.name) + '</div>' +
@@ -561,6 +564,17 @@ function renderRc() {
 }
 
 function clearRecent() { setRc([]); renderRc(); }
+
+// Delegated click handler for recent rows (avoids popup blocker)
+document.addEventListener('click', function(e) {
+  const row = e.target.closest('.rc-row');
+  if (!row) return;
+  const url = row.dataset.url;
+  if (!url) return;
+  const a = document.createElement('a');
+  a.href = url; a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+});
 
 function timeAgo(ts) {
   const s = Math.floor((Date.now()-ts)/1000);
