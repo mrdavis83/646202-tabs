@@ -84,6 +84,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
     <button class="btn" onclick="clearVIN()">✕</button>
   </div>
   <div id="vinError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:var(--red);font-size:13px;margin-top:12px"></div>
+
+  <!-- Vehicle image strip -->
+  <div id="vinImageStrip" style="display:none;margin-top:14px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;display:none;align-items:center;gap:16px">
+    <img id="vinImage" src="" alt="Vehicle" style="height:80px;max-width:200px;object-fit:contain;border-radius:6px;background:#fff;border:1px solid var(--border);padding:4px">
+    <div id="vinImageLabel" style="font-size:13px;font-weight:600;color:var(--text)"></div>
+  </div>
+
   <div id="vinResult"></div>
 
 </div>
@@ -414,6 +421,7 @@ async function decodeVIN() {
     // Save to history
     if (out['Model Year'] && out['Make'] && out['Model']) {
       saveVinHistory(vin, out['Model Year'], out['Make'], out['Model'], out['Trim'] || '');
+      fetchVehicleImage(out['Model Year'], out['Make'], out['Model'], out['Trim'] || '');
     }
   } catch(e) {
     err.textContent = '⚠️ Error contacting NHTSA — check your connection.';
@@ -423,6 +431,53 @@ async function decodeVIN() {
     document.getElementById('decodeBtnText').textContent = 'Decode';
     btn.disabled = false;
   }
+}
+
+// ── Vehicle Image
+async function fetchVehicleImage(year, make, model, trim) {
+  const strip = document.getElementById('vinImageStrip');
+  const img   = document.getElementById('vinImage');
+  const label = document.getElementById('vinImageLabel');
+  strip.style.display = 'none';
+
+  // Build search query - year make model (trim if present)
+  const q = encodeURIComponent([year, make, model, trim].filter(Boolean).join(' '));
+  const label_text = [year, make, model, trim].filter(Boolean).join(' ');
+
+  // Use Bing image search via a public CDN proxy approach
+  // We use Wikipedia/Wikimedia as a clean royalty-free source first,
+  // then fall back to a direct image search URL
+  try {
+    // Try Wikipedia API for vehicle image
+    const wikiQ = encodeURIComponent(year + ' ' + make + ' ' + model);
+    const wikiUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/' +
+                    encodeURIComponent(make + '_' + model);
+    const wr = await fetch(wikiUrl);
+    if (wr.ok) {
+      const wd = await wr.json();
+      if (wd.thumbnail && wd.thumbnail.source) {
+        img.src = wd.thumbnail.source;
+        label.textContent = label_text;
+        strip.style.display = 'flex';
+        img.onerror = () => { tryBingImage(q, label_text); };
+        return;
+      }
+    }
+  } catch(e) {}
+  tryBingImage(q, label_text);
+}
+
+function tryBingImage(q, label_text) {
+  const strip = document.getElementById('vinImageStrip');
+  const img   = document.getElementById('vinImage');
+  const label = document.getElementById('vinImageLabel');
+  // Use a public image search thumbnail via Bing
+  // This is a publicly accessible image search thumbnail endpoint
+  const src = 'https://tse1.mm.bing.net/th?q=' + q + '&w=300&h=150&c=7&rs=1&p=0&dpr=1&pid=1.7&mkt=en-US&adlt=moderate';
+  img.src = src;
+  label.textContent = label_text;
+  strip.style.display = 'flex';
+  img.onerror = () => { strip.style.display = 'none'; };
 }
 
 // ── VIN History
@@ -512,6 +567,7 @@ function clearVIN() {
   document.getElementById('vinLen').textContent = '0';
   document.getElementById('vinError').style.display = 'none';
   document.getElementById('vinResult').innerHTML = '';
+  document.getElementById('vinImageStrip').style.display = 'none';
 }
 
 // ── Notes
