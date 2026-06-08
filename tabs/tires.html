@@ -1,585 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tires â Bridgestone Firestone Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tires</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
-    --accent:#e8292d; --accent2:#1e3a5f;
-    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-    --green:#16a34a; --amber:#d97706; --red:#dc2626;
-    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-  }
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--navy:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px;line-height:1.5}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.05);padding:20px;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 
-  body {
-    margin: 0;
-    padding: 20px;
-    background: var(--bg);
-    font-family: var(--font);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.5;
-  }
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
 
-  h1 { font-size: 1.5rem; font-weight: 700; color: var(--accent2); margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
-  h1 .badge { background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: .05em; }
-  .page-sub { color: var(--text2); font-size: 0.85rem; margin-bottom: 20px; }
+/* Calculator */
+.calc-inputs{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px}
+.input-group{display:flex;flex-direction:column;gap:4px;flex:1;min-width:160px}
+.input-group label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2)}
+.tire-input{border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--text);background:var(--surface);outline:none;transition:border-color .15s;width:100%}
+.tire-input:focus{border-color:var(--navy)}
+.tire-input.valid{border-color:var(--green)}
+.tire-input.invalid{border-color:var(--red)}
+.hint{font-size:11px;color:var(--text3);font-family:var(--mono)}
+.parse-err{font-size:11px;color:var(--red);font-weight:600}
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    padding: 20px;
-    margin-bottom: 20px;
-  }
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 18px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{opacity:.88}
+.btn-clear{color:var(--red);border-color:#fca5a5}
+.btn-clear:hover{background:#fef2f2}
 
-  .card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--accent2);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title .icon { font-size: 1.1rem; }
+.preset-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;margin-top:10px}
+.preset-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:2px}
+.preset-btn{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;border:1px solid var(--navy);color:var(--navy);background:var(--surface);cursor:pointer;transition:all .12s}
+.preset-btn:hover,.preset-btn.active{background:var(--navy);color:#fff}
 
-  /* Grid layouts */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+/* Results */
+table{width:100%;border-collapse:collapse}
+th{background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.mono{font-family:var(--mono);font-weight:600}
+.oe-col{background:#eff6ff}
+.new-col{background:#f0fdf4}
+.diff-val{color:var(--text3);font-family:var(--mono);font-size:12px}
 
-  @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;font-family:var(--mono)}
+.badge-green{background:#dcfce7;color:var(--green)}
+.badge-amber{background:#fef3c7;color:var(--amber)}
+.badge-red{background:#fee2e2;color:var(--red)}
+.badge-blue{background:#dbeafe;color:#1d4ed8}
 
-  /* Calculator section */
-  .calc-inputs {
-    display: flex;
-    gap: 16px;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
+.warn-banner{display:flex;align-items:center;gap:8px;background:#fee2e2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:var(--red);font-weight:600;font-size:13px;margin-top:10px}
+.info-banner{display:flex;align-items:center;gap:8px;background:#dbeafe;border:1px solid #93c5fd;border-radius:7px;padding:10px 14px;color:#1e40af;font-size:12px;margin-top:10px}
+.placeholder{text-align:center;padding:28px;color:var(--text3);font-size:13px;font-style:italic}
 
-  .input-group { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 160px; }
-  .input-group label { font-size: 0.78rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; }
+.table-scroll{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:7px}
+.table-scroll thead th{position:sticky;top:0;z-index:1}
 
-  input[type="text"] {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 9px 12px;
-    font-family: var(--mono);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s;
-  }
-  input[type="text"]:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(30,58,95,.1); }
-  input[type="text"].invalid { border-color: var(--red); }
-  input[type="text"].valid { border-color: var(--green); }
-
-  .hint { font-size: 0.72rem; color: var(--text3); font-family: var(--mono); margin-top: 2px; }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 9px 18px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    font-family: var(--font);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .15s;
-    background: var(--surface);
-    color: var(--text);
-  }
-  .btn:hover { background: var(--surface2); }
-  .btn-primary { background: var(--accent2); color: #fff; border-color: var(--accent2); }
-  .btn-primary:hover { background: #162d4d; border-color: #162d4d; }
-  .btn-danger { border-color: var(--red); color: var(--red); }
-  .btn-danger:hover { background: #fef2f2; }
-  .btn-sm { padding: 5px 12px; font-size: 0.78rem; }
-
-  /* Preset buttons */
-  .preset-label { font-size: 0.75rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; margin-top: 12px; }
-  .preset-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
-  .preset-btn {
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 5px;
-    border: 1px solid var(--accent2);
-    color: var(--accent2);
-    background: var(--surface);
-    cursor: pointer;
-    transition: all .12s;
-  }
-  .preset-btn:hover { background: var(--accent2); color: #fff; }
-  .preset-btn.active { background: var(--accent2); color: #fff; }
-
-  /* Results table */
-  .results-wrap { margin-top: 16px; overflow-x: auto; }
-
-  table { width: 100%; border-collapse: collapse; }
-  th {
-    background: var(--surface2);
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  td {
-    padding: 9px 12px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.875rem;
-    color: var(--text);
-    white-space: nowrap;
-  }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: var(--surface2); }
-
-  .val-mono { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; }
-  .diff-val { font-family: var(--mono); font-size: 0.8rem; color: var(--text3); }
-
-  .badge-green { background: #dcfce7; color: var(--green); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-family: var(--mono); }
-  .badge-amber { background: #fef3c7; color: var(--amber); font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-family: var(--mono); }
-  .badge-red   { background: #fee2e2; color: var(--red);   font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; font-family: var(--mono); }
-
-  /* Warning banner */
-  .warning-banner {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #fee2e2;
-    border: 1px solid #fca5a5;
-    border-radius: 6px;
-    padding: 10px 14px;
-    color: var(--red);
-    font-weight: 600;
-    font-size: 0.875rem;
-    margin-top: 12px;
-  }
-
-  .info-banner {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #dbeafe;
-    border: 1px solid #93c5fd;
-    border-radius: 6px;
-    padding: 10px 14px;
-    color: #1e40af;
-    font-size: 0.85rem;
-    margin-top: 12px;
-  }
-
-  .placeholder-msg {
-    text-align: center;
-    padding: 30px 20px;
-    color: var(--text3);
-    font-size: 0.9rem;
-    font-style: italic;
-  }
-
-  /* Scrollable tables */
-  .table-scroll { max-height: 340px; overflow-y: auto; border-radius: 6px; border: 1px solid var(--border); }
-  .table-scroll table { border-collapse: collapse; }
-  .table-scroll thead th { position: sticky; top: 0; z-index: 1; }
-  .table-scroll tr:last-child td { border-bottom: 1px solid var(--border); }
-
-  /* TPMS section */
-  .tpms-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-top: 4px; }
-  .tpms-card {
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 12px;
-    background: var(--surface2);
-  }
-  .tpms-part { font-family: var(--mono); font-weight: 700; font-size: 0.95rem; color: var(--accent2); }
-  .tpms-desc { font-size: 0.78rem; color: var(--text2); margin-top: 3px; }
-  .tpms-brands { font-size: 0.75rem; color: var(--text3); margin-top: 4px; }
-
-  /* Fitment badge */
-  .rec-badge { display: inline-block; background: #dbeafe; color: #1d4ed8; font-size: 0.72rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; white-space: nowrap; }
-
-  /* Section divider */
-  .section-divider { height: 1px; background: var(--border); margin: 4px 0 14px; }
-
-  /* Calc vs compare highlight */
-  .oe-col { background: #eff6ff; }
-  .new-col { background: #f0fdf4; }
-
-  /* Responsive table wrapper */
-  .overflow-x { overflow-x: auto; }
-
-  /* Summary row */
-  .summary-row td { font-weight: 700; background: var(--surface2) !important; }
-
-  /* Error state */
-  .parse-error { color: var(--red); font-size: 0.8rem; margin-top: 6px; font-weight: 500; }
+.tpms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:6px}
+.tpms-card{border:1px solid var(--border);border-radius:7px;padding:11px;background:var(--surface2)}
+.tpms-part{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--navy)}
+.tpms-desc{font-size:12px;color:var(--text2);margin-top:2px}
+.tpms-brands{font-size:11px;color:var(--text3);margin-top:3px}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=FLmvUCQlV9sSQhlM1HRMENRgWX4W7cDADbXLWDNmuAk-1780874261.6043992-1.2.1.1-N0zFPxvRUaaJH88Y64a648CJGzQkY3i1GPuNGWgUeOg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
-<h1>ð´ Tires <span class="badge">Reference</span></h1>
-<p class="page-sub">Tire size calculator, fitment guides, load/speed ratings, and TPMS quick reference.</p>
-
-<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
-     SECTION 1 â TIRE SIZE COMPARISON CALCULATOR
-âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<!-- TIRE SIZE CALCULATOR -->
 <div class="card">
-  <div class="card-title"><span class="icon">ð</span> Tire Size Comparison Calculator</div>
+  <div class="card-title">&#x1F4CF; Tire Size Comparison Calculator</div>
 
-  <!-- Preset sizes -->
-  <div class="preset-label">Quick OE Presets â Row 1 (passenger)</div>
+  <div class="preset-label">Quick Presets - Passenger</div>
   <div class="preset-row" id="presetRow1">
-    <button class="preset-btn" data-size="195/65R15">195/65R15</button>
-    <button class="preset-btn" data-size="205/55R16">205/55R16</button>
-    <button class="preset-btn" data-size="215/60R16">215/60R16</button>
-    <button class="preset-btn" data-size="225/60R16">225/60R16</button>
-    <button class="preset-btn" data-size="225/65R17">225/65R17</button>
-    <button class="preset-btn" data-size="235/60R17">235/60R17</button>
-    <button class="preset-btn" data-size="245/45R18">245/45R18</button>
+    <button class="preset-btn" data-oe="195/65R15">195/65R15</button>
+    <button class="preset-btn" data-oe="205/55R16">205/55R16</button>
+    <button class="preset-btn" data-oe="215/60R16">215/60R16</button>
+    <button class="preset-btn" data-oe="225/60R16">225/60R16</button>
+    <button class="preset-btn" data-oe="225/65R17">225/65R17</button>
+    <button class="preset-btn" data-oe="235/60R17">235/60R17</button>
+    <button class="preset-btn" data-oe="245/45R18">245/45R18</button>
   </div>
-  <div class="preset-label">Row 2 (truck / SUV)</div>
+  <div class="preset-label">Truck / SUV</div>
   <div class="preset-row" id="presetRow2">
-    <button class="preset-btn" data-size="235/75R15">235/75R15</button>
-    <button class="preset-btn" data-size="245/70R16">245/70R16</button>
-    <button class="preset-btn" data-size="265/70R17">265/70R17</button>
-    <button class="preset-btn" data-size="275/55R20">275/55R20</button>
-    <button class="preset-btn" data-size="285/45R22">285/45R22</button>
-    <button class="preset-btn" data-size="LT265/75R16">LT265/75R16</button>
-    <button class="preset-btn" data-size="LT285/70R17">LT285/70R17</button>
+    <button class="preset-btn" data-oe="235/75R15">235/75R15</button>
+    <button class="preset-btn" data-oe="245/70R16">245/70R16</button>
+    <button class="preset-btn" data-oe="265/70R17">265/70R17</button>
+    <button class="preset-btn" data-oe="275/55R20">275/55R20</button>
+    <button class="preset-btn" data-oe="285/45R22">285/45R22</button>
+    <button class="preset-btn" data-oe="LT265/75R16">LT265/75R16</button>
+    <button class="preset-btn" data-oe="LT285/70R17">LT285/70R17</button>
   </div>
 
-  <div class="section-divider" style="margin-top:14px;"></div>
+  <div style="height:14px;border-bottom:1px solid var(--border);margin-bottom:14px"></div>
 
-  <!-- Inputs -->
   <div class="calc-inputs">
     <div class="input-group">
       <label>OE Size (Original)</label>
-      <input type="text" id="oeInput" placeholder="225/60R16" maxlength="16">
-      <span class="hint">Format: 225/60R16 or LT265/75R16C</span>
-      <span class="parse-error" id="oeError"></span>
+      <input class="tire-input" id="oeInput" type="text" placeholder="225/60R16" maxlength="16">
+      <span class="hint">e.g. 225/60R16 or LT265/75R16C</span>
+      <span class="parse-err" id="oeErr"></span>
     </div>
     <div class="input-group">
       <label>New Size (Replacement)</label>
-      <input type="text" id="newInput" placeholder="235/55R17" maxlength="16">
-      <span class="hint">Format: 235/55R17</span>
-      <span class="parse-error" id="newError"></span>
+      <input class="tire-input" id="newInput" type="text" placeholder="235/55R17" maxlength="16">
+      <span class="hint">e.g. 235/55R17</span>
+      <span class="parse-err" id="newErr"></span>
     </div>
-    <div>
-      <button class="btn btn-primary" id="calcBtn">â¡ Calculate</button>
-    </div>
-    <div>
-      <button class="btn btn-danger" id="resetBtn">â Reset</button>
+    <div style="display:flex;gap:8px;padding-bottom:2px">
+      <button class="btn btn-primary" onclick="runCalc()">Calculate</button>
+      <button class="btn btn-clear" onclick="resetCalc()">Reset</button>
     </div>
   </div>
 
-  <!-- Warning banner -->
-  <div class="warning-banner" id="warnBanner" style="display:none;">
-    â ï¸ Exceeds recommended 3% speedometer tolerance â this size change may require re-calibration or fail inspection.
+  <div class="warn-banner" id="warnBanner" style="display:none">
+    &#x26A0; Exceeds 3% speedometer tolerance &mdash; may require recalibration or fail inspection.
   </div>
 
-  <!-- Results -->
-  <div class="results-wrap" id="resultsWrap" style="display:none;">
-    <div class="overflow-x">
-      <table id="resultsTable">
-        <thead>
-          <tr>
-            <th>Measurement</th>
-            <th class="oe-col">OE Size</th>
-            <th class="new-col">New Size</th>
-            <th>Difference</th>
-          </tr>
-        </thead>
-        <tbody id="resultsBody"></tbody>
-      </table>
-    </div>
+  <div id="resultsWrap" style="display:none;margin-top:14px;overflow-x:auto">
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Measurement</th>
+          <th class="oe-col">OE Size</th>
+          <th class="new-col">New Size</th>
+          <th>Difference</th>
+        </tr>
+      </thead>
+      <tbody id="resultsBody"></tbody>
+    </table>
   </div>
 
-  <div id="placeholderMsg" class="placeholder-msg">Enter two tire sizes above and press Calculate (or type to calculate live).</div>
+  <div id="placeholder" class="placeholder">Enter two tire sizes above and press Calculate.</div>
 </div>
 
-<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
-     SECTION 2 & 3 â RIM FITMENT + LOAD INDEX
-âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
-<div class="grid-2">
+<!-- RIM FITMENT + LOAD INDEX -->
+<div class="grid-2" style="margin-bottom:16px">
 
-  <!-- RIM FITMENT TABLE -->
-  <div class="card" style="margin-bottom:0;">
-    <div class="card-title"><span class="icon">ð©</span> Rim / Tire Fitment Reference</div>
-    <div class="overflow-x">
+  <div class="card" style="margin-bottom:0">
+    <div class="card-title">&#x1F6DE; Rim / Tire Fitment</div>
+    <div style="overflow-x:auto">
       <table>
-        <thead>
-          <tr>
-            <th>Rim</th>
-            <th>Common Tire Widths</th>
-            <th>Recommended Width</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Rim</th><th>Compatible Widths</th><th>Recommended</th></tr></thead>
         <tbody>
-          <tr>
-            <td><strong>15"</strong></td>
-            <td class="val-mono">175â235 mm</td>
-            <td><span class="rec-badge">195â215 mm</span></td>
-          </tr>
-          <tr>
-            <td><strong>16"</strong></td>
-            <td class="val-mono">195â265 mm</td>
-            <td><span class="rec-badge">205â245 mm</span></td>
-          </tr>
-          <tr>
-            <td><strong>17"</strong></td>
-            <td class="val-mono">205â285 mm</td>
-            <td><span class="rec-badge">225â265 mm</span></td>
-          </tr>
-          <tr>
-            <td><strong>18"</strong></td>
-            <td class="val-mono">225â305 mm</td>
-            <td><span class="rec-badge">235â275 mm</span></td>
-          </tr>
-          <tr>
-            <td><strong>19"</strong></td>
-            <td class="val-mono">235â305 mm</td>
-            <td><span class="rec-badge">245â285 mm</span></td>
-          </tr>
-          <tr>
-            <td><strong>20"</strong></td>
-            <td class="val-mono">245â325 mm</td>
-            <td><span class="rec-badge">255â295 mm</span></td>
-          </tr>
+          <tr><td><strong>15"</strong></td><td class="mono">175&ndash;235 mm</td><td><span class="badge badge-blue">195&ndash;215 mm</span></td></tr>
+          <tr><td><strong>16"</strong></td><td class="mono">195&ndash;265 mm</td><td><span class="badge badge-blue">205&ndash;245 mm</span></td></tr>
+          <tr><td><strong>17"</strong></td><td class="mono">205&ndash;285 mm</td><td><span class="badge badge-blue">225&ndash;265 mm</span></td></tr>
+          <tr><td><strong>18"</strong></td><td class="mono">225&ndash;305 mm</td><td><span class="badge badge-blue">235&ndash;275 mm</span></td></tr>
+          <tr><td><strong>19"</strong></td><td class="mono">235&ndash;305 mm</td><td><span class="badge badge-blue">245&ndash;285 mm</span></td></tr>
+          <tr><td><strong>20"</strong></td><td class="mono">245&ndash;325 mm</td><td><span class="badge badge-blue">255&ndash;295 mm</span></td></tr>
+          <tr><td><strong>22"</strong></td><td class="mono">265&ndash;345 mm</td><td><span class="badge badge-blue">275&ndash;315 mm</span></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-banner" style="margin-top:12px;">
-      â¹ï¸ Rim width should be 70â85% of tire section width. Consult TRA fitment tables for exact specs.
-    </div>
+    <div class="info-banner">Rim width should be 70&ndash;85% of tire section width.</div>
   </div>
 
-  <!-- LOAD INDEX TABLE -->
-  <div class="card" style="margin-bottom:0;">
-    <div class="card-title"><span class="icon">âï¸</span> Load Index Reference (70â120)</div>
+  <div class="card" style="margin-bottom:0">
+    <div class="card-title">&#x2696;&#xFE0F; Load Index Reference (70&ndash;126)</div>
     <div class="table-scroll">
-      <table id="loadTable">
-        <thead>
-          <tr>
-            <th>Index</th>
-            <th>kg</th>
-            <th>lbs</th>
-            <th>Index</th>
-            <th>kg</th>
-            <th>lbs</th>
-          </tr>
-        </thead>
+      <table>
+        <thead><tr><th>Index</th><th>kg</th><th>lbs</th><th>Index</th><th>kg</th><th>lbs</th></tr></thead>
         <tbody id="loadBody"></tbody>
       </table>
     </div>
   </div>
+
 </div>
 
-<div style="margin-bottom:20px;"></div>
+<!-- SPEED RATINGS + TPMS -->
+<div class="grid-2" style="margin-bottom:16px">
 
-<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
-     SECTION 4 & 5 â SPEED RATINGS + TPMS
-âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
-<div class="grid-2">
-
-  <!-- SPEED RATING TABLE -->
-  <div class="card" style="margin-bottom:0;">
-    <div class="card-title"><span class="icon">ðï¸</span> Speed Rating Reference</div>
-    <div class="overflow-x">
-      <table id="speedTable">
-        <thead>
-          <tr>
-            <th>Rating</th>
-            <th>Max Speed (km/h)</th>
-            <th>Max Speed (mph)</th>
-            <th>Typical Use</th>
-          </tr>
-        </thead>
+  <div class="card" style="margin-bottom:0">
+    <div class="card-title">&#x1F3CE;&#xFE0F; Speed Rating Reference</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Rating</th><th>km/h</th><th>mph</th><th>Typical Use</th></tr></thead>
         <tbody id="speedBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- TPMS QUICK REFERENCE -->
-  <div class="card" style="margin-bottom:0;">
-    <div class="card-title"><span class="icon">ð¡</span> TPMS Sensor Quick Reference</div>
-    <div class="info-banner" style="margin-top:0; margin-bottom:14px;">
-      â¹ï¸ Coverage info is approximate. Always verify with fitment guide before ordering.
-    </div>
+  <div class="card" style="margin-bottom:0">
+    <div class="card-title">&#x1F4A1; TPMS Quick Reference</div>
+    <div class="info-banner" style="margin-bottom:12px">Always verify with fitment guide before ordering.</div>
     <div class="tpms-grid" id="tpmsGrid"></div>
   </div>
+
 </div>
 
-<div style="margin-bottom:20px;"></div>
-
-<!-- âââââââââââââââââââââââââââââââââââââââââââââââââââ
-     SECTION 6 â TIRE MARKING DECODER (bonus)
-âââââââââââââââââââââââââââââââââââââââââââââââââââ -->
+<!-- TIRE MARKING DECODER -->
 <div class="card">
-  <div class="card-title"><span class="icon">ð</span> Tire Marking Quick Decoder</div>
-  <div class="overflow-x">
+  <div class="card-title">&#x1F50D; Tire Marking Decoder</div>
+  <div style="overflow-x:auto">
     <table>
-      <thead>
-        <tr>
-          <th>Symbol</th>
-          <th>Meaning</th>
-          <th>Example</th>
-        </tr>
-      </thead>
+      <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
       <tbody>
-        <tr><td class="val-mono">P</td><td>Passenger car tire (metric)</td><td>P225/60R16</td></tr>
-        <tr><td class="val-mono">LT</td><td>Light truck</td><td>LT265/75R16</td></tr>
-        <tr><td class="val-mono">ST</td><td>Special trailer</td><td>ST205/75R14</td></tr>
-        <tr><td class="val-mono">T</td><td>Temporary spare</td><td>T125/90D16</td></tr>
-        <tr><td class="val-mono">225</td><td>Section width (mm)</td><td>225/60R16</td></tr>
-        <tr><td class="val-mono">/60</td><td>Aspect ratio (% of width)</td><td>225/60R16</td></tr>
-        <tr><td class="val-mono">R</td><td>Radial construction</td><td>225/60R16</td></tr>
-        <tr><td class="val-mono">B / D</td><td>Bias-belt / Diagonal</td><td>ST205/75D14</td></tr>
-        <tr><td class="val-mono">16</td><td>Rim diameter (inches)</td><td>225/60R16</td></tr>
-        <tr><td class="val-mono">C</td><td>Commercial (light truck extra ply)</td><td>LT235/85R16C</td></tr>
-        <tr><td class="val-mono">XL / RF</td><td>Extra load / Reinforced</td><td>225/45R17 XL</td></tr>
-        <tr><td class="val-mono">Run Flat</td><td>Zero-pressure capable</td><td>245/45R18 RF</td></tr>
+        <tr><td class="mono">P</td><td>Passenger car (metric)</td><td>P225/60R16</td></tr>
+        <tr><td class="mono">LT</td><td>Light truck</td><td>LT265/75R16</td></tr>
+        <tr><td class="mono">ST</td><td>Special trailer</td><td>ST205/75R14</td></tr>
+        <tr><td class="mono">T</td><td>Temporary spare</td><td>T125/90D16</td></tr>
+        <tr><td class="mono">225</td><td>Section width (mm)</td><td>225/60R16</td></tr>
+        <tr><td class="mono">/60</td><td>Aspect ratio (% of width)</td><td>225/60R16</td></tr>
+        <tr><td class="mono">R</td><td>Radial construction</td><td>225/60R16</td></tr>
+        <tr><td class="mono">B / D</td><td>Bias-belt / Diagonal</td><td>ST205/75D14</td></tr>
+        <tr><td class="mono">16</td><td>Rim diameter (inches)</td><td>225/60R16</td></tr>
+        <tr><td class="mono">C</td><td>Commercial / extra ply</td><td>LT235/85R16C</td></tr>
+        <tr><td class="mono">XL / RF</td><td>Extra load / Reinforced</td><td>225/45R17 XL</td></tr>
+        <tr><td class="mono">Run Flat</td><td>Zero-pressure capable</td><td>245/45R18 RF</td></tr>
       </tbody>
     </table>
   </div>
 </div>
 
 <script>
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// CONSTANTS
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
-const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
-const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
-const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
-const SMS_FROM       = '+15852572886';
-const OWM_KEY        = 'c736ec887059fc3a4950e643c439b316';
-const PHONEBOOK_URL  = '/data/phonebook.json';
-const TRIAGE_URL     = '/data/triage.json';
-const ARTICLES_URL   = '/data/articles.json';
+'use strict';
 
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// TIRE SIZE PARSER
-// Parses: [P|LT|ST|T]www/aaRdd[C] â { width, aspect, diameter }
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
-function parseTireSize(raw) {
+// ── Parser ────────────────────────────────────────
+function parse(raw) {
   if (!raw) return null;
   const s = raw.trim().toUpperCase().replace(/\s/g, '');
-  // Regex: optional prefix, width, aspect, R, diameter, optional C/XL/RF suffix
   const m = s.match(/^(?:P|LT|ST|T)?(\d{3})\/(\d{2,3})[RBD](\d{1,2}\.?\d?)/);
   if (!m) return null;
-  const width    = parseFloat(m[1]);   // mm
-  const aspect   = parseFloat(m[2]);   // %
-  const rimInch  = parseFloat(m[3]);   // inches
-  if (isNaN(width) || isNaN(aspect) || isNaN(rimInch)) return null;
-  return { width, aspect, rimInch };
+  const w = parseFloat(m[1]), a = parseFloat(m[2]), r = parseFloat(m[3]);
+  if (isNaN(w) || isNaN(a) || isNaN(r)) return null;
+  return { w, a, r };
 }
 
-function calcMetrics(parsed) {
-  if (!parsed) return null;
-  const { width, aspect, rimInch } = parsed;
-  const sidewall   = width * (aspect / 100);                      // mm
-  const rimMM      = rimInch * 25.4;                              // mm
-  const diameter   = rimMM + 2 * sidewall;                        // mm
-  const circumMM   = Math.PI * diameter;                          // mm
-  const circumIn   = circumMM / 25.4;                             // inches
-  const revsPerMile = (5280 * 12) / circumIn;                     // revs/mile
-  return { sidewall, diameter, circumMM, revsPerMile };
+function metrics(p) {
+  const sidewall  = p.w * (p.a / 100);
+  const diameter  = p.r * 25.4 + 2 * sidewall;
+  const circum    = Math.PI * diameter;
+  const revsMile  = (5280 * 12) / (circum / 25.4);
+  return { sidewall, diameter, circum, revsMile };
 }
 
-function fmtNum(n, dec) { return n.toFixed(dec); }
-
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
-// CALCULATOR CORE
-// âââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Calculator ────────────────────────────────────
 function runCalc() {
   const oeRaw  = document.getElementById('oeInput').value.trim();
   const newRaw = document.getElementById('newInput').value.trim();
-  const oeErr  = document.getElementById('oeError');
-  const newErr = document.getElementById('newError');
-  const oeIn   = document.getElementById('oeInput');
-  const newIn  = document.getElementById('newInput');
-  const warnBanner  = document.getElementById('warnBanner');
-  const resultsWrap = document.getElementById('resultsWrap');
-  const placeholder = document.getElementById('placeholderMsg');
+  const oeErrEl  = document.getElementById('oeErr');
+  const newErrEl = document.getElementById('newErr');
+  const oeIn  = document.getElementById('oeInput');
+  const newIn = document.getElementById('newInput');
 
-  oeErr.textContent  = '';
-  newErr.textContent = '';
-  oeIn.className  = '';
-  newIn.className = '';
+  oeErrEl.textContent = ''; newErrEl.textContent = '';
+  oeIn.className = 'tire-input'; newIn.className = 'tire-input';
 
-  if (!oeRaw && !newRaw) {
-    resultsWrap.style.display = 'none';
-    placeholder.style.display = 'block';
-    warnBanner.style.display  = 'none';
-    return;
-  }
+  const oep  = parse(oeRaw);
+  const newp = parse(newRaw);
 
-  const oeParsed  = parseTireSize(oeRaw);
-  const newParsed = parseTireSize(newRaw);
+  if (!oeRaw && !newRaw) { hide(); return; }
 
-  let valid = true;
-  if (oeRaw && !oeParsed)  { oeErr.textContent  = 'â Invalid format'; oeIn.className  = 'invalid'; valid = false; }
-  if (newRaw && !newParsed) { newErr.textContent = 'â Invalid format'; newIn.className = 'invalid'; valid = false; }
-  if (oeRaw && oeParsed)   oeIn.className  = 'valid';
-  if (newRaw && newParsed) newIn.className = 'valid';
+  let ok = true;
+  if (oeRaw  && !oep)  { oeErrEl.textContent  = 'Invalid format'; oeIn.classList.add('invalid');  ok = false; }
+  if (newRaw && !newp) { newErrEl.textContent = 'Invalid format'; newIn.classList.add('invalid'); ok = false; }
+  if (oeRaw  && oep)   oeIn.classList.add('valid');
+  if (newRaw && newp)  newIn.classList.add('valid');
+  if (!oep || !newp || !ok) { hide(); return; }
 
-  if (!oeParsed || !newParsed || !valid) {
-    resultsWrap.style.display = 'none';
-    warnBanner.style.display  = 'none';
-    placeholder.style.display = 'block';
-    return;
-  }
+  const oe = metrics(oep);
+  const nw = metrics(newp);
 
-  const oe  = calcMetrics(oeParsed);
-  const nw  = calcMetrics(newParsed);
+  // speedoErrorPct: positive = speedo reads lower than actual (bigger tire)
+  const speedoErrPct = ((oe.revsMile - nw.revsMile) / oe.revsMile) * 100;
 
-  const speedoErr = ((nw.revsPerMile - oe.revsPerMile) / oe.revsPerMile) * -100;
-  // positive = speedo reads HIGH (new tire larger â fewer revs/mile â actual speed > indicated)
-  // Let's define: positive error = speedometer reads slower than actual (tire is bigger)
-
-  // Actually: if new tire is bigger â fewer revs/mile â car computer thinks you're going slower
-  // speedoError = (OE revs - NEW revs) / OE revs * 100
-  // positive = speedo reads LOWER than actual speed (you're going faster than shown)
-  const speedoErrorPct = ((oe.revsPerMile - nw.revsPerMile) / oe.revsPerMile) * 100;
-
-  function diffBadge(oe, nw, dec, unit) {
-    const d = nw - oe;
-    const sign = d >= 0 ? '+' : '';
-    return `<span class="diff-val">${sign}${fmtNum(d, dec)} ${unit}</span>`;
+  function diff(oeV, newV, dec, unit) {
+    const d = newV - oeV;
+    return '<span class="diff-val">' + (d >= 0 ? '+' : '') + d.toFixed(dec) + ' ' + unit + '</span>';
   }
 
   function speedoBadge(pct) {
     const abs = Math.abs(pct);
-    const sign = pct >= 0 ? '+' : '';
-    let cls;
-    if (abs < 1)      cls = 'badge-green';
-    else if (abs < 3) cls = 'badge-amber';
-    else              cls = 'badge-red';
-    return `<span class="${cls}">${sign}${fmtNum(pct,2)}%</span>`;
+    const cls = abs < 1 ? 'badge-green' : abs < 3 ? 'badge-amber' : 'badge-red';
+    return '<span class="badge ' + cls + '">' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%</span>';
   }
-// ── AUTO-CLOSE FIX ──
-} // end of any unclosed function
 
-document.addEventListener("DOMContentLoaded", () => { calcTires && calcTires(); });
+  const rows = [
+    ['Section Width',    oep.w.toFixed(0) + ' mm',          newp.w.toFixed(0) + ' mm',          diff(oep.w, newp.w, 0, 'mm')],
+    ['Aspect Ratio',     oep.a.toFixed(0) + '%',             newp.a.toFixed(0) + '%',             diff(oep.a, newp.a, 0, '%')],
+    ['Rim Diameter',     oep.r.toFixed(0) + '"',             newp.r.toFixed(0) + '"',             diff(oep.r, newp.r, 0, '"')],
+    ['Sidewall Height',  oe.sidewall.toFixed(1) + ' mm',     nw.sidewall.toFixed(1) + ' mm',     diff(oe.sidewall, nw.sidewall, 1, 'mm')],
+    ['Overall Diameter', (oe.diameter/25.4).toFixed(2) + '"', (nw.diameter/25.4).toFixed(2) + '"', diff(oe.diameter/25.4, nw.diameter/25.4, 2, '"')],
+    ['Circumference',    (oe.circum/25.4).toFixed(1) + '"',  (nw.circum/25.4).toFixed(1) + '"',  diff(oe.circum/25.4, nw.circum/25.4, 1, '"')],
+    ['Revs / Mile',      oe.revsMile.toFixed(1),              nw.revsMile.toFixed(1),              diff(oe.revsMile, nw.revsMile, 1, 'rev')],
+    ['Speedo Error',     '&mdash;',                           '&mdash;',                           speedoBadge(speedoErrPct)],
+  ];
+
+  document.getElementById('resultsBody').innerHTML = rows.map(r =>
+    '<tr><td><strong>' + r[0] + '</strong></td>' +
+    '<td class="oe-col mono">' + r[1] + '</td>' +
+    '<td class="new-col mono">' + r[2] + '</td>' +
+    '<td>' + r[3] + '</td></tr>'
+  ).join('');
+
+  document.getElementById('warnBanner').style.display   = Math.abs(speedoErrPct) >= 3 ? 'flex' : 'none';
+  document.getElementById('resultsWrap').style.display  = 'block';
+  document.getElementById('placeholder').style.display  = 'none';
+}
+
+function hide() {
+  document.getElementById('resultsWrap').style.display = 'none';
+  document.getElementById('warnBanner').style.display  = 'none';
+  document.getElementById('placeholder').style.display = 'block';
+}
+
+function resetCalc() {
+  document.getElementById('oeInput').value  = '';
+  document.getElementById('newInput').value = '';
+  document.getElementById('oeInput').className  = 'tire-input';
+  document.getElementById('newInput').className = 'tire-input';
+  document.getElementById('oeErr').textContent  = '';
+  document.getElementById('newErr').textContent = '';
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  hide();
+}
+
+// Preset buttons
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('oeInput').value = btn.dataset.oe;
+    document.getElementById('oeInput').className = 'tire-input valid';
+    document.getElementById('oeErr').textContent = '';
+    const newVal = document.getElementById('newInput').value.trim();
+    if (newVal && parse(newVal)) runCalc();
+    else document.getElementById('newInput').focus();
+  });
+});
+
+// Live calc on input
+['oeInput','newInput'].forEach(id => {
+  document.getElementById(id).addEventListener('input', runCalc);
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') runCalc(); });
+});
+
+// ── Load index table ──────────────────────────────
+const LOAD_DATA = [
+  [70,335,739],[71,345,761],[72,355,783],[73,365,805],[74,375,827],
+  [75,387,853],[76,400,882],[77,412,908],[78,425,937],[79,437,963],
+  [80,450,992],[81,462,1019],[82,475,1047],[83,487,1074],[84,500,1102],
+  [85,515,1135],[86,530,1169],[87,545,1202],[88,560,1235],[89,580,1279],
+  [90,600,1323],[91,615,1356],[92,630,1389],[93,650,1433],[94,670,1477],
+  [95,690,1521],[96,710,1565],[97,730,1609],[98,750,1653],[99,775,1709],
+  [100,800,1764],[101,825,1819],[102,850,1874],[103,875,1929],[104,900,1984],
+  [105,925,2039],[106,950,2094],[107,975,2149],[108,1000,2205],[109,1030,2271],
+  [110,1060,2337],[111,1090,2403],[112,1120,2469],[113,1150,2535],[114,1180,2601],
+  [115,1215,2679],[116,1250,2756],[117,1285,2833],[118,1320,2910],[119,1360,2998],
+  [120,1400,3086],[121,1450,3197],[122,1500,3307],[123,1550,3417],[124,1600,3527],
+  [125,1650,3638],[126,1700,3748]
+];
+
+(function buildLoad() {
+  const tbody = document.getElementById('loadBody');
+  let html = '';
+  for (let i = 0; i < LOAD_DATA.length; i += 2) {
+    const a = LOAD_DATA[i], b = LOAD_DATA[i+1] || [];
+    html += '<tr>' +
+      '<td class="mono">' + a[0] + '</td><td>' + a[1] + '</td><td>' + a[2] + '</td>' +
+      (b.length ? '<td class="mono">' + b[0] + '</td><td>' + b[1] + '</td><td>' + b[2] + '</td>' : '<td colspan="3"></td>') +
+      '</tr>';
+  }
+  tbody.innerHTML = html;
+})();
+
+// ── Speed ratings ─────────────────────────────────
+(function buildSpeed() {
+  const data = [
+    ['L',120,75,'Temporary spare'],['M',130,81,'Spare'],['N',140,87,'Spare'],
+    ['P',150,93,'Spare'],['Q',160,99,'Winter/spare'],['R',170,106,'Light truck'],
+    ['S',180,112,'Family sedan'],['T',190,118,'Sedan/minivan'],
+    ['U',200,124,'Sedan'],['H',210,130,'Sport sedan'],['V',240,149,'Sport'],
+    ['W',270,168,'Sport/performance'],['Y',300,186,'High performance'],
+    ['Z','300+','186+','Ultra high performance'],
+  ];
+  document.getElementById('speedBody').innerHTML = data.map(d =>
+    '<tr><td class="mono" style="font-weight:700;font-size:16px">' + d[0] + '</td>' +
+    '<td class="mono">' + d[1] + '</td><td class="mono">' + d[2] + '</td>' +
+    '<td style="color:var(--text2)">' + d[3] + '</td></tr>'
+  ).join('');
+})();
+
+// ── TPMS ─────────────────────────────────────────
+(function buildTPMS() {
+  const data = [
+    {part:'315-0215-01',desc:'Clamp-in aluminum 433MHz',brands:'Ford, Lincoln, Mercury (2007+)'},
+    {part:'315-0214-00',desc:'Snap-in rubber 315MHz',brands:'GM, Chevy, GMC, Cadillac'},
+    {part:'315-0219-00',desc:'Snap-in 315MHz',brands:'Chrysler, Dodge, Jeep, Ram (2008+)'},
+    {part:'315-0209-01',desc:'Clamp-in 315MHz',brands:'Toyota, Lexus, Scion'},
+    {part:'315-0206-01',desc:'Clamp-in 315MHz',brands:'Honda, Acura'},
+    {part:'315-0222-01',desc:'Clamp-in 433MHz',brands:'Hyundai, Kia (2012+)'},
+    {part:'315-0220-00',desc:'Snap-in 433MHz',brands:'Nissan, Infiniti (2014+)'},
+    {part:'315-0225-01',desc:'Clamp-in 433MHz',brands:'BMW, Mini (2017+)'},
+    {part:'315-0218-00',desc:'Clamp-in 315MHz',brands:'Subaru (2016+)'},
+    {part:'315-0232-00',desc:'Clamp-in 433MHz',brands:'VW, Audi (2017+)'},
+    {part:'315-0241-00',desc:'Multi-fit snap-in',brands:'GM trucks/SUVs (2015+)'},
+    {part:'315-0244-00',desc:'Clamp-in 315MHz',brands:'Mazda (2010+)'},
+  ];
+  document.getElementById('tpmsGrid').innerHTML = data.map(d =>
+    '<div class="tpms-card">' +
+    '<div class="tpms-part">' + d.part + '</div>' +
+    '<div class="tpms-desc">' + d.desc + '</div>' +
+    '<div class="tpms-brands">' + d.brands + '</div>' +
+    '</div>'
+  ).join('');
+})();
 </script>
 </body>
 </html>
