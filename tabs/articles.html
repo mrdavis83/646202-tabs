@@ -1,361 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Articles — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+:root{
+  --bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;
+  --accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.toolbar input,.toolbar select{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 11px;outline:none;background:var(--surface);color:var(--text)}
-.toolbar input{flex:1;min-width:180px}
-.toolbar input:focus,.toolbar select:focus{border-color:var(--accent2)}
-.count{font-size:12px;color:var(--text3);margin-left:auto;white-space:nowrap}
-.add-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.add-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:10px}
-.add-form{display:grid;grid-template-columns:100px 70px 110px 1fr 1fr auto;gap:8px;align-items:end}
-.fl{font-size:11px;font-weight:600;color:var(--text2);display:block;margin-bottom:3px}
-.fi{width:100%;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:7px 10px;outline:none;background:var(--surface);color:var(--text)}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px;font-size:14px}
+
+/* ── ADD FORM ── */
+.add-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.add-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:8px}
+.add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.add-row .field{display:flex;flex-direction:column;gap:3px}
+.add-row label{font-size:11px;font-weight:600;color:var(--text2)}
+.fi{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:6px 9px;outline:none;background:var(--surface);color:var(--text)}
 .fi:focus{border-color:var(--accent2)}
-.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.f-num{width:100px;font-family:var(--mono)}
+.f-price{width:80px}
+.f-cat{width:115px}
+.f-desc{flex:1;min-width:180px}
+.f-notes{width:150px}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.toolbar input{flex:1;min-width:160px}
+.count{font-size:12px;color:var(--text3);margin-left:auto;white-space:nowrap}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;line-height:1}
 .btn:hover{background:var(--surface2)}
 .btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
 .btn-primary:hover{background:#162d4a}
-.btn-sm{padding:4px 9px;font-size:12px}
-.btn-danger{border-color:#fca5a5;color:#dc2626}
-.btn-danger:hover{background:#fef2f2}
+.btn-edit{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.btn-edit:hover{background:#dcfce7}
+.btn-save{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-save:hover{background:#162d4a}
+.btn-del{border-color:#fca5a5;color:#dc2626}
+.btn-del:hover{background:#fef2f2}
+
+/* ── TABLE ── */
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden}
 table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);padding:9px 12px;background:var(--surface2);border-bottom:1px solid var(--border)}
-td{padding:9px 12px;border-bottom:1px solid var(--border);font-size:13px}
+thead{background:var(--surface2)}
+th{padding:8px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+th.sortable{cursor:pointer}
+th.sortable:hover{color:var(--text2);background:#e8edf2}
+th.sort-active{color:var(--accent2)}
+.sort-icon{margin-left:2px;opacity:.5;font-size:9px}
+th.sort-active .sort-icon{opacity:1;color:var(--accent2)}
+td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface2)}
-.badge{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase}
+tr:hover td{background:#fafbfc}
+tr.checked td{background:#eff6ff}
+
+/* ── CATEGORY BADGE ── */
+.cat-badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
 .cat-labor{background:#fef9c3;color:#854d0e}
 .cat-parts{background:#dbeafe;color:#1d4ed8}
 .cat-tire{background:#f3e8ff;color:#6b21a8}
 .cat-oil{background:#dcfce7;color:#15803d}
 .cat-misc{background:#f1f5f9;color:#475569}
 .cat-discount{background:#fee2e2;color:#b91c1c}
-@media(max-width:768px){.add-form{grid-template-columns:1fr 1fr}}
+.cat-custom{background:#f0f4ff;color:#3730a3}
 
-.cat-custom { background:#f0f4ff; color:#3730a3; }
+/* ── INLINE EDIT ── */
+.editable{display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none}
+.editable:hover{border-color:var(--border);background:var(--surface2);cursor:text}
+.editable:focus{border-color:var(--accent2);background:var(--surface)}
+.desc-locked{cursor:default !important}
+.desc-locked:hover{border-color:transparent !important;background:transparent !important}
 
-.editable-cell:hover { border-color: var(--border) !important; background: var(--surface2) !important; cursor: text; }
-.editable-cell:focus { border-color: var(--accent2) !important; background: var(--surface) !important; }
-.inline-cat-select:hover { border-color: var(--border) !important; background: var(--surface2) !important; }
+/* ── CATEGORY PICKER ── */
+.cat-select{font-family:var(--font);font-size:11px;font-weight:700;border:1px solid transparent;border-radius:4px;padding:2px 5px;cursor:pointer;outline:none;width:auto;max-width:105px}
+.cat-select:hover{border-color:var(--border)}
+.cat-select:focus{border-color:var(--accent2)}
 
-th .sort-icon { font-size:10px; opacity:0.4; margin-left:3px; }
-th:hover { background: #e2e8f0 !important; }
-th:hover .sort-icon { opacity:0.7; }
-th.sort-active { color: var(--accent2); }
-th.sort-active .sort-icon { opacity:1; color: var(--accent2); }
+/* ── ACTION BAR (in header) ── */
+.action-bar{display:none;gap:5px;align-items:center}
 
-#check-all, .row-check { accent-color: var(--accent2); }
-tr:has(.row-check:checked) td { background: #eff6ff !important; }
+/* ── CHECKBOX ── */
+input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--accent2)}
 
-.desc-cell[contenteditable="false"] { cursor: default !important; }
-.desc-cell[contenteditable="false"]:hover { border-color: transparent !important; background: transparent !important; }
-.desc-cell[contenteditable="true"] { cursor: text !important; }
+/* ── EMPTY ── */
+.empty-row td{text-align:center;padding:30px;color:var(--text3)}
+
+/* ── CAT DROPDOWN ── */
+.cat-drop-wrap{position:relative}
+.cat-drop-menu{display:none;position:absolute;top:100%;left:0;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:200;overflow:hidden}
+.cat-drop-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;cursor:pointer;font-size:13px}
+.cat-drop-item:hover{background:var(--surface2)}
+.cat-drop-rm{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0 2px;line-height:1}
+.cat-drop-rm:hover{color:#dc2626}
+.cat-drop-footer{padding:6px 8px;border-top:1px solid var(--border);display:flex;gap:5px}
+.cat-drop-input{flex:1;font-family:var(--font);font-size:12px;border:1px solid var(--border);border-radius:4px;padding:4px 7px;outline:none}
+.cat-drop-input:focus{border-color:var(--accent2)}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=5RI1xKJtzHqke014wbUO0C.QG.74t9RMyrZfL4I5QXk-1780881517.9474776-1.2.1.1-R_mcMJwXu2FVXATOf._6lFul0h35OdzTuAPVQ4G2qhI" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=d29omiR8L1aHTAIAY6EXIX0PkdpeH9RJ.X.QlNmM82Y-1780881445.9913564-1.2.1.1-EPNiSo1L1LhQTHnVLYatfyuYkJX.sWcGF.4HF5zUTYo" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=kWqAIk913O53d1qK9h6Ig3QuTvE_Szj4FeDT93lYV98-1780881291.144488-1.2.1.1-680toIp98w98By8XIC8aA_CM2t45h1W_fLVMllyZ7c0" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=MlFnhf2q2f2QW3_jOWocLIx53M.89vtMpegpMKvVTDI-1780881099.2176518-1.2.1.1-l9dD9XdtEaw6umT_CxpD9SbvuJtBB.LR70LnUN0NB0A" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=.mbaWfihEP.VYvjEBOLwu7vLyhqbu7aUeBNn7X9Ojr4-1780880966.526703-1.2.1.1-MiXwbpcCrDtUCMQgOLndC71HDsqyS8GY422By..nJc4" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=1mJBeqqGIJumUhVcfko12SXTNTGAgmrn5rZ5rW6NhQI-1780880727.4501839-1.2.1.1-gc9IljVwSJmka5v53IoWXCPWPPK3Ch8EFpcpDkft9c0" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=EbWnySwa5i63yrXeZGVR86HJs_g3NUlMewEixWWAW1k-1780880488.0336974-1.2.1.1-d58vzqIDvb8CIbwhRb7OUkefDKHZfPNgIgZ41SJYQ_o" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=aEniwxrDgQ_Uzdwex_J_pG9ef7OA7CIG_i7IJu6brEU-1780880343.7105417-1.2.1.1-TP3J3KvG2mM0uS0ULfMXo1Nr3tW2h_DpbUg.2ejnBak" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=joM.OWV1jXiPJzrqkciMA_PnMq_Y_KaOApXY.yMUI5I-1780880216.5620816-1.2.1.1-VANzmqHuouBXFy7QAMMuiOaFoOW01nMXgrNXhJmFPJs" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=mOWKswYJmNt4YVwJTf6maG0fGUqKXxd70nIxi2feZN4-1780880120.7043061-1.2.1.1-epyvXeMEvDWR3IR3l21mL8ZYtDfEvRucvKsACK8elqQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=pJClmq2rg02q9_Z5zS3y95dzW4RRF9G8SCZS8l4A5hs-1780880023.5773032-1.2.1.1-NmykJVK75AUVrOj3aApvlm5QZTPRtSK2t8cMO1t4kIA" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=3.zxGfVwfLdSjmkyHB4leBtFBRm0Xx8m9cFkgA_WAHM-1780879896.1686373-1.2.1.1-Esg116YNs5Bgi.yYEy8M_taUevw1spsZJthIeuN0_Kw" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=61EZbB_sU6rRoW3xl4q8xBibPWP66elUOUHvws2uOzQ-1780879804.4586048-1.2.1.1-T_fV6ml1hLctmcyKEAuHoc0EfN0K0LV.yrFNDyR1vII" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=yUCv.H6thAuVq6TvXm14ykU6N6a4ulE08Y7hPGxiISc-1780879756.3454084-1.2.1.1-yKHxLiNM5cNo.3irSO05h95gqDX7guDhgYRUkLQ9aAQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=GzECd5ywUHpgt4FTgCNonpk9iCNWaeeWqLpL4cpA654-1780879682.3345263-1.2.1.1-8AcxspaA8lJlKa650zxI3UfZdGeBxNyNTFP.GgtgSJw" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=dNFcbYkdV_rKzWt6Sgmb88Y8GNtkuYlk2.wEPhBPpeI-1780879539.9220037-1.2.1.1-w5VceBA8b8j4g7rBcg5dEk4dLx9nyluWQUxGnDaYqr8" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=zWKXo7a3dU9XvdutTmTbfIJaRcTntv9_At9nFcIBTEQ-1780879165.5111024-1.2.1.1-uGNamLOGK_S3wr_6sLzCzLZW0UbvaWBDXdQfxYiCsug" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=cnIgrNGF2QZBCukByKubrvky794.2.ePndwTQy31Ewg-1780878857.5798407-1.2.1.1-HlLhPSfa2cqowb4JpD_DSxWg5K4pWwwRDDwr3GXM6N4" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=9egDPSxr.hCVSQg25bU8eDUrZv8Hsp73M0nii0gEyiY-1780878827.8658028-1.2.1.1-zQ909hYKOK6kV278o8ua44XcyQfQmv2hwE2xde58aGY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=UraPH0OVUwlQC08vuC7RNvkPX79O6J9OvXeXYGjhfJc-1780878671.979628-1.2.1.1-IYUURgNfKr4HPPUVRMUOxp6QiUN1pdVjtILK_ZXkWJ0" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=7kJjlbJN3LgtixZD4vLyRIV9lPdot6ktlxKuWVXDsCE-1780878296.6930017-1.2.1.1-dblMF83Bk4y_Iyduhd3YdhZO_WGW2V.HwiToECJ.ZxQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=Py7ofSMX3SQ_ty0KNcdHuCb7.frHpjXZWxV1oV3pfw8-1780878128.1688802-1.2.1.1-e8HB6yXcFGci9WbEQZqPtpFxtZ4t37qoQ1zyL2d6J.s" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=1kZqpdldG0XMooVYwrv6PjUR.kPZ1jl.y7LOIOwHjO0-1780877829.6363854-1.2.1.1-zz5lI.rA7oQkk5_jwDFiK25voV2Bm7DvFgf4wBzv9zs" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=a45f319Gmex3LYOaSNQJXhllY2JE6aUXzLUuZWouJBs-1780877671.343524-1.2.1.1-mqCNmbjCaCDpf89aM88Mbw9wehTPWq2ftC.Rw43aS7E" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=u_bfOn47EHoRy601KhYVmfpLxWXxDoPZCdo.39DNb6c-1780877128.2980783-1.2.1.1-J2VKx.18qSIs6uT72bEe127lI8XOcGtrq9RVAqSidpQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
+<!-- ── ADD FORM ── -->
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
-  <div class="add-form">
-    <div><label class="fl">Article #</label><input class="fi" id="a-num" placeholder="7004578" style="font-family:var(--mono);letter-spacing:0.05em"></div>
-    <div><label class="fl">Price</label><input class="fi" id="a-price" placeholder="0.00"></div>
-    <div><label class="fl">Category</label>
-      <div style="position:relative" id="cat-picker-wrap">
-        <input class="fi" id="a-cat" placeholder="Category..." autocomplete="off"
-          oninput="filterCatDropdown()" onfocus="showCatDropdown()" 
-          style="cursor:pointer" readonly onclick="toggleCatDropdown()">
-        <div id="cat-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:100;max-height:220px;overflow-y:auto">
-          <div id="cat-list"></div>
-          <div style="padding:6px 8px;border-top:1px solid var(--border)">
-            <div style="display:flex;gap:6px">
-              <input id="cat-new-input" placeholder="New category..." 
-                style="flex:1;font-family:var(--font);font-size:12px;border:1px solid var(--border);border-radius:5px;padding:5px 8px;outline:none"
-                onkeydown="if(event.key==='Enter')addCategory()">
-              <button onclick="addCategory()" style="padding:4px 10px;background:var(--accent2);color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:12px;font-weight:600">+ Add</button>
-            </div>
+  <div class="add-row">
+    <div class="field"><label>Article #</label><input class="fi f-num" id="a-num" placeholder="7004578"></div>
+    <div class="field"><label>Price</label><input class="fi f-price" id="a-price" placeholder="0.00"></div>
+    <div class="field"><label>Category</label>
+      <div class="cat-drop-wrap">
+        <input class="fi f-cat" id="a-cat" placeholder="Category..." readonly onclick="toggleAddCatDrop()" style="cursor:pointer">
+        <div class="cat-drop-menu" id="add-cat-menu">
+          <div id="add-cat-list"></div>
+          <div class="cat-drop-footer">
+            <input class="cat-drop-input" id="add-cat-new" placeholder="New category..." onkeydown="if(event.key==='Enter')addCat()">
+            <button class="btn btn-primary" style="padding:4px 9px;font-size:11px" onclick="addCat()">+ Add</button>
           </div>
         </div>
       </div>
     </div>
-    <div><label class="fl">Description</label><input class="fi" id="a-desc" placeholder="Description"></div>
-    <div><label class="fl">Notes</label><input class="fi" id="a-notes" placeholder="Optional"></div>
-    <div style="padding-top:17px"><button class="btn btn-primary" onclick="addArticle()">+ Add</button></div>
+    <div class="field" style="flex:1;min-width:180px"><label>Description</label><input class="fi f-desc" id="a-desc" placeholder="Description"></div>
+    <div class="field"><label>Notes</label><input class="fi f-notes" id="a-notes" placeholder="Optional"></div>
+    <div class="field" style="padding-top:1px"><label>&nbsp;</label><button class="btn btn-primary" onclick="addArticle()">+ Add</button></div>
   </div>
 </div>
 
+<!-- ── TOOLBAR ── -->
 <div class="toolbar">
-  <input id="art-search" placeholder="🔍 Search article numbers..." oninput="render()">
-  <select id="art-cat-filter" onchange="render()"><option value="all">All Categories</option></select>
-  <button class="btn btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
+  <input class="fi" id="srch" placeholder="🔍 Search article numbers..." oninput="render()">
+  <select class="fi" id="cat-filter" onchange="render()" style="width:150px">
+    <option value="all">All Categories</option>
+  </select>
+  <button class="btn" onclick="exportCSV()" style="font-size:12px">⬇ CSV</button>
   <span class="count" id="art-count"></span>
 </div>
 
+<!-- ── TABLE ── -->
 <div class="table-wrap">
-  <table style="width:auto;min-width:100%">
-    <thead><tr>
-  <th style="width:36px;text-align:center"><input type="checkbox" id="check-all" onclick="toggleAll(this)" title="Select all" style="cursor:pointer;width:15px;height:15px;accent-color:var(--accent2)"></th>
-  <th onclick="sortBy('num')" id="th-num" style="cursor:pointer;user-select:none;width:95px">Article # <span class="sort-icon" id="si-num"></span></th>
-  <th onclick="sortBy('price')" id="th-price" style="cursor:pointer;user-select:none;width:80px;text-align:center">Price <span class="sort-icon" id="si-price"></span></th>
-  <th onclick="sortBy('cat')" id="th-cat" style="cursor:pointer;user-select:none;width:115px;text-align:center">Category <span class="sort-icon" id="si-cat"></span></th>
-  <th onclick="sortBy('desc')" id="th-desc" style="cursor:pointer;user-select:none;width:280px">Description <span class="sort-icon" id="si-desc"></span></th>
-  <th onclick="sortBy('notes')" id="th-notes" style="cursor:pointer;user-select:none;width:130px">Notes <span class="sort-icon" id="si-notes"></span></th>
-  <th style="width:145px;padding:4px 8px;vertical-align:middle">
-    <div id="row-actions-bar" style="display:none;gap:4px;align-items:center">
-      <button class="btn btn-sm" onclick="editChecked()"
-        style="background:#f0fdf4;color:#15803d;border-color:#86efac">Edit</button>
-      <button class="btn btn-sm" id="global-save-btn" onclick="saveChecked()"
-        style="background:var(--accent2);color:#fff;border-color:var(--accent2)">Save</button>
-      <button class="btn btn-sm btn-danger" onclick="delChecked()">Del</button>
-    </div>
-  </th>
-</tr></thead>
-    <tbody id="articles-tbody"></tbody>
-  </table>
+<table>
+  <thead>
+    <tr>
+      <th style="width:34px;text-align:center">
+        <input type="checkbox" id="chk-all" onclick="toggleAll(this)">
+      </th>
+      <th class="sortable" onclick="sortBy('num')" id="th-num" style="width:100px">Article # <span class="sort-icon" id="si-num"></span></th>
+      <th class="sortable" onclick="sortBy('price')" id="th-price" style="width:80px;text-align:center">Price <span class="sort-icon" id="si-price"></span></th>
+      <th class="sortable" onclick="sortBy('cat')" id="th-cat" style="width:115px;text-align:center">Category <span class="sort-icon" id="si-cat"></span></th>
+      <th class="sortable" onclick="sortBy('desc')" id="th-desc" style="width:280px">Description <span class="sort-icon" id="si-desc"></span></th>
+      <th class="sortable" onclick="sortBy('notes')" id="th-notes" style="width:150px">Notes <span class="sort-icon" id="si-notes"></span></th>
+      <th style="width:160px;padding:6px 10px">
+        <div class="action-bar" id="action-bar">
+          <button class="btn btn-edit" style="padding:4px 9px;font-size:11px" onclick="editChecked()">Edit</button>
+          <button class="btn btn-save" style="padding:4px 9px;font-size:11px" id="global-save" onclick="saveChecked()">Save</button>
+          <button class="btn btn-del" style="padding:4px 9px;font-size:11px" onclick="delChecked()">Del</button>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="art-body"></tbody>
+</table>
 </div>
 
 <script>
-// ── BAKED-IN DATA — renders instantly, no fetch required ──
-const BUILTIN = [{"num": "7004578", "cat": "labor", "desc": "Alignments 1 time", "price": "", "notes": ""}, {"num": "7005229", "cat": "labor", "desc": "LIFETIME WHEEL ALIGNMENT", "price": "", "notes": ""}, {"num": "7015515", "cat": "misc", "desc": "STEERING ANGLE reset (SAS) $20", "price": "", "notes": ""}, {"num": "7034294", "cat": "misc", "desc": "STEERING ANGLE reset (SAS) $0", "price": "", "notes": ""}, {"num": "7097782", "cat": "misc", "desc": "ROAD HAZARD PROTECTION", "price": "", "notes": ""}, {"num": "7016233", "cat": "parts", "desc": "Adjust & clean brakes", "price": "", "notes": ""}, {"num": "7006472", "cat": "labor", "desc": "Low profile labor", "price": "", "notes": ""}, {"num": "7030260", "cat": "parts", "desc": "Misc: Brake Parts", "price": "", "notes": ""}, {"num": "7041556", "cat": "labor", "desc": "Misc: Brake Labor", "price": "", "notes": ""}, {"num": "7000711", "cat": "parts", "desc": "Misc: Nuts Bolts Fasteners", "price": "", "notes": ""}, {"num": "7040231", "cat": "misc", "desc": "Sale Tax Credit", "price": "", "notes": ""}, {"num": "7003002", "cat": "parts", "desc": "Fuel System parts", "price": "", "notes": ""}, {"num": "7003030", "cat": "parts", "desc": "Engine system parts", "price": "", "notes": ""}, {"num": "7003051", "cat": "parts", "desc": "Charging system parts", "price": "", "notes": ""}, {"num": "7003081", "cat": "parts", "desc": "Starting system parts", "price": "", "notes": ""}, {"num": "7003106", "cat": "parts", "desc": "Steering system parts", "price": "", "notes": ""}, {"num": "7003130", "cat": "parts", "desc": "Wiper parts", "price": "", "notes": ""}, {"num": "7003161", "cat": "parts", "desc": "Drive train parts", "price": "", "notes": ""}, {"num": "7003219", "cat": "labor", "desc": "Fuel System labor", "price": "", "notes": ""}, {"num": "cxz001392", "cat": "labor", "desc": "Fuel System labor (alt)", "price": "", "notes": ""}, {"num": "7003240", "cat": "parts", "desc": "Engine system parts", "price": "", "notes": ""}, {"num": "7003281", "cat": "labor", "desc": "Emission system labor", "price": "", "notes": ""}, {"num": "7003303", "cat": "parts", "desc": "Steering system parts", "price": "", "notes": ""}, {"num": "7003317", "cat": "parts", "desc": "Wiper parts", "price": "", "notes": ""}, {"num": "7003348", "cat": "labor", "desc": "Accessories labor", "price": "", "notes": ""}, {"num": "7003362", "cat": "parts", "desc": "Drive train parts", "price": "", "notes": ""}, {"num": "7003386", "cat": "parts", "desc": "Starting system parts", "price": "", "notes": ""}, {"num": "7018651", "cat": "labor", "desc": "Under hood labor", "price": "", "notes": ""}];
-
-let articles = BUILTIN.slice(); // start with baked data immediately
+// ── DATA ──
+const BUILTIN = [{"num": "7004578", "cat": "labor", "desc": "Alignments (1 time)", "price": "", "notes": ""}, {"num": "7005229", "cat": "labor", "desc": "(LTA) Lifetime Wheel Alignment", "price": "", "notes": ""}, {"num": "7015515", "cat": "misc", "desc": "STEERING ANGLE reset (SAS) $20", "price": "", "notes": ""}, {"num": "7034294", "cat": "misc", "desc": "Steering Angle reset (SAS) $0", "price": "", "notes": ""}, {"num": "7097782", "cat": "misc", "desc": "ROAD HAZARD PROTECTION", "price": "", "notes": ""}, {"num": "7016233", "cat": "parts", "desc": "Adjust & clean brakes", "price": "", "notes": ""}, {"num": "7006472", "cat": "labor", "desc": "Low profile labor", "price": "", "notes": ""}, {"num": "7030260", "cat": "parts", "desc": "Misc: Brake Parts", "price": "", "notes": ""}, {"num": "7041556", "cat": "labor", "desc": "Misc: Brake Labor", "price": "", "notes": ""}, {"num": "7000711", "cat": "parts", "desc": "Misc: Nuts Bolts Fasteners", "price": "", "notes": ""}, {"num": "7040231", "cat": "misc", "desc": "Sale Tax Credit", "price": "", "notes": ""}, {"num": "7003002", "cat": "parts", "desc": "Fuel System parts", "price": "", "notes": ""}, {"num": "7003030", "cat": "parts", "desc": "Engine system parts", "price": "", "notes": ""}, {"num": "7003051", "cat": "parts", "desc": "Charging system parts", "price": "", "notes": ""}, {"num": "7003081", "cat": "parts", "desc": "Starting system parts", "price": "", "notes": ""}, {"num": "7003106", "cat": "parts", "desc": "Steering system parts", "price": "", "notes": ""}, {"num": "7003130", "cat": "parts", "desc": "Wiper parts", "price": "", "notes": ""}, {"num": "7003161", "cat": "parts", "desc": "Drive train parts", "price": "", "notes": ""}, {"num": "7003219", "cat": "labor", "desc": "Fuel System labor", "price": "", "notes": ""}, {"num": "cxz001392", "cat": "labor", "desc": "Fuel System labor (alt)", "price": "", "notes": ""}, {"num": "7003240", "cat": "parts", "desc": "Engine system parts", "price": "", "notes": ""}, {"num": "7003281", "cat": "labor", "desc": "Emission system labor", "price": "", "notes": ""}, {"num": "7003303", "cat": "parts", "desc": "Steering system parts", "price": "", "notes": ""}, {"num": "7003317", "cat": "parts", "desc": "Wiper parts", "price": "", "notes": ""}, {"num": "7003348", "cat": "labor", "desc": "Accessories labor", "price": "", "notes": ""}, {"num": "7003362", "cat": "parts", "desc": "Drive train parts", "price": "", "notes": ""}, {"num": "7003386", "cat": "parts", "desc": "Starting system parts", "price": "", "notes": ""}, {"num": "7018651", "cat": "labor", "desc": "Under hood labor", "price": "", "notes": ""}];
+let articles = BUILTIN.slice();
 let serverLoaded = false;
 
-function render() {
-  const q = (document.getElementById('art-search').value || '').toLowerCase();
-  const cat = document.getElementById('art-cat-filter').value;
-  const tbody = document.getElementById('articles-tbody');
-  const filtered = articles.filter(a =>
-    (cat === 'all' || a.cat === cat) &&
-    (!q || (a.num + ' ' + a.desc).toLowerCase().includes(q))
-  );
-  document.getElementById('art-count').textContent = filtered.length + ' of ' + articles.length + ' articles';
-  // styles applied after render below
-  tbody.innerHTML = filtered.length === 0
-    ? '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--text3)">No articles match</td></tr>'
-    : getSortedArticles(filtered).map(a => `<tr data-num="${a.num}" id="row-${a.num}">
-  <td style="width:36px;text-align:center;padding:8px 4px">
-    <input type="checkbox" class="row-check" data-num="${a.num}"
-      onchange="toggleRowActions('${a.num}', this.checked)"
-      style="cursor:pointer;width:15px;height:15px;accent-color:var(--accent2)">
-  </td>
-  <td style="width:95px;font-family:var(--mono);font-weight:700;white-space:nowrap;padding:8px 8px">${a.num}</td>
-  <td style="width:80px;padding:8px 8px;text-align:center;font-family:var(--mono)">
-    <span class="editable-cell" data-num="${a.num}" data-field="price"
-      contenteditable="true" spellcheck="false"
-      onblur="updateField('${a.num}','price',this.innerText.trim())"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      style="display:inline-block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none"
-      onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
-      >${a.price||''}</span>
-  </td>
-  <td style="width:115px;padding:8px 4px">
-    <select class="inline-cat-select" data-num="${a.num}" onchange="updateField('${a.num}','cat',this.value)"
-      style="font-family:var(--font);font-size:12px;border:1px solid transparent;border-radius:4px;padding:2px 6px;background:transparent;cursor:pointer;font-weight:700;outline:none;width:auto;max-width:110px"
-      onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
-      onblur="this.style.borderColor='transparent';this.style.background='transparent'">
-      ${categories.map(c => `<option value="${c}" ${a.cat===c?'selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('')}
-    </select>
-  </td>
-  <td style="padding:8px 8px">
-    <span class="editable-cell desc-cell" id="desc-${a.num}" data-num="${a.num}" data-field="desc"
-      contenteditable="false" spellcheck="false"
-      onblur="updateField('${a.num}','desc',this.innerText.trim());lockDesc('${a.num}')"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;font-weight:500;cursor:default;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"
-      >${a.desc||''}</span>
-  </td>
-  <td style="width:130px;padding:6px 8px">
-    <span class="editable-cell" data-num="${a.num}" data-field="notes"
-      contenteditable="true" spellcheck="false"
-      onblur="updateField('${a.num}','notes',this.innerText.trim())"
-      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
-      style="display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none;color:var(--text3);font-size:12px"
-      onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
-      >${a.notes||''}</span>
-  </td>
-  <td style="width:145px"></td>
-</tr>`).join('');
-  // Apply badge styles to selects after render
-  document.querySelectorAll('.inline-cat-select').forEach(sel => applyCatStyle(sel));
+// ── CATEGORIES ──
+const DEFAULT_CATS = ['labor','parts','tire','oil','misc','discount'];
+let categories = DEFAULT_CATS.slice();
+
+function loadCats() {
+  try {
+    const s = JSON.parse(localStorage.getItem('artCats646202') || 'null');
+    if (Array.isArray(s) && s.length) categories = s;
+  } catch(e) {}
+}
+function saveCats() {
+  try { localStorage.setItem('artCats646202', JSON.stringify(categories)); } catch(e) {}
+}
+function catClass(c) {
+  const map = {labor:'cat-labor',parts:'cat-parts',tire:'cat-tire',oil:'cat-oil',misc:'cat-misc',discount:'cat-discount'};
+  return map[c] || 'cat-custom';
+}
+function capFirst(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+
+function rebuildCatFilter() {
+  const sel = document.getElementById('cat-filter');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="all">All Categories</option>' +
+    categories.map(c => `<option value="${c}"${c===cur?' selected':''}>${capFirst(c)}</option>`).join('');
 }
 
+function buildAddCatList() {
+  const list = document.getElementById('add-cat-list');
+  if (!list) return;
+  list.innerHTML = categories.map(c => `
+    <div class="cat-drop-item" onclick="selectAddCat('${c}')">
+      <span>${capFirst(c)}</span>
+      <button class="cat-drop-rm" onclick="event.stopPropagation();removeCat('${c}')" title="Remove">✕</button>
+    </div>`).join('');
+}
+
+function toggleAddCatDrop() {
+  const m = document.getElementById('add-cat-menu');
+  const open = m.style.display === 'block';
+  m.style.display = open ? 'none' : 'block';
+  if (!open) buildAddCatList();
+}
+function selectAddCat(c) {
+  document.getElementById('a-cat').value = c;
+  document.getElementById('add-cat-menu').style.display = 'none';
+}
+function addCat() {
+  const inp = document.getElementById('add-cat-new');
+  const val = inp.value.trim().toLowerCase().replace(/\s+/g,'_');
+  if (!val) return;
+  if (!categories.includes(val)) { categories.push(val); saveCats(); }
+  selectAddCat(val);
+  rebuildCatFilter();
+  inp.value = '';
+}
+function removeCat(c) {
+  if (!confirm('Remove category "'+c+'"?\nExisting articles keep their category value.')) return;
+  categories = categories.filter(x => x !== c);
+  saveCats(); rebuildCatFilter(); buildAddCatList(); render();
+}
+
+// Close add-cat dropdown on outside click
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.cat-drop-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('add-cat-menu').style.display = 'none';
+  }
+});
+
+// ── SORT ──
+let sortField = null, sortDir = 1;
+function sortBy(field) {
+  if (sortField === field) sortDir *= -1; else { sortField = field; sortDir = 1; }
+  document.querySelectorAll('th[id^="th-"]').forEach(t => t.classList.remove('sort-active'));
+  document.querySelectorAll('.sort-icon').forEach(s => s.textContent = '');
+  const th = document.getElementById('th-'+field);
+  const si = document.getElementById('si-'+field);
+  if (th) th.classList.add('sort-active');
+  if (si) si.textContent = sortDir === 1 ? '▲' : '▼';
+  render();
+}
+function sorted(arr) {
+  if (!sortField) return arr;
+  return [...arr].sort((a,b) => {
+    const av = (a[sortField]||'').toLowerCase();
+    const bv = (b[sortField]||'').toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+}
+
+// ── SAVE / LOAD ──
 function save() {
   try { localStorage.setItem('articles646202', JSON.stringify(articles)); } catch(e) {}
-  if (!serverLoaded) return; // never overwrite server until we've confirmed what's there
-  fetch('/data/articles.json', {
-    method: 'PUT',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify(articles)
-  }).catch(() => {});
+  if (!serverLoaded) return;
+  fetch('/data/articles.json', {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(articles)}).catch(()=>{});
 }
 
-function addArticle() {
-  const num = (document.getElementById('a-num').value || '').trim();
-  if (!num) { document.getElementById('a-num').focus(); return; }
-  if (articles.find(a => a.num === num)) { alert('Article # ' + num + ' already exists'); return; }
-  articles.push({
-    num, cat: (document.getElementById('a-cat').value||'misc').toLowerCase().trim(),
-    desc: (document.getElementById('a-desc').value || '').trim(),
-    
-    price:(document.getElementById('a-price').value|| '').trim(),
-    notes:(document.getElementById('a-notes').value|| '').trim()
-  });
-  save(); render();
-  ['a-num','a-desc','a-price','a-notes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('a-num').focus();
-}
-
-window.delArticle = num => {
-  if (!confirm('Delete article #' + num + '?')) return;
-  articles = articles.filter(a => a.num !== num);
-  save(); render();
-};
-
-function exportCSV() {
-  const rows = [['Article #','Price','Category','Description','Notes']];
-  articles.forEach(a => rows.push([a.num, a.price, a.cat, a.desc, a.notes]));
-  const csv = rows.map(r => r.map(v => '"' + (v||'').replace(/"/g,'""') + '"').join(',')).join('\n');
-  const el = document.createElement('a');
-  el.href = 'data:text/csv,' + encodeURIComponent(csv);
-  el.download = 'articles_646202.csv';
-  el.click();
-}
-
-
-
-function updateField(num, field, value) {
-  const a = articles.find(a => a.num === num);
-  if (!a) return;
-  if (a[field] === value) return; // no change
-  a[field] = value;
-  save();
-  // Re-apply badge style if category changed
-  if (field === 'cat') {
-    const sel = document.querySelector(`select.inline-cat-select[data-num="${num}"]`);
-    if (sel) applyCatStyle(sel);
+// ── RENDER ──
+function render() {
+  const q = (document.getElementById('srch').value||'').toLowerCase();
+  const cf = document.getElementById('cat-filter').value;
+  const filtered = sorted(articles.filter(a =>
+    (cf==='all' || a.cat===cf) &&
+    (!q || (a.num+' '+a.desc+' '+(a.notes||'')).toLowerCase().includes(q))
+  ));
+  document.getElementById('art-count').textContent = filtered.length+' of '+articles.length+' articles';
+  const tbody = document.getElementById('art-body');
+  if (!filtered.length) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No articles match</td></tr>';
+    return;
   }
+  tbody.innerHTML = filtered.map(a => {
+    const catOpts = categories.map(c => `<option value="${c}"${a.cat===c?' selected':''}>${capFirst(c)}</option>`).join('');
+    const badgeCls = catClass(a.cat||'misc');
+    return `<tr id="row-${a.num}">
+      <td style="text-align:center;width:34px">
+        <input type="checkbox" class="row-chk" data-num="${a.num}" onchange="onCheck('${a.num}',this.checked)">
+      </td>
+      <td style="width:100px;font-family:var(--mono);font-weight:700;white-space:nowrap">${a.num}</td>
+      <td style="width:80px;text-align:center;font-family:var(--mono)">
+        <span class="editable" contenteditable="true" spellcheck="false"
+          data-num="${a.num}" data-field="price"
+          onblur="onEdit('${a.num}','price',this.innerText.trim())"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${a.price||''}</span>
+      </td>
+      <td style="width:115px;text-align:center">
+        <select class="cat-select ${badgeCls}" data-num="${a.num}"
+          onchange="onEdit('${a.num}','cat',this.value);applyCatStyle(this)"
+          onfocus="this.style.borderColor='var(--accent2)'"
+          onblur="this.style.borderColor='transparent'"
+        >${catOpts}</select>
+      </td>
+      <td style="width:280px">
+        <span class="editable desc-locked" id="desc-${a.num}" contenteditable="false" spellcheck="false"
+          data-num="${a.num}" data-field="desc"
+          onblur="onEdit('${a.num}','desc',this.innerText.trim());lockDesc('${a.num}')"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${a.desc||''}</span>
+      </td>
+      <td style="width:150px">
+        <span class="editable" contenteditable="true" spellcheck="false"
+          data-num="${a.num}" data-field="notes"
+          onblur="onEdit('${a.num}','notes',this.innerText.trim())"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+          style="color:var(--text3);font-size:12px"
+        >${a.notes||''}</span>
+      </td>
+      <td style="width:160px"></td>
+    </tr>`;
+  }).join('');
+  // Re-apply cat badge styles
+  document.querySelectorAll('.cat-select').forEach(applyCatStyle);
+  // Re-apply checked state
+  document.querySelectorAll('.row-chk').forEach(cb => {
+    if (checkedNums.has(cb.dataset.num)) { cb.checked = true; cb.closest('tr').classList.add('checked'); }
+  });
+  updateActionBar();
 }
 
 function applyCatStyle(sel) {
   const cat = sel.value || 'misc';
   const styles = {
-    labor:    {bg:'#fef9c3', color:'#854d0e'},
-    parts:    {bg:'#dbeafe', color:'#1d4ed8'},
-    tire:     {bg:'#f3e8ff', color:'#6b21a8'},
-    oil:      {bg:'#dcfce7', color:'#15803d'},
-    misc:     {bg:'#f1f5f9', color:'#475569'},
-    discount: {bg:'#fee2e2', color:'#b91c1c'},
+    labor:{bg:'#fef9c3',color:'#854d0e'},parts:{bg:'#dbeafe',color:'#1d4ed8'},
+    tire:{bg:'#f3e8ff',color:'#6b21a8'},oil:{bg:'#dcfce7',color:'#15803d'},
+    misc:{bg:'#f1f5f9',color:'#475569'},discount:{bg:'#fee2e2',color:'#b91c1c'}
   };
-  const s = styles[cat] || {bg:'#f0f4ff', color:'#3730a3'};
+  const s = styles[cat] || {bg:'#f0f4ff',color:'#3730a3'};
   sel.style.background = s.bg;
   sel.style.color = s.color;
   sel.style.borderColor = 'transparent';
-  sel.style.fontWeight = '700';
-  sel.style.fontSize = '11px';
-  sel.style.textTransform = 'uppercase';
-  sel.style.letterSpacing = '0.04em';
 }
 
+// ── EDIT ──
+function onEdit(num, field, val) {
+  const a = articles.find(a => a.num===num);
+  if (a && a[field] !== val) { a[field] = val; }
+}
 
+function lockDesc(num) {
+  const el = document.getElementById('desc-'+num);
+  if (!el) return;
+  el.contentEditable = 'false';
+  el.classList.add('desc-locked');
+}
+function unlockDesc(num) {
+  const el = document.getElementById('desc-'+num);
+  if (!el) return;
+  el.contentEditable = 'true';
+  el.classList.remove('desc-locked');
+  el.focus();
+  const r = document.createRange(); r.selectNodeContents(el);
+  const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
 
+// ── CHECKBOX / ACTION BAR ──
+let checkedNums = new Set();
 
-function toggleRowActions(num, checked) {
+function onCheck(num, checked) {
+  if (checked) checkedNums.add(num); else checkedNums.delete(num);
+  const row = document.getElementById('row-'+num);
+  if (row) row.classList.toggle('checked', checked);
   if (!checked) lockDesc(num);
-  // Show/hide the shared action bar based on whether ANY box is checked
-  const anyChecked = document.querySelectorAll('.row-check:checked').length > 0;
-  const bar = document.getElementById('row-actions-bar');
-  if (bar) bar.style.display = anyChecked ? 'flex' : 'none';
-  // Update select-all checkbox state
-  const all = document.querySelectorAll('.row-check');
-  const allChecked = [...all].every(c => c.checked);
-  const anyChecked = [...all].some(c => c.checked);
-  const selectAll = document.getElementById('check-all');
-  if (selectAll) {
-    selectAll.checked = allChecked;
-    selectAll.indeterminate = anyChecked && !allChecked;
+  updateActionBar();
+  // update check-all
+  const all = document.querySelectorAll('.row-chk');
+  const allChk = document.getElementById('chk-all');
+  if (allChk) {
+    allChk.checked = all.length > 0 && [...all].every(c=>c.checked);
+    allChk.indeterminate = checkedNums.size > 0 && !allChk.checked;
   }
 }
 
 function toggleAll(cb) {
-  document.querySelectorAll('.row-check').forEach(c => {
+  document.querySelectorAll('.row-chk').forEach(c => {
     c.checked = cb.checked;
-    if (!cb.checked) lockDesc(c.dataset.num);
+    onCheck(c.dataset.num, cb.checked);
   });
-  const bar = document.getElementById('row-actions-bar');
-  if (bar) bar.style.display = cb.checked ? 'flex' : 'none';
 }
 
-function editRow(num) {
-  const descCell = document.getElementById('desc-' + num);
-  if (!descCell) return;
-  // Unlock
-  descCell.contentEditable = 'true';
-  descCell.style.cursor = 'text';
-  descCell.style.borderColor = 'var(--accent2)';
-  descCell.style.background = 'var(--surface)';
-  descCell.focus();
-  // Select all text
-  const range = document.createRange();
-  range.selectNodeContents(descCell);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
-
-function lockDesc(num) {
-  const descCell = document.getElementById('desc-' + num);
-  if (!descCell) return;
-  descCell.contentEditable = 'false';
-  descCell.style.cursor = 'default';
-  descCell.style.borderColor = 'transparent';
-  descCell.style.background = 'transparent';
-}
-
-
-function getCheckedNums() {
-  return [...document.querySelectorAll('.row-check:checked')].map(c => c.dataset.num);
+function updateActionBar() {
+  const bar = document.getElementById('action-bar');
+  if (bar) bar.style.display = checkedNums.size > 0 ? 'flex' : 'none';
 }
 
 function editChecked() {
-  const nums = getCheckedNums();
-  if (nums.length === 1) editRow(nums[0]);
+  if (checkedNums.size === 1) unlockDesc([...checkedNums][0]);
 }
 
 function saveChecked() {
-  const nums = getCheckedNums();
-  if (!nums.length) return;
-  nums.forEach(num => {
-    const a = articles.find(a => a.num === num);
-    if (a) {
-      // Grab any edited desc value
-      const descEl = document.getElementById('desc-' + num);
-      if (descEl) a.desc = descEl.innerText.trim();
-    }
+  checkedNums.forEach(num => {
+    const a = articles.find(a=>a.num===num);
+    const descEl = document.getElementById('desc-'+num);
+    if (a && descEl) a.desc = descEl.innerText.trim();
   });
   save();
-  const btn = document.getElementById('global-save-btn');
+  const btn = document.getElementById('global-save');
   if (btn) {
     btn.textContent = 'Saved ✓';
     btn.style.background = '#16a34a';
     setTimeout(() => {
-      // Uncheck all and hide bar
-      document.querySelectorAll('.row-check:checked').forEach(cb => {
-        cb.checked = false;
-        lockDesc(cb.dataset.num);
-      });
-      const bar = document.getElementById('row-actions-bar');
-      if (bar) bar.style.display = 'none';
-      const allCb = document.getElementById('check-all');
-      if (allCb) { allCb.checked = false; allCb.indeterminate = false; }
+      checkedNums.clear();
+      document.querySelectorAll('.row-chk').forEach(c => { c.checked=false; });
+      document.querySelectorAll('tr.checked').forEach(r => r.classList.remove('checked'));
+      document.querySelectorAll('.desc-locked'+'[contenteditable="true"]').forEach(el => lockDesc(el.dataset.num));
+      document.querySelectorAll('[id^="desc-"]').forEach(el => lockDesc(el.dataset.num));
+      const allChk = document.getElementById('chk-all');
+      if (allChk) { allChk.checked=false; allChk.indeterminate=false; }
+      updateActionBar();
       btn.textContent = 'Save';
       btn.style.background = 'var(--accent2)';
     }, 1000);
@@ -363,189 +427,53 @@ function saveChecked() {
 }
 
 function delChecked() {
-  const nums = getCheckedNums();
-  if (!nums.length) return;
-  if (!confirm('Delete ' + nums.length + ' article(s)?')) return;
-  articles = articles.filter(a => !nums.includes(a.num));
+  if (!checkedNums.size) return;
+  if (!confirm('Delete '+checkedNums.size+' article(s)?')) return;
+  articles = articles.filter(a => !checkedNums.has(a.num));
+  checkedNums.clear();
   save(); render();
 }
 
-function saveRow(num, btn) {
-  const a = articles.find(a => a.num === num);
-  if (!a) return;
-  save();
-  // Flash saved
-  const orig = btn.textContent;
-  btn.textContent = 'Saved ✓';
-  btn.style.background = '#16a34a';
-  btn.style.borderColor = '#16a34a';
-  setTimeout(() => {
-    // Auto-uncheck and hide actions
-    const cb = document.querySelector(`.row-check[data-num="${num}"]`);
-    if (cb) { cb.checked = false; toggleRowActions(num, false); }
-    lockDesc(num);
-    // Reset button (may already be hidden but reset anyway)
-    btn.textContent = orig;
-    btn.style.background = 'var(--accent2)';
-    btn.style.borderColor = 'var(--accent2)';
-    // Update select-all state
-    const allChecks = document.querySelectorAll('.row-check');
-    const allChecked = [...allChecks].every(c => c.checked);
-    const anyChecked = [...allChecks].some(c => c.checked);
-    const selectAll = document.getElementById('check-all');
-    if (selectAll) {
-      selectAll.checked = allChecked;
-      selectAll.indeterminate = anyChecked && !allChecked;
-    }
-  }, 1000);
-}
-
-// ── SORT ──
-let sortField = null;
-let sortDir = 1; // 1=asc, -1=desc
-
-function sortBy(field) {
-  if (sortField === field) {
-    sortDir *= -1;
-  } else {
-    sortField = field;
-    sortDir = 1;
-  }
-  // Update header indicators
-  document.querySelectorAll('th[id^="th-"]').forEach(th => {
-    th.classList.remove('sort-active');
+// ── ADD ARTICLE ──
+function addArticle() {
+  const num = (document.getElementById('a-num').value||'').trim();
+  if (!num) { document.getElementById('a-num').focus(); return; }
+  if (articles.find(a=>a.num===num)) { alert('Article # '+num+' already exists'); return; }
+  articles.push({
+    num, price:(document.getElementById('a-price').value||'').trim(),
+    cat:(document.getElementById('a-cat').value||'misc').toLowerCase().trim(),
+    desc:(document.getElementById('a-desc').value||'').trim(),
+    notes:(document.getElementById('a-notes').value||'').trim()
   });
-  document.querySelectorAll('.sort-icon').forEach(si => si.textContent = '');
-  const activeTh = document.getElementById('th-' + field);
-  const activeSi = document.getElementById('si-' + field);
-  if (activeTh) activeTh.classList.add('sort-active');
-  if (activeSi) activeSi.textContent = sortDir === 1 ? ' ▲' : ' ▼';
-  render();
-}
-
-function getSortedArticles(arr) {
-  if (!sortField) return arr;
-  return [...arr].sort((a, b) => {
-    const av = (a[sortField] || '').toLowerCase();
-    const bv = (b[sortField] || '').toLowerCase();
-    if (av < bv) return -1 * sortDir;
-    if (av > bv) return  1 * sortDir;
-    return 0;
+  save(); render();
+  ['a-num','a-price','a-cat','a-desc','a-notes'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value='';
   });
+  document.getElementById('a-num').focus();
 }
 
-// ── CATEGORY MANAGEMENT ──
-const DEFAULT_CATS = ['labor','parts','tire','oil','misc','discount'];
-let categories = DEFAULT_CATS.slice();
-
-function loadCategories() {
-  try {
-    const saved = JSON.parse(localStorage.getItem('artCategories646202') || 'null');
-    if (Array.isArray(saved) && saved.length > 0) categories = saved;
-  } catch(e) {}
+// ── EXPORT ──
+function exportCSV() {
+  const rows = [['Article #','Price','Category','Description','Notes']];
+  articles.forEach(a => rows.push([a.num, a.price, a.cat, a.desc, a.notes]));
+  const csv = rows.map(r => r.map(v=>'"'+(v||'').replace(/"/g,'""')+'"').join(',')).join('\n');
+  const el = document.createElement('a');
+  el.href = 'data:text/csv,'+encodeURIComponent(csv);
+  el.download = 'articles_646202.csv';
+  el.click();
 }
 
-function saveCategories() {
-  try { localStorage.setItem('artCategories646202', JSON.stringify(categories)); } catch(e) {}
-}
-
-function rebuildCatFilter() {
-  const sel = document.getElementById('art-cat-filter');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="all">All Categories</option>' +
-    categories.map(c => `<option value="${c}"${c===cur?' selected':''}>${c.charAt(0).toUpperCase()+c.slice(1)}</option>`).join('');
-}
-
-function rebuildCatList() {
-  const list = document.getElementById('cat-list');
-  if (!list) return;
-  const input = document.getElementById('a-cat');
-  const q = (input ? input.value : '').toLowerCase();
-  const filtered = categories.filter(c => !q || c.includes(q));
-  list.innerHTML = filtered.map(c => `
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 10px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border)"
-      onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''"
-      onclick="selectCategory('${c}')">
-      <span>${c.charAt(0).toUpperCase()+c.slice(1)}</span>
-      <button onclick="event.stopPropagation();removeCategory('${c}')" 
-        style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:0 2px;line-height:1"
-        title="Remove category">✕</button>
-    </div>`).join('') || '<div style="padding:8px 10px;color:var(--text3);font-size:12px">No categories found</div>';
-}
-
-function selectCategory(cat) {
-  const input = document.getElementById('a-cat');
-  if (input) input.value = cat;
-  hideCatDropdown();
-}
-
-function showCatDropdown() {
-  const dd = document.getElementById('cat-dropdown');
-  if (dd) { dd.style.display = 'block'; rebuildCatList(); }
-}
-
-function hideCatDropdown() {
-  const dd = document.getElementById('cat-dropdown');
-  if (dd) dd.style.display = 'none';
-}
-
-function toggleCatDropdown() {
-  const dd = document.getElementById('cat-dropdown');
-  if (!dd) return;
-  if (dd.style.display === 'none') showCatDropdown();
-  else hideCatDropdown();
-}
-
-function filterCatDropdown() {
-  rebuildCatList();
-  showCatDropdown();
-}
-
-function addCategory() {
-  const input = document.getElementById('cat-new-input');
-  const val = (input ? input.value : '').trim().toLowerCase().replace(/\s+/g, '_');
-  if (!val) return;
-  if (categories.includes(val)) { selectCategory(val); return; }
-  categories.push(val);
-  saveCategories();
-  rebuildCatFilter();
-  rebuildCatList();
-  if (input) input.value = '';
-  selectCategory(val);
-}
-
-function removeCategory(cat) {
-  if (!confirm(`Remove category "${cat}"?\n\nThis won't change existing articles.`)) return;
-  categories = categories.filter(c => c !== cat);
-  saveCategories();
-  rebuildCatFilter();
-  rebuildCatList();
-  // If current add-form value was this cat, clear it
-  const input = document.getElementById('a-cat');
-  if (input && input.value === cat) input.value = '';
-  render();
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', e => {
-  const wrap = document.getElementById('cat-picker-wrap');
-  if (wrap && !wrap.contains(e.target)) hideCatDropdown();
-});
-
-// Render immediately with baked data
-loadCategories();
+// ── INIT ──
+loadCats();
 rebuildCatFilter();
 render();
 
-// Then fetch server version in background — use it if it has MORE entries (user added some)
-fetch('/data/articles.json?_=' + Date.now())
+// Fetch server data in background
+fetch('/data/articles.json?_='+Date.now())
   .then(r => r.ok ? r.json() : null)
   .then(d => {
     serverLoaded = true;
-    if (Array.isArray(d) && d.length >= BUILTIN.length) {
-      articles = d;
-      render();
-    }
+    if (Array.isArray(d) && d.length >= BUILTIN.length) { articles = d; render(); }
   })
   .catch(() => { serverLoaded = true; });
 </script>
