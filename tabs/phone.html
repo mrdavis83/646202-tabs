@@ -7,14 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:#f8fafc; --surface:#fff; --surface2:#f1f5f9; --border:#e2e8f0;
-  --accent2:#1e3a5f; --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-  --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+  --bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;
+  --accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px;font-size:14px}
 
-/* ADD FORM */
 .add-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .add-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:8px}
 .add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
@@ -23,11 +22,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px
 .fi{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:6px 9px;outline:none;background:var(--surface);color:var(--text)}
 .fi:focus{border-color:var(--accent2)}
 
-/* TOOLBAR */
 .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:nowrap}
 .count{font-size:12px;color:var(--text3);margin-left:auto;white-space:nowrap}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;padding:5px 11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
 .btn:hover{background:var(--surface2)}
 .btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
@@ -37,7 +34,6 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px
 .btn-del{border-color:#fca5a5;color:#dc2626}
 .btn-del:hover{background:#fef2f2}
 
-/* TABLE */
 .table-wrap{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden;vertical-align:top}
 table{width:auto;border-collapse:collapse}
 thead{background:var(--surface2)}
@@ -52,51 +48,27 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
 tr.ck td{background:#eff6ff}
 
-/* CATEGORY BADGE */
-.cat-sel{font-family:var(--font);font-size:11px;font-weight:700;border:1px solid transparent;border-radius:4px;padding:2px 5px;cursor:pointer;outline:none}
-.cat-sel:hover{border-color:var(--border)}
-.cat-sel:focus{border-color:var(--accent2)}
-.c-vendor{background:#dbeafe;color:#1d4ed8}
-.c-store{background:#dcfce7;color:#15803d}
-.c-emergency{background:#fee2e2;color:#b91c1c}
-.c-other{background:#f0f4ff;color:#3730a3}
-
-/* EDITABLE */
 .ed{display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none}
 .ed:hover{border-color:var(--border);background:var(--surface2);cursor:text}
 .ed:focus{border-color:var(--accent2);background:var(--surface)}
 .ed.locked{cursor:default!important}
 .ed.locked:hover{border-color:transparent!important;background:transparent!important}
 
-/* PHONE LINK */
 .ph-link{font-family:var(--mono);font-size:13px;color:var(--accent2);text-decoration:none;font-weight:600}
 .ph-link:hover{text-decoration:underline}
 
-/* ACTION BAR */
 .act-bar{display:none;gap:4px;align-items:center}
-
-/* CATEGORY DROPDOWN */
-.cd-wrap{position:relative}
-.cd-menu{display:none;position:absolute;top:100%;left:0;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:200}
-.cd-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;cursor:pointer;font-size:13px}
-.cd-item:hover{background:var(--surface2)}
-.cd-rm{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0 2px}
-.cd-rm:hover{color:#dc2626}
-.cd-footer{padding:6px 8px;border-top:1px solid var(--border);display:flex;gap:5px}
-.cd-new{flex:1;font-family:var(--font);font-size:12px;border:1px solid var(--border);border-radius:4px;padding:4px 7px;outline:none}
-.cd-new:focus{border-color:var(--accent2)}
-
 input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--accent2)}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=rxcl_Bualk.VxV2IF7la1a.VMMN6Nozc0Dz_z3z_1CI-1780885563.5977912-1.2.1.1-mpCKWnP2KYXj8_jKBRuKd1UxyDoMmIsCuH14gyw7h94" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
 <!-- ADD FORM -->
 <div class="add-card">
   <div class="add-title">Add Contact</div>
   <div class="add-row">
     <div class="field"><label>Name</label>
-      <input class="fi" id="a-name" style="width:140px" placeholder="Contact name">
+      <input class="fi" id="a-name" style="width:140px" placeholder="Business name">
     </div>
     <div class="field"><label>Phone</label>
       <input class="fi" id="a-phone" style="width:130px;font-family:var(--mono)" placeholder="5855551234">
@@ -104,22 +76,8 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
     <div class="field"><label>Ext</label>
       <input class="fi" id="a-ext" style="width:55px;font-family:var(--mono)" placeholder="0">
     </div>
-    <div class="field"><label>Category</label>
-      <div class="cd-wrap" id="add-cd-wrap">
-        <div class="fi" id="a-cat-display" onclick="toggleCD('add')"
-          style="width:110px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:6px 9px">
-          <span id="a-cat-label">Vendor</span>
-          <span style="font-size:10px;color:var(--text3)">▼</span>
-        </div>
-        <input type="hidden" id="a-cat" value="vendor">
-        <div class="cd-menu" id="add-cd-menu">
-          <div id="add-cd-list"></div>
-          <div class="cd-footer">
-            <input class="cd-new" id="cd-new-input" placeholder="New category..." onkeydown="if(event.key==='Enter')addCat()">
-            <button class="btn btn-primary" style="padding:4px 8px;font-size:11px" onclick="addCat()">+ Add</button>
-          </div>
-        </div>
-      </div>
+    <div class="field"><label>Contact / Rep Name</label>
+      <input class="fi" id="a-contact" style="width:130px" placeholder="First name">
     </div>
     <div class="field" style="flex:1;min-width:160px"><label>Title / Notes</label>
       <input class="fi" id="a-title" placeholder="Company or description">
@@ -130,29 +88,13 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
   </div>
 </div>
 
-<!-- TOOLBAR -->
+<!-- TOOLBAR + TABLE -->
 <div style="display:inline-block;vertical-align:top;min-width:0">
 <div class="toolbar">
-  <input class="fi" id="srch" placeholder="🔍 Search contacts..." oninput="render()" style="width:200px">
-  <div class="cd-wrap" id="filter-cd-wrap">
-    <div class="fi" id="cat-filter-display" onclick="toggleCD('filter')"
-      style="width:130px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:6px 9px">
-      <span id="cat-filter-label">All Categories</span>
-      <span style="font-size:10px;color:var(--text3)">▼</span>
-    </div>
-    <input type="hidden" id="cat-filter" value="all">
-    <div class="cd-menu" id="filter-cd-menu">
-      <div id="filter-cd-list"></div>
-      <div class="cd-footer">
-        <input class="cd-new" id="filter-cd-new" placeholder="New category..." onkeydown="if(event.key==='Enter')addCatFromFilter()">
-        <button class="btn btn-primary" style="padding:4px 8px;font-size:11px" onclick="addCatFromFilter()">+ Add</button>
-      </div>
-    </div>
-  </div>
+  <input class="fi" id="srch" placeholder="🔍 Search contacts..." oninput="render()" style="width:220px">
   <span class="count" id="ph-count"></span>
 </div>
 
-<!-- TABLE -->
 <div class="table-wrap">
 <table>
   <thead><tr>
@@ -177,86 +119,16 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
 </div>
 
 <script>
-// DATA
-const BUILTIN_RAW = [{"name": "ScrapHappy", "phone": "5857368035", "cat": "vendor", "title": "Scrap / Recycling", "ext": ""}, {"name": "Jason (Empire)", "phone": "5856673120", "cat": "vendor", "title": "Empire Auto", "ext": ""}, {"name": "Opus", "phone": "8666238378", "cat": "vendor", "title": "Opus (Acct #7067451)", "ext": ""}, {"name": "Helpdesk", "phone": "8886880888", "cat": "store", "title": "IT Helpdesk", "ext": ""}, {"name": "Advance Auto", "phone": "5857879345", "cat": "vendor", "title": "Advance Auto Parts", "ext": ""}, {"name": "Advance Rob", "phone": "5856421466", "cat": "vendor", "title": "Advance Auto \u2014 Rep", "ext": ""}, {"name": "AutoZone", "phone": "5858725570", "cat": "vendor", "title": "AutoZone", "ext": ""}, {"name": "AutoZone Marisol", "phone": "5856736624", "cat": "vendor", "title": "AutoZone \u2014 Rep", "ext": ""}, {"name": "Haun", "phone": "5852654427", "cat": "vendor", "title": "Haun Welding Supply", "ext": ""}, {"name": "Securitas Alarm", "phone": "8006894984", "cat": "vendor", "title": "Alarm / Security", "ext": ""}, {"name": "Hunter Engineering", "phone": "8884507100", "cat": "vendor", "title": "Hunter Engineering", "ext": ""}, {"name": "Hertz", "phone": "8889995980", "cat": "vendor", "title": "Hertz", "ext": ""}, {"name": "ATEQ", "phone": "8886218767", "cat": "vendor", "title": "ATEQ (TPMS Tools)", "ext": ""}, {"name": "Autel", "phone": "8664960058", "cat": "vendor", "title": "Autel Diagnostics", "ext": ""}, {"name": "Coats", "phone": "8006886359", "cat": "vendor", "title": "Coats (Equipment)", "ext": ""}, {"name": "Inventory Services", "phone": "8556057324", "cat": "vendor", "title": "Inventory Services", "ext": ""}, {"name": "JS Products", "phone": "8002557011", "cat": "vendor", "title": "JS Products", "ext": ""}, {"name": "JohnDow Industries", "phone": "8004330708", "cat": "vendor", "title": "JohnDow Industries", "ext": ""}, {"name": "Mitchell 1", "phone": "8887246742", "cat": "vendor", "title": "Mitchell 1 (Software)", "ext": ""}, {"name": "Robinair", "phone": "8008225561", "cat": "vendor", "title": "Robinair (AC Equipment)", "ext": ""}, {"name": "Rotary", "phone": "8009435438", "cat": "vendor", "title": "Rotary (Lifts)", "ext": ""}, {"name": "Staples Advantage", "phone": "8778267755", "cat": "vendor", "title": "Acct #1829070", "ext": ""}, {"name": "Launch X431", "phone": "8775286249", "cat": "vendor", "title": "Launch Diagnostics", "ext": "4"}, {"name": "DOC Floor Scrubbers", "phone": "8554852113", "cat": "vendor", "title": "DOC (Floor Equipment)", "ext": ""}, {"name": "Redline Smoke Machines", "phone": "7144511411", "cat": "vendor", "title": "Redline Smoke Machines", "ext": ""}, {"name": "Emergency Spill Response", "phone": "8443473844", "cat": "emergency", "title": "Emergency Spill Response", "ext": ""}];
-const BUILTIN = BUILTIN_RAW.map(c=>({...c, contact:c.contact||""}));
+const BUILTIN = [{"name": "ScrapHappy", "phone": "5857368035", "contact": "", "title": "Scrap / Recycling", "ext": ""}, {"name": "Jason (Empire)", "phone": "5856673120", "contact": "Jason", "title": "Empire Auto", "ext": ""}, {"name": "Opus", "phone": "8666238378", "contact": "", "title": "Opus (Acct #7067451)", "ext": ""}, {"name": "Helpdesk", "phone": "8886880888", "contact": "", "title": "IT Helpdesk", "ext": ""}, {"name": "Advance Auto", "phone": "5857879345", "contact": "", "title": "Advance Auto Parts", "ext": ""}, {"name": "Advance Rob", "phone": "5856421466", "contact": "Rob", "title": "Advance Auto \u2014 Rep", "ext": ""}, {"name": "AutoZone", "phone": "5858725570", "contact": "", "title": "AutoZone", "ext": ""}, {"name": "AutoZone Marisol", "phone": "5856736624", "contact": "Marisol", "title": "AutoZone \u2014 Rep", "ext": ""}, {"name": "Haun", "phone": "5852654427", "contact": "", "title": "Haun Welding Supply", "ext": ""}, {"name": "Securitas Alarm", "phone": "8006894984", "contact": "", "title": "Alarm / Security", "ext": ""}, {"name": "Hunter Engineering", "phone": "8884507100", "contact": "", "title": "Hunter Engineering", "ext": ""}, {"name": "Hertz", "phone": "8889995980", "contact": "", "title": "Hertz", "ext": ""}, {"name": "ATEQ", "phone": "8886218767", "contact": "", "title": "ATEQ (TPMS Tools)", "ext": ""}, {"name": "Autel", "phone": "8664960058", "contact": "", "title": "Autel Diagnostics", "ext": ""}, {"name": "Coats", "phone": "8006886359", "contact": "", "title": "Coats (Equipment)", "ext": ""}, {"name": "Inventory Services", "phone": "8556057324", "contact": "", "title": "Inventory Services", "ext": ""}, {"name": "JS Products", "phone": "8002557011", "contact": "", "title": "JS Products", "ext": ""}, {"name": "JohnDow Industries", "phone": "8004330708", "contact": "", "title": "JohnDow Industries", "ext": ""}, {"name": "Mitchell 1", "phone": "8887246742", "contact": "", "title": "Mitchell 1 (Software)", "ext": ""}, {"name": "Robinair", "phone": "8008225561", "contact": "", "title": "Robinair (AC Equipment)", "ext": ""}, {"name": "Rotary", "phone": "8009435438", "contact": "", "title": "Rotary (Lifts)", "ext": ""}, {"name": "Staples Advantage", "phone": "8778267755", "contact": "", "title": "Acct #1829070", "ext": ""}, {"name": "Launch X431", "phone": "8775286249", "contact": "", "title": "Launch Diagnostics", "ext": "4"}, {"name": "DOC Floor Scrubbers", "phone": "8554852113", "contact": "", "title": "DOC (Floor Equipment)", "ext": ""}, {"name": "Redline Smoke Machines", "phone": "7144511411", "contact": "", "title": "Redline Smoke Machines", "ext": ""}, {"name": "Emergency Spill Response", "phone": "8443473844", "contact": "", "title": "Emergency Spill Response", "ext": ""}];
 let contacts = BUILTIN.slice();
 let serverLoaded = false;
 
-// CATEGORIES
-const DEF_CATS = ['vendor','store','emergency'];
-let cats = DEF_CATS.slice();
-function loadCats() { try { const s=JSON.parse(localStorage.getItem('phCats646202')||'null'); if(Array.isArray(s)&&s.length) cats=s; } catch(e) {} }
-function saveCats() { try { localStorage.setItem('phCats646202',JSON.stringify(cats)); } catch(e) {} }
-function cap(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
-function catCls(c) { const m={vendor:'c-vendor',store:'c-store',emergency:'c-emergency'}; return m[c]||'c-other'; }
-function catStyle(c) {
-  const st={vendor:['#dbeafe','#1d4ed8'],store:['#dcfce7','#15803d'],emergency:['#fee2e2','#b91c1c']};
-  return st[c]||['#f0f4ff','#3730a3'];
-}
-
 function fmtPhone(p) {
-  p = (p||'').replace(/\D/g,'');
+  p=(p||'').replace(/\D/g,'');
   if(p.length===10) return '('+p.slice(0,3)+') '+p.slice(3,6)+'-'+p.slice(6);
   if(p.length===11) return '+'+p[0]+' ('+p.slice(1,4)+') '+p.slice(4,7)+'-'+p.slice(7);
   return p;
 }
-
-// CATEGORY DROPDOWNS
-function buildAddCDList() {
-  const el=document.getElementById('add-cd-list'); if(!el) return;
-  el.innerHTML=cats.map(c=>`<div class="cd-item" onclick="selAddCat('${c}')"><span>${cap(c)}</span><button class="cd-rm" onclick="event.stopPropagation();rmCat('${c}')" title="Remove">✕</button></div>`).join('');
-}
-function buildFilterCDList() {
-  const cur=document.getElementById('cat-filter').value;
-  const el=document.getElementById('filter-cd-list'); if(!el) return;
-  el.innerHTML=`<div class="cd-item" onclick="selFilterCat('all')"><span style="font-weight:${cur==='all'?'700':'400'}">All Categories</span></div>`+
-    cats.map(c=>`<div class="cd-item" onclick="selFilterCat('${c}')"><span style="font-weight:${c===cur?'700':'400'}">${cap(c)}</span><button class="cd-rm" onclick="event.stopPropagation();rmCat('${c}')" title="Remove">✕</button></div>`).join('');
-}
-function toggleCD(which) {
-  const id=which==='add'?'add-cd-menu':'filter-cd-menu';
-  const menu=document.getElementById(id);
-  const open=menu.style.display==='block';
-  document.querySelectorAll('.cd-menu').forEach(m=>m.style.display='none');
-  if(!open) { menu.style.display='block'; which==='add'?buildAddCDList():buildFilterCDList(); }
-}
-function selAddCat(c) {
-  document.getElementById('a-cat').value=c;
-  document.getElementById('a-cat-label').textContent=cap(c);
-  document.getElementById('add-cd-menu').style.display='none';
-}
-function selFilterCat(c) {
-  document.getElementById('cat-filter').value=c;
-  document.getElementById('cat-filter-label').textContent=c==='all'?'All Categories':cap(c);
-  document.getElementById('filter-cd-menu').style.display='none';
-  render();
-}
-function addCat() {
-  const inp=document.getElementById('cd-new-input');
-  const v=inp.value.trim().toLowerCase().replace(/\s+/g,'_');
-  if(!v) return;
-  if(!cats.includes(v)) { cats.push(v); saveCats(); }
-  selAddCat(v); buildFilterCDList(); inp.value='';
-}
-function addCatFromFilter() {
-  const inp=document.getElementById('filter-cd-new');
-  const v=inp.value.trim().toLowerCase().replace(/\s+/g,'_');
-  if(!v) return;
-  if(!cats.includes(v)) { cats.push(v); saveCats(); }
-  buildAddCDList(); buildFilterCDList(); inp.value='';
-}
-function rmCat(c) {
-  if(!confirm('Remove category "'+c+'"?\nExisting contacts keep their value.')) return;
-  cats=cats.filter(x=>x!==c); saveCats();
-  if(document.getElementById('cat-filter').value===c) selFilterCat('all');
-  if(document.getElementById('a-cat').value===c) selAddCat('vendor');
-  buildAddCDList(); buildFilterCDList(); render();
-}
-document.addEventListener('click',e=>{
-  let inside=false;
-  document.querySelectorAll('.cd-wrap').forEach(w=>{if(w.contains(e.target))inside=true;});
-  if(!inside) document.querySelectorAll('.cd-menu').forEach(m=>m.style.display='none');
-});
 
 // SORT
 let sField=null,sDir=1;
@@ -287,10 +159,8 @@ function save() {
 // RENDER
 function render() {
   const q=(document.getElementById('srch').value||'').toLowerCase();
-  const cf=document.getElementById('cat-filter').value;
   const filtered=sorted(contacts.filter(c=>
-    (cf==='all'||c.cat===cf)&&
-    (!q||(c.name+' '+c.phone+' '+(c.title||'')).toLowerCase().includes(q))
+    !q||(c.name+' '+c.phone+' '+(c.contact||'')+' '+(c.title||'')).toLowerCase().includes(q)
   ));
   document.getElementById('ph-count').textContent=filtered.length+' of '+contacts.length+' contacts';
   const tbody=document.getElementById('ph-body');
@@ -299,30 +169,29 @@ function render() {
     return;
   }
   tbody.innerHTML=filtered.map(c=>{
-    const cc=catCls(c.cat||'vendor');
-    const cs=catStyle(c.cat||'vendor');
     const isChk=ckd.has(c.name);
-    const catOpts=cats.map(x=>`<option value="${x}"${c.cat===x?' selected':''}>${cap(x)}</option>`).join('');
+    const rid='r-'+c.name.replace(/[^a-z0-9]/gi,'_');
+    const nid='n-'+c.name.replace(/[^a-z0-9]/gi,'_');
     const dialNum='tel:+'+(c.phone||'').replace(/\D/g,'');
     const dispPhone=fmtPhone(c.phone)+(c.ext?' x'+c.ext:'');
-    return `<tr id="r-${c.name.replace(/[^a-z0-9]/gi,'_')}"${isChk?' class="ck"':''}>
+    return `<tr id="${rid}"${isChk?' class="ck"':''}>
       <td style="text-align:center;padding:6px 4px">
         <input type="checkbox" class="rchk" data-name="${c.name}" onchange="onChk('${c.name}',this.checked)"${isChk?' checked':''}>
       </td>
-      <td style="font-weight:600;min-width:130px">
-        <span class="ed locked" id="n-${c.name.replace(/[^a-z0-9]/gi,'_')}" contenteditable="false" spellcheck="false"
-          data-name="${c.name}" data-field="name"
-          onblur="onEdit('${c.name}','name',this.innerText.trim());lockN('${c.name}')"
+      <td style="font-weight:600">
+        <span class="ed locked" id="${nid}" contenteditable="false" spellcheck="false"
+          onblur="onEdit('${c.name}','name',this.innerText.trim());lockEl('${nid}')"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+          style="min-width:100px"
         >${c.name}</span>
       </td>
+      <td><a href="${dialNum}" class="ph-link">${dispPhone}</a></td>
       <td>
-        <a href="${dialNum}" class="ph-link">${dispPhone}</a>
-      </td>
-      <td style="text-align:center">
-        <select class="cat-sel" onchange="onEdit('${c.name}','cat',this.value);applyCS(this)" onfocus="this.style.borderColor='var(--accent2)'" onblur="this.style.borderColor='transparent'"
-          style="background:${cs[0]};color:${cs[1]};border-color:transparent"
-        >${catOpts}</select>
+        <span class="ed" contenteditable="true" spellcheck="false"
+          onblur="onEdit('${c.name}','contact',this.innerText.trim())"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+          style="min-width:80px;color:var(--text2)"
+        >${c.contact||''}</span>
       </td>
       <td>
         <span class="ed" contenteditable="true" spellcheck="false"
@@ -334,37 +203,32 @@ function render() {
       <td style="padding:6px 8px"></td>
     </tr>`;
   }).join('');
-  document.querySelectorAll('.cat-sel').forEach(applyCS);
-}
-
-function applyCS(sel) {
-  const st=catStyle(sel.value);
-  sel.style.background=st[0]; sel.style.color=st[1]; sel.style.borderColor='transparent';
 }
 
 function onEdit(name,field,val) {
   const c=contacts.find(c=>c.name===name);
   if(c&&c[field]!==val) c[field]=val;
 }
-function lockN(name) {
-  const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
-  const el=document.getElementById(id); if(el){el.contentEditable='false';el.classList.add('locked');}
+function lockEl(id) {
+  const el=document.getElementById(id);
+  if(el){el.contentEditable='false';el.classList.add('locked');}
 }
-function unlockN(name) {
-  const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
-  const el=document.getElementById(id); if(!el) return;
-  el.contentEditable='true'; el.classList.remove('locked'); el.focus();
-  const r=document.createRange(); r.selectNodeContents(el);
-  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+function unlockEl(id) {
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.contentEditable='true';el.classList.remove('locked');el.focus();
+  const r=document.createRange();r.selectNodeContents(el);
+  const s=window.getSelection();s.removeAllRanges();s.addRange(r);
 }
 
 // CHECKBOXES
 let ckd=new Set();
 function onChk(name,checked) {
   if(checked) ckd.add(name); else ckd.delete(name);
-  const id='r-'+name.replace(/[^a-z0-9]/gi,'_');
-  const row=document.getElementById(id); if(row) row.classList.toggle('ck',checked);
-  if(!checked) lockN(name);
+  const rid='r-'+name.replace(/[^a-z0-9]/gi,'_');
+  const row=document.getElementById(rid);
+  if(row) row.classList.toggle('ck',checked);
+  if(!checked) lockEl('n-'+name.replace(/[^a-z0-9]/gi,'_'));
   updBar();
   const all=document.querySelectorAll('.rchk'),ca=document.getElementById('chk-all');
   if(ca){ca.checked=[...all].every(c=>c.checked);ca.indeterminate=ckd.size>0&&!ca.checked;}
@@ -376,12 +240,13 @@ function updBar() {
   const bar=document.getElementById('act-bar');
   if(bar) bar.style.display=ckd.size>0?'flex':'none';
 }
-function editCk() { if(ckd.size===1) unlockN([...ckd][0]); }
+function editCk() {
+  if(ckd.size===1) unlockEl('n-'+[...ckd][0].replace(/[^a-z0-9]/gi,'_'));
+}
 function saveCk() {
   ckd.forEach(name=>{
     const c=contacts.find(c=>c.name===name);
-    const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
-    const el=document.getElementById(id);
+    const el=document.getElementById('n-'+name.replace(/[^a-z0-9]/gi,'_'));
     if(c&&el) c.name=el.innerText.trim();
   });
   save();
@@ -391,9 +256,7 @@ function saveCk() {
       ckd.clear();
       document.querySelectorAll('.rchk').forEach(c=>c.checked=false);
       document.querySelectorAll('tr.ck').forEach(r=>r.classList.remove('ck'));
-      document.querySelectorAll('[id^="n-"]').forEach(el=>{
-        el.contentEditable='false';el.classList.add('locked');
-      });
+      document.querySelectorAll('[id^="n-"]').forEach(el=>lockEl(el.id));
       const ca=document.getElementById('chk-all');if(ca){ca.checked=false;ca.indeterminate=false;}
       updBar();btn.textContent='Save';btn.style.background='var(--accent2)';
     },1000);
@@ -403,10 +266,10 @@ function delCk() {
   if(!ckd.size) return;
   if(!confirm('Delete '+ckd.size+' contact(s)?')) return;
   contacts=contacts.filter(c=>!ckd.has(c.name));
-  ckd.clear(); save(); render();
+  ckd.clear();save();render();
 }
 
-// ADD CONTACT
+// ADD
 function addContact() {
   const name=(document.getElementById('a-name').value||'').trim();
   if(!name){document.getElementById('a-name').focus();return;}
@@ -415,17 +278,16 @@ function addContact() {
     name,
     phone:(document.getElementById('a-phone').value||'').replace(/\D/g,''),
     ext:(document.getElementById('a-ext').value||'').trim(),
-    cat:(document.getElementById('a-cat').value||'vendor'),
-    title:(document.getElementById('a-title').value||'').trim(),
-    contact:''
+    contact:(document.getElementById('a-contact').value||'').trim(),
+    title:(document.getElementById('a-title').value||'').trim()
   });
-  save(); render();
-  ['a-name','a-phone','a-ext','a-title'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  save();render();
+  ['a-name','a-phone','a-ext','a-contact','a-title'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('a-name').focus();
 }
 
 // INIT
-loadCats(); render();
+render();
 fetch('/data/phonebook.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
   serverLoaded=true;
   if(Array.isArray(d)&&d.length>=BUILTIN.length){contacts=d;render();}
