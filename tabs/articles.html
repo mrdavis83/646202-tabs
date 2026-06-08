@@ -49,13 +49,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px
 .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden}
 table{width:100%;border-collapse:collapse}
 thead{background:var(--surface2)}
-th{padding:8px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+th{padding:6px 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
 th.sortable{cursor:pointer}
 th.sortable:hover{color:var(--text2);background:#e8edf2}
 th.sort-active{color:var(--accent2)}
 .sort-icon{margin-left:2px;opacity:.5;font-size:9px}
 th.sort-active .sort-icon{opacity:1;color:var(--accent2)}
-td{padding:7px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+td{padding:5px 8px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#fafbfc}
 tr.checked td{background:#eff6ff}
@@ -103,7 +103,7 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
 .cat-drop-input:focus{border-color:var(--accent2)}
 </style>
 </head>
-<body>
+<body><a href="https://646202.com/cdn-cgi/content?id=aIagOxvQYkOiOIeSQCFFL47CLk8nmsNxwC8QQI6HFps-1780881963.8653665-1.2.1.1-mOHy3gxB_saNSmfHD8l7goLM1dtW1hwowMt37mUdkwE" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <!-- ── ADD FORM ── -->
 <div class="add-card">
@@ -132,7 +132,7 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
 <!-- ── TOOLBAR ── -->
 <div class="toolbar">
   <input class="fi" id="srch" placeholder="🔍 Search article numbers..." oninput="render()">
-  <select class="fi" id="cat-filter" onchange="render()" style="width:150px">
+  <select class="fi" id="cat-filter" onchange="render()" style="width:120px;padding:5px 6px">
     <option value="all">All Categories</option>
   </select>
   <button class="btn" onclick="exportCSV()" style="font-size:12px">⬇ CSV</button>
@@ -144,15 +144,15 @@ input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--ac
 <table>
   <thead>
     <tr>
-      <th style="width:34px;text-align:center">
+      <th style="width:28px;text-align:center;padding:6px 4px">
         <input type="checkbox" id="chk-all" onclick="toggleAll(this)">
       </th>
-      <th class="sortable" onclick="sortBy('num')" id="th-num" style="width:100px">Article # <span class="sort-icon" id="si-num"></span></th>
-      <th class="sortable" onclick="sortBy('price')" id="th-price" style="width:80px;text-align:center">Price <span class="sort-icon" id="si-price"></span></th>
-      <th class="sortable" onclick="sortBy('cat')" id="th-cat" style="width:115px;text-align:center">Category <span class="sort-icon" id="si-cat"></span></th>
-      <th class="sortable" onclick="sortBy('desc')" id="th-desc" style="width:280px">Description <span class="sort-icon" id="si-desc"></span></th>
-      <th class="sortable" onclick="sortBy('notes')" id="th-notes" style="width:150px">Notes <span class="sort-icon" id="si-notes"></span></th>
-      <th style="width:160px;padding:6px 10px">
+      <th class="sortable" onclick="sortBy('num')" id="th-num" style="width:88px;padding:6px 6px">Article # <span class="sort-icon" id="si-num"></span></th>
+      <th class="sortable" onclick="sortBy('price')" id="th-price" style="width:65px;text-align:center;padding:6px 4px">Price <span class="sort-icon" id="si-price"></span></th>
+      <th class="sortable" onclick="sortBy('cat')" id="th-cat" style="width:100px;text-align:center;padding:6px 4px">Category <span class="sort-icon" id="si-cat"></span></th>
+      <th class="sortable" onclick="sortBy('desc')" id="th-desc" style="padding:6px 8px">Description <span class="sort-icon" id="si-desc"></span></th>
+      <th class="sortable" onclick="sortBy('notes')" id="th-notes" style="width:120px;padding:6px 6px">Notes <span class="sort-icon" id="si-notes"></span></th>
+      <th style="width:150px;padding:4px 6px">
         <div class="action-bar" id="action-bar">
           <button class="btn btn-edit" style="padding:4px 9px;font-size:11px" onclick="editChecked()">Edit</button>
           <button class="btn btn-save" style="padding:4px 9px;font-size:11px" id="global-save" onclick="saveChecked()">Save</button>
@@ -286,32 +286,32 @@ function render() {
     const catOpts = categories.map(c => `<option value="${c}"${a.cat===c?' selected':''}>${capFirst(c)}</option>`).join('');
     const badgeCls = catClass(a.cat||'misc');
     return `<tr id="row-${a.num}">
-      <td style="text-align:center;width:34px">
+      <td style="text-align:center;width:28px;padding:5px 3px">
         <input type="checkbox" class="row-chk" data-num="${a.num}" onchange="onCheck('${a.num}',this.checked)">
       </td>
-      <td style="width:100px;font-family:var(--mono);font-weight:700;white-space:nowrap">${a.num}</td>
-      <td style="width:80px;text-align:center;font-family:var(--mono)">
+      <td style="width:88px;font-family:var(--mono);font-weight:700;white-space:nowrap;padding:5px 6px">${a.num}</td>
+      <td style="width:65px;text-align:center;font-family:var(--mono);padding:5px 4px">
         <span class="editable" contenteditable="true" spellcheck="false"
           data-num="${a.num}" data-field="price"
           onblur="onEdit('${a.num}','price',this.innerText.trim())"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
         >${a.price||''}</span>
       </td>
-      <td style="width:115px;text-align:center">
+      <td style="width:100px;text-align:center;padding:5px 4px">
         <select class="cat-select ${badgeCls}" data-num="${a.num}"
           onchange="onEdit('${a.num}','cat',this.value);applyCatStyle(this)"
           onfocus="this.style.borderColor='var(--accent2)'"
           onblur="this.style.borderColor='transparent'"
         >${catOpts}</select>
       </td>
-      <td style="width:280px">
+      <td style="padding:5px 8px">
         <span class="editable desc-locked" id="desc-${a.num}" contenteditable="false" spellcheck="false"
           data-num="${a.num}" data-field="desc"
           onblur="onEdit('${a.num}','desc',this.innerText.trim());lockDesc('${a.num}')"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
         >${a.desc||''}</span>
       </td>
-      <td style="width:150px">
+      <td style="width:120px;padding:5px 6px">
         <span class="editable" contenteditable="true" spellcheck="false"
           data-num="${a.num}" data-field="notes"
           onblur="onEdit('${a.num}','notes',this.innerText.trim())"
@@ -319,7 +319,7 @@ function render() {
           style="color:var(--text3);font-size:12px"
         >${a.notes||''}</span>
       </td>
-      <td style="width:160px"></td>
+      <td style="width:150px;padding:5px 4px"></td>
     </tr>`;
   }).join('');
   // Re-apply cat badge styles
