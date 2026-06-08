@@ -85,6 +85,28 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
   </div>
   <div id="vinError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:var(--red);font-size:13px;margin-top:12px"></div>
   <div id="vinResult"></div>
+
+  <!-- VIN History -->
+  <div id="vinHistoryWrap" style="margin-top:18px;display:none">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+      <span>Lookup History</span>
+      <button onclick="clearVinHistory()" style="font-size:11px;font-weight:600;color:var(--red);background:none;border:none;cursor:pointer;padding:0">Clear All</button>
+    </div>
+    <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr>
+            <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Date / Time</th>
+            <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">VIN</th>
+            <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Year</th>
+            <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Make</th>
+            <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Model</th>
+          </tr>
+        </thead>
+        <tbody id="vinHistoryBody"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════════════════════
@@ -381,6 +403,10 @@ async function decodeVIN() {
     Object.entries(out).forEach(([k,v]) => { html += `<div class="result-item"><label>${k}</label><div class="val">${v}</div></div>`; });
     html += '</div>';
     res.innerHTML = html;
+    // Save to history
+    if (out['Model Year'] && out['Make'] && out['Model']) {
+      saveVinHistory(vin, out['Model Year'], out['Make'], out['Model']);
+    }
   } catch(e) {
     err.textContent = '⚠️ Error contacting NHTSA — check your connection.';
     err.style.display = 'block';
@@ -389,6 +415,64 @@ async function decodeVIN() {
     document.getElementById('decodeBtnText').textContent = 'Decode';
     btn.disabled = false;
   }
+}
+
+// ── VIN History
+const VIN_HISTORY_URL = '/data/vin-history.json';
+
+async function loadVinHistory() {
+  try {
+    const r = await fetch(VIN_HISTORY_URL + '?t=' + Date.now());
+    if (!r.ok) { renderVinHistory([]); return; }
+    const data = await r.json();
+    renderVinHistory(data);
+  } catch(e) { renderVinHistory([]); }
+}
+
+function renderVinHistory(rows) {
+  const wrap = document.getElementById('vinHistoryWrap');
+  const tbody = document.getElementById('vinHistoryBody');
+  if (!rows || !rows.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  tbody.innerHTML = rows.slice().reverse().map(row =>
+    '<tr style="border-bottom:1px solid var(--border)">' +
+    '<td style="padding:8px 12px;font-size:12px;color:var(--text2);white-space:nowrap;font-family:var(--mono)">' + row.ts + '</td>' +
+    '<td style="padding:8px 12px;font-size:12px;font-family:var(--mono);font-weight:600;white-space:nowrap">' + row.vin + '</td>' +
+    '<td style="padding:8px 12px;font-size:13px;white-space:nowrap">' + row.year + '</td>' +
+    '<td style="padding:8px 12px;font-size:13px;font-weight:600;white-space:nowrap">' + row.make + '</td>' +
+    '<td style="padding:8px 12px;font-size:13px;white-space:nowrap">' + row.model + '</td>' +
+    '</tr>'
+  ).join('');
+}
+
+async function saveVinHistory(vin, year, make, model) {
+  try {
+    const now = new Date();
+    const ts = now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}) + ' ' +
+               now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:true});
+    let rows = [];
+    try {
+      const r = await fetch(VIN_HISTORY_URL + '?t=' + Date.now());
+      if (r.ok) rows = await r.json();
+    } catch(e) {}
+    rows.push({ ts, vin, year, make, model });
+    await fetch('/data/vin-history.json', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(rows, null, 2)
+    });
+    renderVinHistory(rows);
+  } catch(e) { console.warn('VIN history save failed:', e); }
+}
+
+async function clearVinHistory() {
+  if (!confirm('Clear all VIN lookup history?')) return;
+  await fetch('/data/vin-history.json', {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: '[]'
+  });
+  renderVinHistory([]);
 }
 
 function clearVIN() {
@@ -407,6 +491,7 @@ function saveNotes() {
   setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
 }
 document.addEventListener('DOMContentLoaded', () => {
+  loadVinHistory();
   try { document.getElementById('parts-notes').value = localStorage.getItem('partsnotes646202') || ''; } catch(e) {}
 });
 </script>
