@@ -333,7 +333,7 @@ function render() {
   if (srt === 'name')   list.sort((a,b)=>a.name.localeCompare(b.name));
   if (srt === 'name-d') list.sort((a,b)=>b.name.localeCompare(a.name));
   if (srt === 'size')   list.sort((a,b)=>(b.size||0)-(a.size||0));
-  if (srt === 'date')   list.sort((a,b)=>(b.mtime||0)-(a.mtime||0));
+  if (srt === 'date')   list.sort((a,b)=>new Date(b.mtime||0)-new Date(a.mtime||0));
   list.sort((a,b)=>(b.type==='directory')-(a.type==='directory'));
 
   document.getElementById('count').textContent = list.length + ' item' + (list.length!==1?'s':'');
@@ -349,7 +349,7 @@ function render() {
     const isDir  = e.type === 'directory';
     const fp     = (curPath ? curPath + '/' : '') + e.name;
     const url    = FILES + fp;
-    const meta   = [fmtSize(e.size), e.mtime?new Date(e.mtime*1000).toLocaleDateString():''].filter(Boolean).join(' &middot; ');
+    const dt=e.mtime?new Date(e.mtime):null;let ds='';if(dt&&!isNaN(dt)){let h=dt.getHours();const ap=h>=12?'PM':'AM';h=h%12||12;ds=dt.toLocaleDateString()+' '+h+':'+String(dt.getMinutes()).padStart(2,'0')+' '+ap;}const meta=[fmtSize(e.size),ds].filter(Boolean).join(' · ');
     return '<div class="file-row" onclick="openEntry(\'' + fp + '\',\'' + (e.type||'file') + '\',\'' + url + '\')">' +
       '<div class="file-icon">' + icon(e.name, e.type) + '</div>' +
       '<div class="file-info">' +
@@ -468,7 +468,8 @@ async function doUpload() {
     banner.className = 'banner banner-ok';
     banner.textContent = ok + ' file' + (ok!==1?'s':'') + ' uploaded successfully.';
     toast(ok + ' file' + (ok!==1?'s':'') + ' uploaded', 't-ok');
-    loadDir('uploads');  // navigate browser to show the uploads folder
+    setTimeout(clearQueue, 800);
+    loadDir('uploads');
   } else {
     banner.className = 'banner banner-err';
     banner.textContent = ok + ' uploaded. Failed: ' + fail.join(', ');
