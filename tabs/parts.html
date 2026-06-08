@@ -5,52 +5,61 @@
 <title>Parts — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+:root{
+  --bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;
+  --accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;
+  --text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
-.card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:14px}
-.card-title-lg{font-size:15px;font-weight:700;color:var(--accent2);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.card-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
-.vin-row{display:flex;gap:8px;align-items:flex-end}
-input,select{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:8px 12px;background:var(--surface);color:var(--text);outline:none}
-input:focus{border-color:var(--accent2)}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:16px}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.card-icon{font-size:18px}
+.card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+
+/* ── VIN Decoder ── */
+.vin-row{display:flex;gap:8px;align-items:stretch}
+.vin-input{flex:1;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-size:14px;border:1.5px solid var(--border);border-radius:7px;padding:9px 14px;background:var(--surface);color:var(--text);outline:none;transition:border-color .2s}
+.vin-input:focus{border-color:var(--accent2)}
+.vin-counter{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:1px solid var(--border);border-radius:7px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
 .btn:hover{background:var(--surface2)}
 .btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
-.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
-.result-item label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:3px}
-.result-item .val{font-size:14px;font-weight:600;font-family:var(--mono)}
-/* ── Inner tabs ── */
-.inner-tab-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
-.inner-tab-pill{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-.inner-tab-pill:hover{background:var(--surface);border-color:var(--accent2);color:var(--accent2)}
-.inner-tab-pill.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-/* ── Tables ── */
-.ref-table{width:100%;border-collapse:collapse;font-size:13px}
-.ref-table th{text-align:left;padding:7px 10px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
-.ref-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-.ref-table tr:last-child td{border-bottom:none}
-.ref-table tr:hover td{background:var(--surface2)}
-.ref-table td:first-child{font-family:var(--mono);font-weight:500}
-.table-wrap{overflow-x:auto}
-/* ── Tags & info blocks ── */
-.tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
-.tag.green{background:#dcfce7;color:#15803d;border-color:#86efac}
-.tag.amber{background:#fef9c3;color:#854d0e;border-color:#fde68a}
-.tag.red{background:#fee2e2;color:#b91c1c;border-color:#fca5a5}
-.info-block{background:var(--surface2);border-left:3px solid var(--accent2);border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--text2)}
-.info-block strong{color:var(--text)}
-.info-block.amber{border-left-color:var(--amber)}
-.info-block.green{border-left-color:var(--green)}
-.info-block.red{border-left-color:var(--red)}
-.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:14px 0 8px}
-.fluid-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle;border:1px solid rgba(0,0,0,.15)}
+.btn-primary:hover{opacity:.9}
+.result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:10px;margin-top:14px}
+.result-item{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:10px 12px}
+.result-item label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:block;margin-bottom:3px}
+.result-item .val{font-size:13px;font-weight:600;font-family:var(--mono)}
+
+/* ── Vendor Grid ── */
+.vendor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.vendor-card{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);transition:background .15s,border-color .15s,box-shadow .15s}
+.vendor-card:hover{background:#fff;border-color:var(--accent2);box-shadow:0 2px 8px rgba(30,58,95,.1)}
+.vendor-logo{width:36px;height:36px;border-radius:6px;object-fit:contain;background:#fff;border:1px solid var(--border);flex-shrink:0}
+.vendor-logo-placeholder{width:36px;height:36px;border-radius:6px;background:var(--accent2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700;flex-shrink:0}
+.vendor-info{min-width:0}
+.vendor-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vendor-detail{font-size:11px;color:var(--text3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vendor-badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px;margin-top:3px}
+.badge-local{background:#dbeafe;color:#1d4ed8}
+.badge-online{background:#dcfce7;color:#15803d}
+.badge-brand{background:#f3e8ff;color:#7c3aed}
+.badge-national{background:#fef9c3;color:#854d0e}
+
+/* ── Section label ── */
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:18px 0 10px}
+.section-label:first-of-type{margin-top:0}
+
 /* ── Spinner ── */
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin .7s linear infinite}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Notes ── */
+.notes-area{width:100%;min-height:90px;resize:vertical;font-family:var(--font);font-size:13px;border:1.5px solid var(--border);border-radius:7px;padding:10px 12px;outline:none;color:var(--text);background:var(--surface);transition:border-color .2s}
+.notes-area:focus{border-color:var(--accent2)}
 </style>
 </head>
 <body>
@@ -59,202 +68,270 @@ input:focus{border-color:var(--accent2)}
      CARD 1 — VIN DECODER
 ═══════════════════════════ -->
 <div class="card">
-  <div class="card-title">🔍 VIN Decoder</div>
-  <div class="vin-row">
-    <input id="vin-input" placeholder="Enter 17-character VIN" style="flex:1;font-family:var(--mono);letter-spacing:.05em" maxlength="17">
-    <button class="btn btn-primary" onclick="decodeVIN()">Decode</button>
+  <div class="card-header">
+    <span class="card-icon">🔍</span>
+    <span class="card-title">VIN Decoder</span>
   </div>
-  <div id="vin-result" style="margin-top:14px"></div>
+  <div class="vin-row">
+    <div style="flex:1;min-width:0">
+      <input id="vinInput" class="vin-input" type="text" maxlength="17" placeholder="1HGBH41JXMN109186" autocomplete="off" spellcheck="false">
+      <div class="vin-counter"><span id="vinLen">0</span> / 17 characters</div>
+    </div>
+    <button class="btn btn-primary" id="decodeBtn" onclick="decodeVIN()">
+      <span id="decodeBtnIcon">🔎</span>
+      <span id="decodeBtnText">Decode</span>
+    </button>
+    <button class="btn" onclick="clearVIN()">✕</button>
+  </div>
+  <div id="vinError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;border-radius:7px;padding:10px 14px;color:var(--red);font-size:13px;margin-top:12px"></div>
+  <div id="vinResult"></div>
 </div>
 
 <!-- ═══════════════════════════
-     CARD 2 — PARTS QUICK REFERENCE (Rich backup)
+     CARD 2 — PARTS SUPPLIERS
 ═══════════════════════════ -->
 <div class="card">
-  <div class="card-title-lg"><span>📚</span> Parts Quick Reference</div>
-  <div class="card-sub">Common specs, sizes, and cross-reference notes for frequently requested parts</div>
-
-  <div class="inner-tab-bar" id="refTabBar">
-    <button class="inner-tab-pill active" data-tab="batteries">🔋 Batteries</button>
-    <button class="inner-tab-pill" data-tab="wipers">🌧️ Wiper Blades</button>
-    <button class="inner-tab-pill" data-tab="brakes">🛑 Brakes</button>
-    <button class="inner-tab-pill" data-tab="filters">🌀 Filters</button>
-    <button class="inner-tab-pill" data-tab="belts">🔄 Belts</button>
-    <button class="inner-tab-pill" data-tab="fluids">💧 Fluids</button>
+  <div class="card-header">
+    <span class="card-icon">🏪</span>
+    <span class="card-title">Parts Suppliers</span>
   </div>
 
-  <!-- BATTERIES -->
-  <div class="tab-panel active" id="tab-batteries">
-    <div class="info-block">
-      <strong>Group Size Selection:</strong> Always verify CCA meets or exceeds OEM spec. Cold climates require upper CCA range. Check physical dimensions before ordering.
-    </div>
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead>
-          <tr><th>Group Size</th><th>CCA Range</th><th>Typical RC</th><th>Common Applications</th><th>Notes</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>24 / 24F</td><td>550–750 CCA</td><td>90–110 min</td><td>Acura, Honda, Lexus, Nissan, Toyota</td><td><span class="tag">Top-post</span></td></tr>
-          <tr><td>34 / 34R</td><td>650–800 CCA</td><td>100–120 min</td><td>Chrysler, Dodge, GM trucks, Jeep</td><td><span class="tag">Top-post</span></td></tr>
-          <tr><td>35</td><td>640–750 CCA</td><td>90–110 min</td><td>Honda Accord/Civic, Nissan, Subaru, Toyota Camry</td><td><span class="tag green">High volume</span></td></tr>
-          <tr><td>47 (H5)</td><td>600–730 CCA</td><td>85–100 min</td><td>Buick, Chevy Cruze/Malibu, Fiat, VW</td><td><span class="tag">Euro</span></td></tr>
-          <tr><td>48 (H6)</td><td>730–850 CCA</td><td>120–140 min</td><td>Audi, BMW, Cadillac, GMC, Mercedes, VW</td><td><span class="tag green">High volume</span></td></tr>
-          <tr><td>49 (H8)</td><td>850–950 CCA</td><td>150–175 min</td><td>Audi A6/A8, BMW 7-series, Mercedes S-class</td><td><span class="tag amber">AGM req.</span></td></tr>
-          <tr><td>51 / 51R</td><td>425–500 CCA</td><td>60–75 min</td><td>Acura, Honda CR-V, Mazda, Mitsubishi</td><td>51R = reverse pos.</td></tr>
-          <tr><td>65</td><td>750–850 CCA</td><td>115–130 min</td><td>Ford F-150, Lincoln, Mercury</td><td><span class="tag">Top-post</span></td></tr>
-          <tr><td>75 / 75DT</td><td>525–650 CCA</td><td>85–100 min</td><td>Buick, Chevy, Oldsmobile, Pontiac</td><td>Side-post avail.</td></tr>
-          <tr><td>78</td><td>770–900 CCA</td><td>120–145 min</td><td>Chevy, GMC trucks, Saturn</td><td>Side-post terminal</td></tr>
-          <tr><td>96R</td><td>590–700 CCA</td><td>90–105 min</td><td>Cadillac CTS, Chevy Camaro 2010+</td><td><span class="tag amber">AGM check</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="info-block amber" style="margin-top:12px">
-      <strong>AGM Batteries:</strong> Vehicles with start-stop systems, heavy electrical loads, or OEM AGM batteries <em>must</em> be replaced with AGM. Do not substitute flooded. Always register battery with scan tool on BMW, Mercedes, Audi, and GM vehicles with BCM battery management.
-    </div>
-  </div>
+  <div class="section-label">Local & Primary Suppliers</div>
+  <div class="vendor-grid">
 
-  <!-- WIPERS -->
-  <div class="tab-panel" id="tab-wipers">
-    <div class="info-block">
-      <strong>Blade Selection:</strong> Beam blades recommended for most late-model vehicles. Confirm attachment type (J-hook, pinch tab, top-lock) before ordering. Rear blades vary significantly — always look up by VIN.
-    </div>
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead>
-          <tr><th>Vehicle</th><th>Years</th><th>Driver</th><th>Passenger</th><th>Rear</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Honda Civic</td><td>2016–22</td><td>26"</td><td>16"</td><td>14"</td></tr>
-          <tr><td>Honda Accord</td><td>2018–22</td><td>26"</td><td>19"</td><td>—</td></tr>
-          <tr><td>Honda CR-V</td><td>2017–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-          <tr><td>Toyota Camry</td><td>2018–22</td><td>26"</td><td>16"</td><td>—</td></tr>
-          <tr><td>Toyota Corolla</td><td>2020–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-          <tr><td>Toyota RAV4</td><td>2019–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-          <tr><td>Toyota Highlander</td><td>2020–22</td><td>26"</td><td>20"</td><td>14"</td></tr>
-          <tr><td>Ford F-150</td><td>2015–22</td><td>22"</td><td>22"</td><td>—</td></tr>
-          <tr><td>Ford Escape</td><td>2020–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-          <tr><td>Ford Explorer</td><td>2020–22</td><td>24"</td><td>20"</td><td>12"</td></tr>
-          <tr><td>Chevy Equinox</td><td>2018–22</td><td>24"</td><td>16"</td><td>12"</td></tr>
-          <tr><td>Chevy Silverado</td><td>2019–22</td><td>22"</td><td>22"</td><td>—</td></tr>
-          <tr><td>Nissan Rogue</td><td>2021–22</td><td>26"</td><td>14"</td><td>12"</td></tr>
-          <tr><td>Nissan Altima</td><td>2019–22</td><td>26"</td><td>16"</td><td>—</td></tr>
-          <tr><td>Hyundai Tucson</td><td>2022+</td><td>26"</td><td>14"</td><td>12"</td></tr>
-          <tr><td>Subaru Outback</td><td>2020–22</td><td>26"</td><td>18"</td><td>12"</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="color:var(--text3);font-size:12px;margin-top:8px">⚠️ Always verify with vehicle lookup — sizes vary by trim/package</p>
-  </div>
-
-  <!-- BRAKES -->
-  <div class="tab-panel" id="tab-brakes">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-      <div>
-        <div class="section-label">Pad Wear Indicators</div>
-        <table class="ref-table">
-          <thead><tr><th>Thickness</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>&gt;6mm</td><td style="color:var(--green);font-weight:600">Good — document</td></tr>
-            <tr><td>3–6mm</td><td style="color:var(--amber);font-weight:600">Monitor / advise</td></tr>
-            <tr><td>&lt;3mm</td><td style="color:var(--red);font-weight:600">Replace now</td></tr>
-          </tbody>
-        </table>
+    <a class="vendor-card" href="https://www.gmparts.com/trade-professionals/ebusiness-tools" target="_blank">
+      <div class="vendor-logo-placeholder">UAS</div>
+      <div class="vendor-info">
+        <div class="vendor-name">United Auto Supply</div>
+        <div class="vendor-detail">800-772-1667</div>
+        <span class="vendor-badge badge-local">Local</span>
       </div>
-      <div>
-        <div class="section-label">Common Lug Torques (ft-lb)</div>
-        <table class="ref-table">
-          <thead><tr><th>Make</th><th>Torque</th></tr></thead>
-          <tbody>
-            <tr><td>Chrysler/Dodge/Jeep</td><td>95–115</td></tr>
-            <tr><td>Ford</td><td>100–150</td></tr>
-            <tr><td>GM / Chevy / GMC</td><td>100–140</td></tr>
-            <tr><td>Honda / Acura</td><td>80–95</td></tr>
-            <tr><td>Hyundai / Kia</td><td>65–80</td></tr>
-            <tr><td>Nissan / Infiniti</td><td>80–108</td></tr>
-            <tr><td>Toyota / Lexus</td><td>76–100</td></tr>
-            <tr><td>Subaru</td><td>89</td></tr>
-            <tr><td>VW / Audi</td><td>89–118</td></tr>
-            <tr><td>BMW</td><td>89–100</td></tr>
-          </tbody>
-        </table>
+    </a>
+
+    <a class="vendor-card" href="https://www.autozone.com/" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/autozone.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">AZ</div>
+      <div class="vendor-info">
+        <div class="vendor-name">AutoZone</div>
+        <div class="vendor-detail">585-872-5570</div>
+        <span class="vendor-badge badge-local">Local</span>
       </div>
-    </div>
-    <div class="section-label">Common Brake Symptoms & Causes</div>
-    <table class="ref-table">
-      <thead><tr><th>Symptom</th><th>Likely Cause</th><th>Action</th></tr></thead>
-      <tbody>
-        <tr><td>Squealing (cold, first stop)</td><td>Normal — pad backing plate, morning dew</td><td>Monitor; note if persistent</td></tr>
-        <tr><td>Squealing (all stops)</td><td>Wear indicator contact or glazed rotors</td><td>Inspect pads &amp; rotors</td></tr>
-        <tr><td>Grinding</td><td>Pads worn to metal, debris, corroded rotor</td><td>Replace pads &amp; inspect rotors immediately</td></tr>
-        <tr><td>Pulsation / vibration</td><td>Warped or DTV (disc thickness variation)</td><td>Measure DTV, replace if &gt;0.0005"</td></tr>
-        <tr><td>Pulling to one side</td><td>Stuck caliper, uneven pad wear</td><td>Inspect caliper slides &amp; seals</td></tr>
-        <tr><td>Spongy pedal</td><td>Air in lines, worn master cylinder</td><td>Bleed system, inspect MC</td></tr>
-      </tbody>
-    </table>
-    <div class="info-block amber" style="margin-top:12px">
-      <strong>Rotor Minimum Thickness</strong> is cast into the rotor hat or edge. Always verify with vehicle-specific data. Replace if at or below minimum, or if insufficient material remains for machining.
-    </div>
+    </a>
+
+    <a class="vendor-card" href="https://shop.advanceautoparts.com/" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/advanceautoparts.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">AA</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Advance Auto Parts</div>
+        <div class="vendor-detail">585-787-9345</div>
+        <span class="vendor-badge badge-local">Local</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.napaonline.com/" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/napaonline.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">NAPA</div>
+      <div class="vendor-info">
+        <div class="vendor-name">NAPA Auto Parts</div>
+        <div class="vendor-detail">napaonline.com</div>
+        <span class="vendor-badge badge-local">Local</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.oreillyauto.com/" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/oreillyauto.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">O'R</div>
+      <div class="vendor-info">
+        <div class="vendor-name">O'Reilly Auto Parts</div>
+        <div class="vendor-detail">oreillyauto.com</div>
+        <span class="vendor-badge badge-local">Local</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.wilberts.com/premium-auto-parts/parts/" target="_blank">
+      <div class="vendor-logo-placeholder">WB</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Wilbert's</div>
+        <div class="vendor-detail">315-524-8800</div>
+        <span class="vendor-badge badge-local">Salvage</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://app.storeperformancedashboard.com/resourcelibrary/external-link/Ny93RHJPRnJONFU90" target="_blank">
+      <div class="vendor-logo-placeholder">1-8</div>
+      <div class="vendor-info">
+        <div class="vendor-name">1-800 Radiator</div>
+        <div class="vendor-detail">Radiator specialist</div>
+        <span class="vendor-badge badge-local">Specialty</span>
+      </div>
+    </a>
+
   </div>
 
-  <!-- FILTERS -->
-  <div class="tab-panel" id="tab-filters">
-    <div class="info-block">
-      <strong>Filter Intervals:</strong> Engine air — 15,000–30,000 mi or annually. Cabin air — 12,000–15,000 mi or annually (more often in dusty conditions). Oil — per OEM schedule or 5,000–7,500 mi conventional / 10,000–15,000 mi full synthetic.
-    </div>
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead><tr><th>Filter Type</th><th>Service Interval</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Engine Air Filter</td><td>15,000–30,000 mi</td><td>Inspect at every oil change; replace sooner if visibly dirty</td></tr>
-          <tr><td>Cabin Air Filter</td><td>12,000–15,000 mi</td><td>Often neglected — upsell at every service. Location varies (glove box, under dash, cowl)</td></tr>
-          <tr><td>Oil Filter</td><td>Every oil change</td><td>Always replace with oil. Verify thread pitch and bypass valve spec</td></tr>
-          <tr><td>Fuel Filter (in-tank)</td><td>60,000–100,000 mi</td><td>Many late models have lifetime filters — verify before quoting</td></tr>
-          <tr><td>Fuel Filter (inline)</td><td>30,000 mi</td><td>Common on older vehicles and diesel</td></tr>
-          <tr><td>Transmission Filter</td><td>30,000–60,000 mi</td><td>Often omitted by manufacturers — check fluid condition</td></tr>
-          <tr><td>PCV Valve</td><td>30,000–60,000 mi</td><td>Shake to verify function; replace if stuck or rattling wrong</td></tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="section-label">Online Suppliers</div>
+  <div class="vendor-grid">
+
+    <a class="vendor-card" href="https://www.rockauto.com/" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/rockauto.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">RA</div>
+      <div class="vendor-info">
+        <div class="vendor-name">RockAuto</div>
+        <div class="vendor-detail">rockauto.com</div>
+        <span class="vendor-badge badge-online">Online</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.amazon.com/automotive-auto-truck-replacements-parts/b?node=15684181" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/amazon.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">AMZ</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Amazon Auto</div>
+        <div class="vendor-detail">amazon.com/automotive</div>
+        <span class="vendor-badge badge-online">Online</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.ebay.com/b/Auto-Parts-and-Vehicles/6000/bn_1865334" target="_blank">
+      <img class="vendor-logo" src="https://favicon.im/ebay.com?larger=true" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="">
+      <div class="vendor-logo-placeholder" style="display:none">eBay</div>
+      <div class="vendor-info">
+        <div class="vendor-name">eBay Motors</div>
+        <div class="vendor-detail">ebay.com/motors</div>
+        <span class="vendor-badge badge-online">Online</span>
+      </div>
+    </a>
+
   </div>
 
-  <!-- BELTS -->
-  <div class="tab-panel" id="tab-belts">
-    <div class="info-block">
-      <strong>Serpentine Belt:</strong> Inspect for cracks, glazing, fraying, and missing ribs. Replace if cracked or at 60,000–100,000 mi. Always replace tensioner and idler pulleys when replacing belt on high-mileage vehicles.
-    </div>
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead><tr><th>Belt Type</th><th>Inspection Points</th><th>Typical Interval</th></tr></thead>
-        <tbody>
-          <tr><td>Serpentine / Drive Belt</td><td>Cracks, glazing, fraying, rib missing</td><td>60,000–100,000 mi</td></tr>
-          <tr><td>Timing Belt</td><td>N/A — preventive replacement only</td><td>60,000–105,000 mi (OEM specific)</td></tr>
-          <tr><td>Timing Chain</td><td>Rattle on cold start, stretched check via scan</td><td>Lifetime (but fails on neglected oil)</td></tr>
-          <tr><td>A/C Belt (if separate)</td><td>Same as serpentine</td><td>Same as serpentine or at A/C service</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="info-block red" style="margin-top:12px">
-      <strong>Timing Belt Failure = Engine Damage.</strong> Always flag overdue timing belts as critical. Check water pump condition and replace simultaneously — labor overlap makes it cost-effective.
-    </div>
-  </div>
+  <div class="section-label">Brand / Manufacturer Sites</div>
+  <div class="vendor-grid">
 
-  <!-- FLUIDS -->
-  <div class="tab-panel" id="tab-fluids">
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead><tr><th>Fluid</th><th>Color (new)</th><th>Interval</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td>Engine Oil</td><td><span class="fluid-dot" style="background:#c8a050"></span>Amber/gold</td><td>Per OEM / 5k–15k mi</td><td>Check viscosity — 0W-20, 5W-20, 5W-30 most common</td></tr>
-          <tr><td>Coolant / Antifreeze</td><td><span class="fluid-dot" style="background:#4ade80"></span>Green or orange</td><td>2 yr / 30k mi (conv.) · 5 yr / 150k mi (OAT)</td><td>Never mix green and orange. Test freeze point &amp; pH</td></tr>
-          <tr><td>Power Steering Fluid</td><td><span class="fluid-dot" style="background:#c084fc"></span>Clear/red</td><td>Inspect annually</td><td>Many late models are EPS — no fluid. Check for leaks &amp; foaming</td></tr>
-          <tr><td>Brake Fluid</td><td><span class="fluid-dot" style="background:#fef08a"></span>Clear/yellow</td><td>2 yr or by moisture content</td><td>DOT3 / DOT4 most common. Test moisture — replace if &gt;3%</td></tr>
-          <tr><td>Transmission Fluid (ATF)</td><td><span class="fluid-dot" style="background:#f87171"></span>Red</td><td>30k–60k mi (service) · OEM "lifetime"</td><td>Verify spec — CVT fluids are NOT interchangeable with ATF</td></tr>
-          <tr><td>Differential / Gear Oil</td><td><span class="fluid-dot" style="background:#94a3b8"></span>Dark amber</td><td>30k–60k mi or if contaminated</td><td>75W-90 or 75W-140 most common. Check for water intrusion</td></tr>
-          <tr><td>Transfer Case Fluid</td><td><span class="fluid-dot" style="background:#94a3b8"></span>Dark amber</td><td>30k–60k mi</td><td>Check OEM spec — some use ATF, some use dedicated fluid</td></tr>
-          <tr><td>Windshield Washer</td><td><span class="fluid-dot" style="background:#60a5fa"></span>Blue</td><td>Top off as needed</td><td>Pre-mixed for cold climates; diluted in summer is fine</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <a class="vendor-card" href="https://catalogue.bosal.com/bosal/en/home" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#c00">BOS</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Bosal</div>
+        <div class="vendor-detail">Exhaust systems</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.walkerexhaust.com/find-my-part.html" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#555">WLK</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Walker Exhaust</div>
+        <div class="vendor-detail">Exhaust / mufflers</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.moogparts.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#1a56db">MOG</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Moog Parts</div>
+        <div class="vendor-detail">Steering &amp; suspension</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.dormanproducts.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#e05">DOR</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Dorman Products</div>
+        <div class="vendor-detail">OE fix parts</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://ngksparkplugs.com/en/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#1a1a1a">NGK</div>
+      <div class="vendor-info">
+        <div class="vendor-name">NGK Spark Plugs</div>
+        <div class="vendor-detail">Ignition components</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.densoautoparts.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#0055a5">DNS</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Denso</div>
+        <div class="vendor-detail">OEM-grade components</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.boschautoparts.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#c1001f">BSH</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Bosch Auto Parts</div>
+        <div class="vendor-detail">Sensors, brakes, starters</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://findpigtails.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#2563eb">PIG</div>
+      <div class="vendor-info">
+        <div class="vendor-name">FindPigtails</div>
+        <div class="vendor-detail">Wiring connectors</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://app.storeperformancedashboard.com/resourcelibrary/external-link/OFlUSFRHcHM0dVU90" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#374151">BBW</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Blackburn OEM Wheels</div>
+        <div class="vendor-detail">OEM wheels</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://app.storeperformancedashboard.com/resourcelibrary/external-link/Qno3eHVFOExzalk90" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#6d28d9">VLX</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Velox Wheels</div>
+        <div class="vendor-detail">Aftermarket wheels</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://na.daycoaftermarket.com/en/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#d97706">DYC</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Dayco</div>
+        <div class="vendor-detail">Belts, tensioners, pulleys</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://www.delphiautoparts.com/?catalogTab=vehicle" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#0891b2">DEL</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Delphi Technologies</div>
+        <div class="vendor-detail">Fuel, electrical, sensors</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://parts-catalog.acdelco.com/acesCat.php?isBattery=1" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#f59e0b;color:#000">ACD</div>
+      <div class="vendor-info">
+        <div class="vendor-name">ACDelco</div>
+        <div class="vendor-detail">GM OEM &amp; aftermarket</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
+    <a class="vendor-card" href="https://wellsve.com/" target="_blank">
+      <div class="vendor-logo-placeholder" style="background:#065f46">WLS</div>
+      <div class="vendor-info">
+        <div class="vendor-name">Wells Vehicle Electronics</div>
+        <div class="vendor-detail">Electronic components</div>
+        <span class="vendor-badge badge-brand">Brand</span>
+      </div>
+    </a>
+
   </div>
 </div>
 
@@ -262,52 +339,70 @@ input:focus{border-color:var(--accent2)}
      CARD 3 — NOTES
 ═══════════════════════════ -->
 <div class="card">
-  <div class="card-title">📝 Notes</div>
-  <textarea id="parts-notes" style="width:100%;min-height:100px;resize:vertical;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:10px;outline:none" placeholder="Parts notes..."></textarea>
+  <div class="card-header">
+    <span class="card-icon">📝</span>
+    <span class="card-title">Notes</span>
+  </div>
+  <textarea id="parts-notes" class="notes-area" placeholder="Parts notes, backorder tracking, vendor issues..."></textarea>
   <button class="btn" style="margin-top:8px" onclick="saveNotes()">Save Notes</button>
 </div>
 
 <script>
-// ── VIN Decoder ──
+// ── VIN counter
+const vinInput = document.getElementById('vinInput');
+vinInput.addEventListener('input', () => {
+  document.getElementById('vinLen').textContent = vinInput.value.length;
+});
+vinInput.addEventListener('keydown', e => { if(e.key === 'Enter') decodeVIN(); });
+
+// ── VIN Decode
 async function decodeVIN() {
-  const vin = document.getElementById('vin-input').value.trim().toUpperCase();
-  const box = document.getElementById('vin-result');
-  if (vin.length !== 17) { box.innerHTML = '<p style="color:var(--red);font-size:13px">⚠️ VIN must be 17 characters</p>'; return; }
-  box.innerHTML = '<span class="spinner"></span> Decoding...';
+  const vin = vinInput.value.trim().toUpperCase();
+  vinInput.value = vin;
+  document.getElementById('vinLen').textContent = vin.length;
+  const err = document.getElementById('vinError');
+  const res = document.getElementById('vinResult');
+  err.style.display = 'none'; res.innerHTML = '';
+  if (vin.length !== 17) { err.textContent = '⚠️ VIN must be exactly 17 characters'; err.style.display = 'block'; return; }
+  const btn = document.getElementById('decodeBtn');
+  const origIcon = document.getElementById('decodeBtnIcon').textContent;
+  document.getElementById('decodeBtnIcon').innerHTML = '<span class="spinner"></span>';
+  document.getElementById('decodeBtnText').textContent = 'Decoding...';
+  btn.disabled = true;
   try {
     const r = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin}?format=json`);
     const d = await r.json();
-    const fields = ['Make','Model','Model Year','Body Class','Drive Type','Engine Configuration','Displacement (L)','Fuel Type - Primary','Number of Cylinders','Transmission Style','Plant Country'];
-    const results = {};
-    d.Results.forEach(x => { if (fields.includes(x.Variable) && x.Value && x.Value !== 'Not Applicable') results[x.Variable] = x.Value; });
-    if (!Object.keys(results).length) { box.innerHTML = '<p style="color:var(--text3);font-size:13px">No results found for this VIN.</p>'; return; }
-    let html = '<div class="result-grid">';
-    Object.entries(results).forEach(([k,v]) => { html += `<div class="result-item"><label>${k}</label><div class="val">${v}</div></div>`; });
+    const want = ['Make','Model','Model Year','Body Class','Drive Type','Engine Configuration','Displacement (L)','Fuel Type - Primary','Number of Cylinders','Transmission Style','Plant Country'];
+    const out = {};
+    d.Results.forEach(x => { if(want.includes(x.Variable) && x.Value && x.Value !== 'Not Applicable') out[x.Variable] = x.Value; });
+    if(!Object.keys(out).length) { err.textContent = '⚠️ No data found for this VIN.'; err.style.display = 'block'; return; }
+    let html = '<div class="result-grid" style="margin-top:14px">';
+    Object.entries(out).forEach(([k,v]) => { html += `<div class="result-item"><label>${k}</label><div class="val">${v}</div></div>`; });
     html += '</div>';
-    box.innerHTML = html;
-  } catch(e) { box.innerHTML = '<p style="color:var(--red);font-size:13px">⚠️ Error contacting NHTSA API. Check connection.</p>'; }
+    res.innerHTML = html;
+  } catch(e) {
+    err.textContent = '⚠️ Error contacting NHTSA — check your connection.';
+    err.style.display = 'block';
+  } finally {
+    document.getElementById('decodeBtnIcon').textContent = origIcon;
+    document.getElementById('decodeBtnText').textContent = 'Decode';
+    btn.disabled = false;
+  }
 }
-document.getElementById('vin-input').addEventListener('keydown', e => { if (e.key === 'Enter') decodeVIN(); });
 
-// ── Inner Tabs ──
-document.getElementById('refTabBar').addEventListener('click', e => {
-  const pill = e.target.closest('.inner-tab-pill');
-  if (!pill) return;
-  const tab = pill.dataset.tab;
-  document.querySelectorAll('.inner-tab-pill').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  pill.classList.add('active');
-  const panel = document.getElementById('tab-' + tab);
-  if (panel) panel.classList.add('active');
-});
+function clearVIN() {
+  vinInput.value = '';
+  document.getElementById('vinLen').textContent = '0';
+  document.getElementById('vinError').style.display = 'none';
+  document.getElementById('vinResult').innerHTML = '';
+}
 
-// ── Notes ──
+// ── Notes
 function saveNotes() {
   try { localStorage.setItem('partsnotes646202', document.getElementById('parts-notes').value); } catch(e) {}
   const btn = event.target;
   const orig = btn.textContent;
-  btn.textContent = '✓ Saved';
-  btn.style.color = 'var(--green)';
+  btn.textContent = '✓ Saved'; btn.style.color = 'var(--green)';
   setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
 }
 document.addEventListener('DOMContentLoaded', () => {
