@@ -67,6 +67,12 @@ tr:hover td{background:var(--surface2)}
 .tpms-part{font-family:var(--mono);font-weight:700;font-size:14px;color:var(--navy)}
 .tpms-desc{font-size:12px;color:var(--text2);margin-top:2px}
 .tpms-brands{font-size:11px;color:var(--text3);margin-top:3px}
+
+/* Compact table style for smaller reference tables */
+.compact th{font-size:10px;padding:5px 8px}
+.compact td{font-size:12px;padding:5px 8px}
+.compact-scroll{max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:7px}
+.compact-scroll thead th{position:sticky;top:0;z-index:1}
 </style>
 </head>
 <body>
@@ -144,7 +150,7 @@ tr:hover td{background:var(--surface2)}
   <div class="card" style="margin-bottom:0">
     <div class="card-title">Rim / Tire Fitment</div>
     <div style="overflow-x:auto">
-      <table>
+      <table class="compact">
         <thead><tr><th>Rim</th><th>Compatible Widths</th><th>Recommended</th></tr></thead>
         <tbody>
           <tr><td><strong>15"</strong></td><td class="mono">175-235 mm</td><td><span class="badge badge-blue">195-215 mm</span></td></tr>
@@ -162,8 +168,8 @@ tr:hover td{background:var(--surface2)}
 
   <div class="card" style="margin-bottom:0">
     <div class="card-title">Load Index Reference (70-126)</div>
-    <div class="table-scroll">
-      <table>
+    <div class="compact-scroll">
+      <table class="compact">
         <thead><tr><th>Index</th><th>kg</th><th>lbs</th><th>Index</th><th>kg</th><th>lbs</th></tr></thead>
         <tbody id="loadBody"></tbody>
       </table>
@@ -178,7 +184,7 @@ tr:hover td{background:var(--surface2)}
   <div class="card" style="margin-bottom:0">
     <div class="card-title">Speed Rating Reference</div>
     <div style="overflow-x:auto">
-      <table>
+      <table class="compact">
         <thead><tr><th>Rating</th><th>km/h</th><th>mph</th><th>Typical Use</th></tr></thead>
         <tbody id="speedBody"></tbody>
       </table>
@@ -197,7 +203,7 @@ tr:hover td{background:var(--surface2)}
 <div class="card">
   <div class="card-title">Tire Marking Decoder</div>
   <div style="overflow-x:auto">
-    <table>
+    <table class="compact">
       <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
       <tbody>
         <tr><td class="mono">P</td><td>Passenger car (metric)</td><td>P225/60R16</td></tr>
