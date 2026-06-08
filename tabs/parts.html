@@ -106,6 +106,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
           <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Year</th>
           <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Make</th>
           <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Model</th>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Trim</th>
           <th style="background:var(--surface2);padding:8px 12px;border-bottom:1px solid var(--border)"></th>
         </tr>
       </thead>
@@ -412,7 +413,7 @@ async function decodeVIN() {
     res.innerHTML = html;
     // Save to history
     if (out['Model Year'] && out['Make'] && out['Model']) {
-      saveVinHistory(vin, out['Model Year'], out['Make'], out['Model']);
+      saveVinHistory(vin, out['Model Year'], out['Make'], out['Model'], out['Trim'] || '');
     }
   } catch(e) {
     err.textContent = '⚠️ Error contacting NHTSA — check your connection.';
@@ -453,12 +454,13 @@ function renderVinHistory(rows) {
     '<td style="padding:8px 12px;font-size:13px;white-space:nowrap">' + row.year + '</td>' +
     '<td style="padding:8px 12px;font-size:13px;font-weight:600;white-space:nowrap">' + row.make + '</td>' +
     '<td style="padding:8px 12px;font-size:13px;white-space:nowrap">' + row.model + '</td>' +
+    '<td style="padding:8px 12px;font-size:12px;color:var(--text2);white-space:nowrap">' + (row.trim || '--') + '</td>' +
     '<td style="padding:8px 12px;white-space:nowrap"><button onclick="deleteVinRow(' + origIdx + ')" style="font-size:11px;color:var(--red);background:none;border:none;cursor:pointer;padding:0 4px">x</button></td>' +
     '</tr>';
   }).join('');
 }
 
-async function saveVinHistory(vin, year, make, model) {
+async function saveVinHistory(vin, year, make, model, trim) {
   try {
     const now = new Date();
     const ts = now.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}) + ' ' +
@@ -468,7 +470,7 @@ async function saveVinHistory(vin, year, make, model) {
       const r = await fetch(VIN_HISTORY_URL + '?t=' + Date.now());
       if (r.ok) rows = await r.json();
     } catch(e) {}
-    rows.push({ ts, vin, year, make, model });
+    rows.push({ ts, vin, year, make, model, trim: trim || '' });
     await fetch('/data/vin-history.json', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
