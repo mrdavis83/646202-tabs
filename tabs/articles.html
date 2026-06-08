@@ -54,7 +54,7 @@ th.sort-active { color: var(--accent2); }
 th.sort-active .sort-icon { opacity:1; color: var(--accent2); }
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=u_bfOn47EHoRy601KhYVmfpLxWXxDoPZCdo.39DNb6c-1780877128.2980783-1.2.1.1-J2VKx.18qSIs6uT72bEe127lI8XOcGtrq9RVAqSidpQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body><a href="https://646202.com/cdn-cgi/content?id=a45f319Gmex3LYOaSNQJXhllY2JE6aUXzLUuZWouJBs-1780877671.343524-1.2.1.1-mqCNmbjCaCDpf89aM88Mbw9wehTPWq2ftC.Rw43aS7E" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=u_bfOn47EHoRy601KhYVmfpLxWXxDoPZCdo.39DNb6c-1780877128.2980783-1.2.1.1-J2VKx.18qSIs6uT72bEe127lI8XOcGtrq9RVAqSidpQ" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=wwOwwGtfhuWi1BJFHchr5ztXAlSl.VhgXjE5E_wOwHk-1780876643.6404886-1.2.1.1-HmXkSIchb3POz9BZbmeUYd52geD5PnwXR.WHhcb5pmg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a><a href="https://646202.com/cdn-cgi/content?id=w9jwI8VODp0SasJJdwJcSOcml.PbACzvnAKbIx3hMOs-1780876349.547772-1.2.1.1-Sfp3bJFoinXO_V3qBR1pT_BOK0ujSevO4MJ0cH0_1fY" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
 <div class="add-card">
   <div class="add-title">Add Article Number</div>
@@ -174,7 +174,10 @@ function render() {
             onfocus="this.style.borderColor='var(--accent2)';this.style.background='var(--surface)'"
             >${a.notes||''}</span>
         </td>
-        <td><button class="btn btn-sm btn-danger" onclick="delArticle('${a.num}')">Del</button></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-sm btn-danger" onclick="delArticle('${a.num}')">Del</button>
+          <button class="btn btn-sm" id="save-btn-${a.num}" onclick="saveRow('${a.num}',this)" style="margin-left:4px;background:var(--accent2);color:#fff;border-color:var(--accent2)">Save</button>
+        </td>
       </tr>`).join('');
   // Apply badge styles to selects after render
   document.querySelectorAll('.inline-cat-select').forEach(sel => applyCatStyle(sel));
@@ -257,6 +260,22 @@ function applyCatStyle(sel) {
   sel.style.letterSpacing = '0.04em';
 }
 
+
+
+function saveRow(num, btn) {
+  const a = articles.find(a => a.num === num);
+  if (!a) return;
+  save();
+  const orig = btn.textContent;
+  btn.textContent = 'Saved ✓';
+  btn.style.background = 'var(--green)';
+  btn.style.borderColor = 'var(--green)';
+  setTimeout(() => {
+    btn.textContent = orig;
+    btn.style.background = 'var(--accent2)';
+    btn.style.borderColor = 'var(--accent2)';
+  }, 1500);
+}
 
 // ── SORT ──
 let sortField = null;
