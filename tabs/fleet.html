@@ -5,27 +5,54 @@
 <title>Fleet</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--navy:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--font:'Inter',sans-serif}
+:root{
+  --bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;
+  --navy:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --green:#16a34a;--blue:#1d4ed8;--amber:#b45309;--red:#dc2626;
+  --font:'Inter',sans-serif;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px;line-height:1.5}
-h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-h2:first-child{margin-top:0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:8px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+
+h2{
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text3);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+h2:first-of-type{margin-top:0}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:4px}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;display:flex;align-items:flex-start;gap:12px;
+  text-decoration:none;color:var(--text);
+  box-shadow:0 1px 3px rgba(0,0,0,.04);transition:all .15s;
+}
 .card:hover{border-color:var(--navy);box-shadow:0 4px 12px rgba(30,58,95,.12);transform:translateY(-1px)}
-.card-nolink{cursor:default}
-.card-nolink:hover{transform:none;box-shadow:0 1px 3px rgba(0,0,0,.04);border-color:var(--border)}
-.logo{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);object-fit:contain;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
-.logo img{width:32px;height:32px;object-fit:contain;border-radius:6px}
-.info{min-width:0}
-.name{font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.desc{font-size:12px;color:var(--text2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badge{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:6px;margin-top:4px;white-space:nowrap}
-.badge-acct{background:#dbeafe;color:#1d4ed8}
-.badge-phone{background:#dcfce7;color:#15803d}
-.badge-doc{background:#fef3c7;color:#b45309}
-.info-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:10px}
-.info-card strong{color:var(--text)}
+.card.static{cursor:default}
+.card.static:hover{border-color:var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04);transform:none}
+
+.logo{
+  width:38px;height:38px;border-radius:8px;border:1px solid var(--border);
+  background:var(--surface2);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.logo img{width:30px;height:30px;object-fit:contain}
+.logo-text{font-size:13px;font-weight:800;color:var(--navy)}
+
+.info{min-width:0;flex:1}
+.name{font-weight:700;font-size:14px;color:var(--text);line-height:1.3}
+.desc{font-size:12px;color:var(--text2);margin-top:3px}
+
+.badges{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.badge{
+  display:inline-block;font-size:10px;font-weight:700;
+  padding:2px 7px;border-radius:5px;white-space:nowrap;
+}
+.badge-acct{background:#dbeafe;color:var(--blue)}
+.badge-phone{background:#dcfce7;color:var(--green)}
+.badge-email{background:#f3e8ff;color:#7c3aed}
+.badge-doc{background:#fef3c7;color:var(--amber)}
 </style>
 </head>
 <body>
@@ -33,86 +60,83 @@ h2:first-child{margin-top:0}
 <h2>National Account / Fleet</h2>
 <div class="grid">
 
-  <!-- Holman -->
   <a class="card" href="https://app.storeperformancedashboard.com/resourcelibrary/external-link/bDM2aVFQZlpsTzA90" target="_blank">
-    <div class="logo"><img src="https://favicon.im/holman.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+    <div class="logo"><img src="https://favicon.im/holman.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Holman</div>
-      <div class="desc">TF646202UA &nbsp;|&nbsp; 856-778-1500</div>
-      <span class="badge badge-acct">646202@Bfusa.com</span>
+      <div class="desc">TF646202UA</div>
+      <div class="badges">
+        <span class="badge badge-phone">856-778-1500</span>
+        <span class="badge badge-email">646202@Bfusa.com</span>
+      </div>
     </div>
   </a>
 
-  <!-- Enterprise -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/enterprise.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/enterprise.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Enterprise</div>
       <div class="desc">National Account</div>
-      <span class="badge badge-acct">Acct# 929907</span>
+      <div class="badges"><span class="badge badge-acct">Acct 929907</span></div>
     </div>
   </div>
 
-  <!-- Hertz -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/hertz.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/hertz.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Hertz</div>
-      <div class="desc">888-999-5980</div>
-      <span class="badge badge-acct">Acct# 929775</span>
+      <div class="desc">National Account</div>
+      <div class="badges">
+        <span class="badge badge-phone">888-999-5980</span>
+        <span class="badge badge-acct">Acct 929775</span>
+      </div>
     </div>
   </div>
 
-  <!-- Wheels -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/wheels.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/wheels.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Wheels Maps</div>
       <div class="desc">National Account</div>
-      <span class="badge badge-acct">Acct# 929737</span>
+      <div class="badges"><span class="badge badge-acct">Acct 929737</span></div>
     </div>
   </div>
 
-  <!-- Element -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/elementfleet.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/elementfleet.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Element Fleet</div>
       <div class="desc">National Account</div>
-      <span class="badge badge-acct">Acct# 929910</span>
+      <div class="badges"><span class="badge badge-acct">Acct 929910</span></div>
     </div>
   </div>
 
-  <!-- Emkay -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/emkay.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/emkay.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Emkay</div>
       <div class="desc">National Account</div>
     </div>
   </div>
 
-  <!-- SilverRock -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/silverrock.com" onerror="this.parentNode.innerHTML='🛡'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/silverrock.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">SilverRock</div>
       <div class="desc">National Account</div>
     </div>
   </div>
 
-  <!-- Proguard -->
-  <div class="card card-nolink">
-    <div class="logo" style="font-size:20px">🛡</div>
+  <div class="card static">
+    <div class="logo"><div class="logo-text">PG</div></div>
     <div class="info">
       <div class="name">Proguard</div>
       <div class="desc">National Account</div>
     </div>
   </div>
 
-  <!-- Caradvise -->
-  <div class="card card-nolink">
-    <div class="logo"><img src="https://favicon.im/caradvise.com" onerror="this.parentNode.innerHTML='🚗'"></div>
+  <div class="card static">
+    <div class="logo"><img src="https://favicon.im/caradvise.com" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'"></div>
     <div class="info">
       <div class="name">Caradvise</div>
       <div class="desc">National Account</div>
@@ -121,16 +145,15 @@ h2:first-child{margin-top:0}
 
 </div>
 
-<h2>Quick Links</h2>
+<h2>Documents</h2>
 <div class="grid">
 
-  <!-- Fleet List -->
   <a class="card" href="https://docs.google.com/document/d/1awHRM2m0xW0O0IVvcE5p3fXtlEIqjn_oz5TeS2KM_14/edit" target="_blank">
-    <div class="logo" style="font-size:20px">📋</div>
+    <div class="logo"><div class="logo-text">FL</div></div>
     <div class="info">
       <div class="name">Fleet List</div>
-      <div class="desc">Google Docs reference</div>
-      <span class="badge badge-doc">Doc</span>
+      <div class="desc">National account vehicle reference</div>
+      <div class="badges"><span class="badge badge-doc">Google Doc</span></div>
     </div>
   </a>
 
