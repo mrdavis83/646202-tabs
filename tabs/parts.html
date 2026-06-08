@@ -88,6 +88,34 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px
 
 </div>
 
+<!-- VIN HISTORY CARD -->
+<div class="card" style="margin-bottom:20px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <span class="card-title" style="margin-bottom:0">VIN Lookup History</span>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="vinHistoryStatus" style="font-size:11px;color:var(--text3)"></span>
+      <button onclick="clearVinHistory()" style="font-size:11px;font-weight:600;color:var(--red);background:none;border:1px solid #fca5a5;border-radius:5px;cursor:pointer;padding:3px 10px">Clear All</button>
+    </div>
+  </div>
+  <div style="overflow-x:auto;border:1px solid var(--border);border-radius:8px">
+    <table style="width:100%;border-collapse:collapse">
+      <thead>
+        <tr>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Date / Time</th>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">VIN</th>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Year</th>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Make</th>
+          <th style="background:var(--surface2);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text2);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap">Model</th>
+          <th style="background:var(--surface2);padding:8px 12px;border-bottom:1px solid var(--border)"></th>
+        </tr>
+      </thead>
+      <tbody id="vinHistoryBody">
+        <tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3);font-style:italic;font-size:13px">No lookups yet -- decode a VIN to start tracking.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- ═══════════════════════════
      CARD 2 — PARTS SUPPLIERS
 ═══════════════════════════ -->
