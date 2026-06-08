@@ -2,1347 +2,432 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phone Directory – Bridgestone Firestone</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phone Directory — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
-    --accent:#e8292d; --accent2:#1e3a5f;
-    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-    --green:#16a34a; --amber:#d97706; --red:#dc2626;
-    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-  }
+:root {
+  --bg:#f8fafc; --surface:#fff; --surface2:#f1f5f9; --border:#e2e8f0;
+  --accent2:#1e3a5f; --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+  --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);padding:16px;font-size:14px}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ADD FORM */
+.add-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.add-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:8px}
+.add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{font-size:11px;font-weight:600;color:var(--text2)}
+.fi{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:6px 9px;outline:none;background:var(--surface);color:var(--text)}
+.fi:focus{border-color:var(--accent2)}
 
-  body {
-    margin: 0;
-    padding: 20px;
-    background: var(--bg);
-    font-family: var(--font);
-    color: var(--text);
-    min-height: 100vh;
-  }
+/* TOOLBAR */
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px;flex-wrap:nowrap}
+.count{font-size:12px;color:var(--text3);margin-left:auto;white-space:nowrap}
 
-  /* ── HEADER ── */
-  .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .page-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--accent2);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .page-title span.icon { font-size: 1.3rem; }
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;padding:5px 11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--surface2)}
+.btn-primary{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-primary:hover{background:#162d4a}
+.btn-edit{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.btn-save{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.btn-del{border-color:#fca5a5;color:#dc2626}
+.btn-del:hover{background:#fef2f2}
 
-  /* ── BUTTONS ── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: opacity .15s, background .15s, transform .1s;
-    text-decoration: none;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn-primary {
-    background: var(--accent2);
-    color: #fff;
-    border-color: var(--accent2);
-  }
-  .btn-primary:hover { opacity: .88; }
-  .btn-danger {
-    background: #fff;
-    color: var(--red);
-    border-color: var(--red);
-  }
-  .btn-danger:hover { background: #fef2f2; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text2);
-    border-color: var(--border);
-  }
-  .btn-ghost:hover { background: var(--surface2); }
-  .btn-icon {
-    padding: 5px 7px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-  }
+/* TABLE */
+.table-wrap{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);overflow:hidden;vertical-align:top}
+table{width:auto;border-collapse:collapse}
+thead{background:var(--surface2)}
+th{padding:7px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+th.s{cursor:pointer}
+th.s:hover{color:var(--text2);background:#e8edf2}
+th.sa{color:var(--accent2)}
+th.sa .si{opacity:1;color:var(--accent2)}
+.si{margin-left:2px;opacity:.4;font-size:9px}
+td{padding:6px 10px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+tr.ck td{background:#eff6ff}
 
-  /* ── TOOLBAR ── */
-  .toolbar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-    max-width: 400px;
-  }
-  .search-wrap svg {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text3);
-    pointer-events: none;
-  }
-  .search-input {
-    width: 100%;
-    padding: 9px 12px 9px 34px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.875rem;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .search-input:focus {
-    border-color: var(--accent2);
-    box-shadow: 0 0 0 3px rgba(30,58,95,.12);
-  }
+/* CATEGORY BADGE */
+.cat-sel{font-family:var(--font);font-size:11px;font-weight:700;border:1px solid transparent;border-radius:4px;padding:2px 5px;cursor:pointer;outline:none}
+.cat-sel:hover{border-color:var(--border)}
+.cat-sel:focus{border-color:var(--accent2)}
+.c-vendor{background:#dbeafe;color:#1d4ed8}
+.c-store{background:#dcfce7;color:#15803d}
+.c-emergency{background:#fee2e2;color:#b91c1c}
+.c-other{background:#f0f4ff;color:#3730a3}
 
-  /* ── FILTER PILLS ── */
-  .filter-pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .pill {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    transition: background .15s, color .15s, border-color .15s;
-    user-select: none;
-  }
-  .pill:hover { background: var(--surface2); }
-  .pill.active {
-    background: var(--accent2);
-    color: #fff;
-    border-color: var(--accent2);
-  }
+/* EDITABLE */
+.ed{display:block;padding:2px 4px;border-radius:4px;border:1px solid transparent;outline:none}
+.ed:hover{border-color:var(--border);background:var(--surface2);cursor:text}
+.ed:focus{border-color:var(--accent2);background:var(--surface)}
+.ed.locked{cursor:default!important}
+.ed.locked:hover{border-color:transparent!important;background:transparent!important}
 
-  /* ── SLIDE-IN FORM ── */
-  .form-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.08);
-    padding: 20px;
-    margin-bottom: 22px;
-    display: none;
-    animation: slideDown .22s ease;
-  }
-  .form-panel.open { display: block; }
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .form-panel h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--accent2);
-    margin-bottom: 14px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .form-group { display: flex; flex-direction: column; gap: 4px; }
-  .form-group label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-  }
-  .form-group input,
-  .form-group select {
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.875rem;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s;
-  }
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: var(--accent2);
-    box-shadow: 0 0 0 2px rgba(30,58,95,.1);
-  }
-  .form-actions { display: flex; gap: 8px; }
+/* PHONE LINK */
+.ph-link{font-family:var(--mono);font-size:13px;color:var(--accent2);text-decoration:none;font-weight:600}
+.ph-link:hover{text-decoration:underline}
 
-  /* ── CARD GRID ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media (max-width: 1024px) {
-    .card-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 600px) {
-    .card-grid { grid-template-columns: 1fr; }
-    .toolbar { flex-direction: column; align-items: stretch; }
-    .search-wrap { max-width: 100%; }
-  }
+/* ACTION BAR */
+.act-bar{display:none;gap:4px;align-items:center}
 
-  /* ── CONTACT CARD ── */
-  .contact-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-    transition: box-shadow .15s, transform .12s;
-  }
-  .contact-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    transform: translateY(-1px);
-  }
-  .contact-card.emergency {
-    border-color: var(--red);
-    border-width: 2px;
-    box-shadow: 0 1px 3px rgba(220,38,38,.15);
-  }
-  .contact-card.emergency:hover {
-    box-shadow: 0 4px 12px rgba(220,38,38,.2);
-  }
+/* CATEGORY DROPDOWN */
+.cd-wrap{position:relative}
+.cd-menu{display:none;position:absolute;top:100%;left:0;min-width:150px;background:var(--surface);border:1px solid var(--border);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.1);z-index:200}
+.cd-item{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;cursor:pointer;font-size:13px}
+.cd-item:hover{background:var(--surface2)}
+.cd-rm{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:0 2px}
+.cd-rm:hover{color:#dc2626}
+.cd-footer{padding:6px 8px;border-top:1px solid var(--border);display:flex;gap:5px}
+.cd-new{flex:1;font-family:var(--font);font-size:12px;border:1px solid var(--border);border-radius:4px;padding:4px 7px;outline:none}
+.cd-new:focus{border-color:var(--accent2)}
 
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .card-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    flex-shrink: 0;
-  }
-  .badge-vendor  { background: #dbeafe; color: #1d4ed8; }
-  .badge-store   { background: #dcfce7; color: #15803d; }
-  .badge-emergency { background: #fee2e2; color: var(--red); }
-
-  .card-actions {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0;
-    margin-left: auto;
-  }
-
-  .card-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
-  .card-title {
-    font-size: 0.8rem;
-    color: var(--text2);
-    margin-top: -4px;
-  }
-
-  .card-phone-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    flex-wrap: wrap;
-  }
-  .phone-link {
-    font-family: var(--mono);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--accent2);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: color .15s;
-  }
-  .phone-link:hover { color: var(--accent); text-decoration: underline; }
-  .emergency .phone-link { color: var(--red); }
-
-  .ext-badge {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text2);
-    font-weight: 600;
-  }
-
-  .copy-btn {
-    margin-left: auto;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text2);
-    transition: background .15s, color .15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .copy-btn:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); }
-  .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
-
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    display: none;
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text3);
-    grid-column: 1 / -1;
-  }
-  .empty-state.show { display: block; }
-  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-  .empty-state p { font-size: 0.95rem; }
-
-  /* ── COUNT BADGE ── */
-  .count-badge {
-    display: inline-block;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text2);
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 6px;
-  }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--text);
-    color: #fff;
-    padding: 10px 18px;
-    border-radius: 7px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s;
-    z-index: 9999;
-    max-width: 280px;
-  }
-  .toast.show { opacity: 1; }
-
-  /* ── CONFIRM DIALOG ── */
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.35);
-    z-index: 9000;
-    align-items: center;
-    justify-content: center;
-  }
-  .overlay.show { display: flex; }
-  .dialog {
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 24px;
-    max-width: 340px;
-    width: 90%;
-    box-shadow: 0 8px 32px rgba(0,0,0,.18);
-  }
-  .dialog h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-  .dialog p { font-size: 0.875rem; color: var(--text2); margin-bottom: 18px; }
-  .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
+input[type=checkbox]{cursor:pointer;width:14px;height:14px;accent-color:var(--accent2)}
 </style>
 </head>
-<body><a href="https://646202.com/cdn-cgi/content?id=uUW7dGe1sVnEJ7459lCxnfSmznjZQfYvaGGcTsHZefE-1780874155.32168-1.2.1.1-1c5QuF28FHJhAl5XjizSi56x2AI05.Hm7Za274JQa1E" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+<body>
 
-<!-- HEADER -->
-<div class="page-header">
-  <div class="page-title">
-    <span class="icon">📞</span>
-    Phone Directory
-    <span class="count-badge" id="countBadge">0</span>
-  </div>
-  <button class="btn btn-primary" id="addBtn" onclick="toggleAddForm()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    Add Contact
-  </button>
-</div>
-
-<!-- SLIDE-IN FORM -->
-<div class="form-panel" id="formPanel">
-  <h3 id="formTitle">➕ Add New Contact</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Name *</label>
-      <input type="text" id="fName" placeholder="e.g. John Smith">
+<!-- ADD FORM -->
+<div class="add-card">
+  <div class="add-title">Add Contact</div>
+  <div class="add-row">
+    <div class="field"><label>Name</label>
+      <input class="fi" id="a-name" style="width:140px" placeholder="Contact name">
     </div>
-    <div class="form-group">
-      <label>Title / Description</label>
-      <input type="text" id="fTitle" placeholder="e.g. Parts Vendor">
+    <div class="field"><label>Phone</label>
+      <input class="fi" id="a-phone" style="width:130px;font-family:var(--mono)" placeholder="5855551234">
     </div>
-    <div class="form-group">
-      <label>Phone Number *</label>
-      <input type="tel" id="fPhone" placeholder="e.g. 5551234567">
+    <div class="field"><label>Ext</label>
+      <input class="fi" id="a-ext" style="width:55px;font-family:var(--mono)" placeholder="0">
     </div>
-    <div class="form-group">
-      <label>Extension</label>
-      <input type="text" id="fExt" placeholder="e.g. 101">
+    <div class="field"><label>Category</label>
+      <div class="cd-wrap" id="add-cd-wrap">
+        <div class="fi" id="a-cat-display" onclick="toggleCD('add')"
+          style="width:110px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:6px 9px">
+          <span id="a-cat-label">Vendor</span>
+          <span style="font-size:10px;color:var(--text3)">▼</span>
+        </div>
+        <input type="hidden" id="a-cat" value="vendor">
+        <div class="cd-menu" id="add-cd-menu">
+          <div id="add-cd-list"></div>
+          <div class="cd-footer">
+            <input class="cd-new" id="cd-new-input" placeholder="New category..." onkeydown="if(event.key==='Enter')addCat()">
+            <button class="btn btn-primary" style="padding:4px 8px;font-size:11px" onclick="addCat()">+ Add</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Category *</label>
-      <select id="fCat">
-        <option value="vendor">Vendor</option>
-        <option value="store">Store</option>
-        <option value="emergency">Emergency</option>
-      </select>
+    <div class="field" style="flex:1;min-width:160px"><label>Title / Notes</label>
+      <input class="fi" id="a-title" placeholder="Company or description">
     </div>
-  </div>
-  <div class="form-actions">
-    <button class="btn btn-primary" onclick="saveContact()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Save Contact
-    </button>
-    <button class="btn btn-ghost" onclick="cancelForm()">Cancel</button>
+    <div class="field"><label>&nbsp;</label>
+      <button class="btn btn-primary" onclick="addContact()">+ Add</button>
+    </div>
   </div>
 </div>
 
 <!-- TOOLBAR -->
+<div style="display:inline-block;vertical-align:top;min-width:0">
 <div class="toolbar">
-  <div class="search-wrap">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" id="searchInput" type="search" placeholder="Search contacts, numbers…" oninput="renderCards()">
-  </div>
-  <div class="filter-pills" id="filterPills">
-    <span class="pill active" data-cat="all" onclick="setFilter('all')">All</span>
-    <span class="pill" data-cat="vendor" onclick="setFilter('vendor')">Vendors</span>
-    <span class="pill" data-cat="store" onclick="setFilter('store')">Store</span>
-    <span class="pill" data-cat="emergency" onclick="setFilter('emergency')">Emergency</span>
-  </div>
-</div>
-
-<!-- CARD GRID -->
-<div class="card-grid" id="cardGrid">
-  <div class="empty-state" id="emptyState">
-    <div class="empty-icon">🔍</div>
-    <p>No contacts match your search.</p>
-  </div>
-</div>
-
-<!-- CONFIRM DIALOG -->
-<div class="overlay" id="confirmOverlay">
-  <div class="dialog">
-    <h4>Delete Contact</h4>
-    <p id="confirmMsg">Are you sure you want to delete this contact?</p>
-    <div class="dialog-actions">
-      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
-      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+  <input class="fi" id="srch" placeholder="🔍 Search contacts..." oninput="render()" style="width:200px">
+  <div class="cd-wrap" id="filter-cd-wrap">
+    <div class="fi" id="cat-filter-display" onclick="toggleCD('filter')"
+      style="width:130px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:6px 9px">
+      <span id="cat-filter-label">All Categories</span>
+      <span style="font-size:10px;color:var(--text3)">▼</span>
+    </div>
+    <input type="hidden" id="cat-filter" value="all">
+    <div class="cd-menu" id="filter-cd-menu">
+      <div id="filter-cd-list"></div>
+      <div class="cd-footer">
+        <input class="cd-new" id="filter-cd-new" placeholder="New category..." onkeydown="if(event.key==='Enter')addCatFromFilter()">
+        <button class="btn btn-primary" style="padding:4px 8px;font-size:11px" onclick="addCatFromFilter()">+ Add</button>
+      </div>
     </div>
   </div>
+  <span class="count" id="ph-count"></span>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<!-- TABLE -->
+<div class="table-wrap">
+<table>
+  <thead><tr>
+    <th style="width:28px;text-align:center;padding:6px 4px">
+      <input type="checkbox" id="chk-all" onclick="toggleAll(this)">
+    </th>
+    <th class="s" onclick="sortBy('name')" id="th-name">Name <span class="si" id="si-name"></span></th>
+    <th class="s" onclick="sortBy('phone')" id="th-phone">Phone <span class="si" id="si-phone"></span></th>
+    <th class="s" onclick="sortBy('cat')" id="th-cat" style="text-align:center">Category <span class="si" id="si-cat"></span></th>
+    <th class="s" onclick="sortBy('title')" id="th-title">Title / Notes <span class="si" id="si-title"></span></th>
+    <th style="padding:5px 8px">
+      <div class="act-bar" id="act-bar">
+        <button class="btn btn-edit" style="padding:3px 9px;font-size:11px" onclick="editCk()">Edit</button>
+        <button class="btn btn-save" style="padding:3px 9px;font-size:11px" id="g-save" onclick="saveCk()">Save</button>
+        <button class="btn btn-del" style="padding:3px 9px;font-size:11px" onclick="delCk()">Del</button>
+      </div>
+    </th>
+  </tr></thead>
+  <tbody id="ph-body"></tbody>
+</table>
+</div>
+</div>
 
 <script>
-  // ── CONSTANTS ──
-  const PHONEBOOK_URL  = '/data/phonebook.json';
+// DATA
+const BUILTIN = [{"name": "ScrapHappy", "phone": "5857368035", "cat": "vendor", "title": "Scrap / Recycling", "ext": ""}, {"name": "Jason (Empire)", "phone": "5856673120", "cat": "vendor", "title": "Empire Auto", "ext": ""}, {"name": "Opus", "phone": "8666238378", "cat": "vendor", "title": "Opus (Acct #7067451)", "ext": ""}, {"name": "Helpdesk", "phone": "8886880888", "cat": "store", "title": "IT Helpdesk", "ext": ""}, {"name": "Advance Auto", "phone": "5857879345", "cat": "vendor", "title": "Advance Auto Parts", "ext": ""}, {"name": "Advance Rob", "phone": "5856421466", "cat": "vendor", "title": "Advance Auto \u2014 Rep", "ext": ""}, {"name": "AutoZone", "phone": "5858725570", "cat": "vendor", "title": "AutoZone", "ext": ""}, {"name": "AutoZone Marisol", "phone": "5856736624", "cat": "vendor", "title": "AutoZone \u2014 Rep", "ext": ""}, {"name": "Haun", "phone": "5852654427", "cat": "vendor", "title": "Haun Welding Supply", "ext": ""}, {"name": "Securitas Alarm", "phone": "8006894984", "cat": "vendor", "title": "Alarm / Security", "ext": ""}, {"name": "Hunter Engineering", "phone": "8884507100", "cat": "vendor", "title": "Hunter Engineering", "ext": ""}, {"name": "Hertz", "phone": "8889995980", "cat": "vendor", "title": "Hertz", "ext": ""}, {"name": "ATEQ", "phone": "8886218767", "cat": "vendor", "title": "ATEQ (TPMS Tools)", "ext": ""}, {"name": "Autel", "phone": "8664960058", "cat": "vendor", "title": "Autel Diagnostics", "ext": ""}, {"name": "Coats", "phone": "8006886359", "cat": "vendor", "title": "Coats (Equipment)", "ext": ""}, {"name": "Inventory Services", "phone": "8556057324", "cat": "vendor", "title": "Inventory Services", "ext": ""}, {"name": "JS Products", "phone": "8002557011", "cat": "vendor", "title": "JS Products", "ext": ""}, {"name": "JohnDow Industries", "phone": "8004330708", "cat": "vendor", "title": "JohnDow Industries", "ext": ""}, {"name": "Mitchell 1", "phone": "8887246742", "cat": "vendor", "title": "Mitchell 1 (Software)", "ext": ""}, {"name": "Robinair", "phone": "8008225561", "cat": "vendor", "title": "Robinair (AC Equipment)", "ext": ""}, {"name": "Rotary", "phone": "8009435438", "cat": "vendor", "title": "Rotary (Lifts)", "ext": ""}, {"name": "Staples Advantage", "phone": "8778267755", "cat": "vendor", "title": "Acct #1829070", "ext": ""}, {"name": "Launch X431", "phone": "8775286249", "cat": "vendor", "title": "Launch Diagnostics", "ext": "4"}, {"name": "DOC Floor Scrubbers", "phone": "8554852113", "cat": "vendor", "title": "DOC (Floor Equipment)", "ext": ""}, {"name": "Redline Smoke Machines", "phone": "7144511411", "cat": "vendor", "title": "Redline Smoke Machines", "ext": ""}, {"name": "Emergency Spill Response", "phone": "8443473844", "cat": "emergency", "title": "Emergency Spill Response", "ext": ""}];
+let contacts = BUILTIN.slice();
+let serverLoaded = false;
 
-  const FALLBACK_DATA = [
-    {"name":"ScrapHappy","phone":"5857368035","cat":"vendor","title":"Scrap/Recycling"},
-    {"name":"Jason (Empire)","phone":"5856673120","cat":"vendor","title":"Empire"},
-    {"name":"Opus","phone":"8666238378","cat":"vendor","title":"Acct#7067451"},
-    {"name":"Helpdesk","phone":"8886880888","cat":"store","title":"IT Helpdesk"},
-    {"name":"Advance Auto","phone":"5857879345","cat":"vendor","title":"Advance Auto Parts"},
-    {"name":"Advance Rob","phone":"5856421466","cat":"vendor","title":"Advance - Rep"},
-    {"name":"AutoZone","phone":"5858725570","cat":"vendor","title":"AutoZone"},
-    {"name":"AutoZone Marisol","phone":"5856736624","cat":"vendor","title":"AutoZone - Rep"},
-    {"name":"Haun","phone":"5852654427","cat":"vendor","title":"Haun"},
-    {"name":"Securitas Alarm","phone":"8006894984","cat":"vendor","title":"Alarm/Security"},
-    {"name":"Hunter Engineering","phone":"8884507100","cat":"vendor","title":"Hunter (Equipment)"},
-    {"name":"Hertz","phone":"8889995980","cat":"vendor","title":"Hertz"},
-    {"name":"ATEQ","phone":"8886218767","cat":"vendor","title":"ATEQ (TPMS)"},
-    {"name":"Autel","phone":"8664960058","cat":"vendor","title":"Autel Diagnostics"},
-    {"name":"Coats","phone":"8006886359","cat":"vendor","title":"Coats (Equipment)"},
-    {"name":"Inventory Services","phone":"8556057324","cat":"vendor","title":"Inventory Services"},
-    {"name":"JS Products","phone":"8002557011","cat":"vendor","title":"JS Products"},
-    {"name":"JohnDow Industries","phone":"8004330708","cat":"vendor","title":"JohnDow"},
-    {"name":"Mitchell 1","phone":"8887246742","cat":"vendor","title":"Mitchell 1 (Software)"},
-    {"name":"Robinair","phone":"8005225561","cat":"vendor","title":"Robinair (AC Equipment)"},
-    {"name":"Rotary","phone":"8009435438","cat":"vendor","title":"Rotary (Lifts)"},
-    {"name":"Staples Advantage","phone":"8778267755","cat":"vendor","title":"Acct#1829070"},
-    {"name":"Launch X431","phone":"8775286249","ext":"4","cat":"vendor","title":"Launch Diagnostics"},
-    {"name":"DOC Floor Scrubbers","phone":"8554852113","cat":"vendor","title":"DOC"},
-    {"name":"Redline Smoke Machines","phone":"7144511411","cat":"vendor","title":"Redline Smoke"},
-    {"name":"Emergency Spill Response","phone":"8443473844","cat":"emergency","title":"Spill Response"}
-  ];
+// CATEGORIES
+const DEF_CATS = ['vendor','store','emergency'];
+let cats = DEF_CATS.slice();
+function loadCats() { try { const s=JSON.parse(localStorage.getItem('phCats646202')||'null'); if(Array.isArray(s)&&s.length) cats=s; } catch(e) {} }
+function saveCats() { try { localStorage.setItem('phCats646202',JSON.stringify(cats)); } catch(e) {} }
+function cap(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+function catCls(c) { const m={vendor:'c-vendor',store:'c-store',emergency:'c-emergency'}; return m[c]||'c-other'; }
+function catStyle(c) {
+  const st={vendor:['#dbeafe','#1d4ed8'],store:['#dcfce7','#15803d'],emergency:['#fee2e2','#b91c1c']};
+  return st[c]||['#f0f4ff','#3730a3'];
+}
 
-  // ── STATE ──
-  let contacts = [];
-  let activeFilter = 'all';
-  let editingIndex = null;
-  let deleteTargetIndex = null;
-  let toastTimer = null;
+function fmtPhone(p) {
+  p = (p||'').replace(/\D/g,'');
+  if(p.length===10) return '('+p.slice(0,3)+') '+p.slice(3,6)+'-'+p.slice(6);
+  if(p.length===11) return '+'+p[0]+' ('+p.slice(1,4)+') '+p.slice(4,7)+'-'+p.slice(7);
+  return p;
+}
 
-  // ── INIT ──
-  async function init() {
-    try {
-      const res = await fetch(PHONEBOOK_URL, { cache: 'no-store' });
-      if (!res.ok) throw new Error('not ok');
-      const data = await res.json();
-      contacts = Array.isArray(data) ? data : FALLBACK_DATA;
-    } catch (e) {
-      contacts = JSON.parse(JSON.stringify(FALLBACK_DATA));
-    }
-    renderCards();
+// CATEGORY DROPDOWNS
+function buildAddCDList() {
+  const el=document.getElementById('add-cd-list'); if(!el) return;
+  el.innerHTML=cats.map(c=>`<div class="cd-item" onclick="selAddCat('${c}')"><span>${cap(c)}</span><button class="cd-rm" onclick="event.stopPropagation();rmCat('${c}')" title="Remove">✕</button></div>`).join('');
+}
+function buildFilterCDList() {
+  const cur=document.getElementById('cat-filter').value;
+  const el=document.getElementById('filter-cd-list'); if(!el) return;
+  el.innerHTML=`<div class="cd-item" onclick="selFilterCat('all')"><span style="font-weight:${cur==='all'?'700':'400'}">All Categories</span></div>`+
+    cats.map(c=>`<div class="cd-item" onclick="selFilterCat('${c}')"><span style="font-weight:${c===cur?'700':'400'}">${cap(c)}</span><button class="cd-rm" onclick="event.stopPropagation();rmCat('${c}')" title="Remove">✕</button></div>`).join('');
+}
+function toggleCD(which) {
+  const id=which==='add'?'add-cd-menu':'filter-cd-menu';
+  const menu=document.getElementById(id);
+  const open=menu.style.display==='block';
+  document.querySelectorAll('.cd-menu').forEach(m=>m.style.display='none');
+  if(!open) { menu.style.display='block'; which==='add'?buildAddCDList():buildFilterCDList(); }
+}
+function selAddCat(c) {
+  document.getElementById('a-cat').value=c;
+  document.getElementById('a-cat-label').textContent=cap(c);
+  document.getElementById('add-cd-menu').style.display='none';
+}
+function selFilterCat(c) {
+  document.getElementById('cat-filter').value=c;
+  document.getElementById('cat-filter-label').textContent=c==='all'?'All Categories':cap(c);
+  document.getElementById('filter-cd-menu').style.display='none';
+  render();
+}
+function addCat() {
+  const inp=document.getElementById('cd-new-input');
+  const v=inp.value.trim().toLowerCase().replace(/\s+/g,'_');
+  if(!v) return;
+  if(!cats.includes(v)) { cats.push(v); saveCats(); }
+  selAddCat(v); buildFilterCDList(); inp.value='';
+}
+function addCatFromFilter() {
+  const inp=document.getElementById('filter-cd-new');
+  const v=inp.value.trim().toLowerCase().replace(/\s+/g,'_');
+  if(!v) return;
+  if(!cats.includes(v)) { cats.push(v); saveCats(); }
+  buildAddCDList(); buildFilterCDList(); inp.value='';
+}
+function rmCat(c) {
+  if(!confirm('Remove category "'+c+'"?\nExisting contacts keep their value.')) return;
+  cats=cats.filter(x=>x!==c); saveCats();
+  if(document.getElementById('cat-filter').value===c) selFilterCat('all');
+  if(document.getElementById('a-cat').value===c) selAddCat('vendor');
+  buildAddCDList(); buildFilterCDList(); render();
+}
+document.addEventListener('click',e=>{
+  let inside=false;
+  document.querySelectorAll('.cd-wrap').forEach(w=>{if(w.contains(e.target))inside=true;});
+  if(!inside) document.querySelectorAll('.cd-menu').forEach(m=>m.style.display='none');
+});
+
+// SORT
+let sField=null,sDir=1;
+function sortBy(f) {
+  if(sField===f) sDir*=-1; else{sField=f;sDir=1;}
+  document.querySelectorAll('th[id^="th-"]').forEach(t=>t.classList.remove('sa'));
+  document.querySelectorAll('.si').forEach(s=>s.textContent='');
+  const th=document.getElementById('th-'+f),si=document.getElementById('si-'+f);
+  if(th) th.classList.add('sa');
+  if(si) si.textContent=sDir===1?'▲':'▼';
+  render();
+}
+function sorted(arr) {
+  if(!sField) return arr;
+  return [...arr].sort((a,b)=>{
+    const av=(a[sField]||'').toLowerCase(),bv=(b[sField]||'').toLowerCase();
+    return av<bv?-sDir:av>bv?sDir:0;
+  });
+}
+
+// SAVE
+function save() {
+  try{localStorage.setItem('phonebook646202',JSON.stringify(contacts));}catch(e){}
+  if(!serverLoaded) return;
+  fetch('/data/phonebook.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(contacts)}).catch(()=>{});
+}
+
+// RENDER
+function render() {
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const cf=document.getElementById('cat-filter').value;
+  const filtered=sorted(contacts.filter(c=>
+    (cf==='all'||c.cat===cf)&&
+    (!q||(c.name+' '+c.phone+' '+(c.title||'')).toLowerCase().includes(q))
+  ));
+  document.getElementById('ph-count').textContent=filtered.length+' of '+contacts.length+' contacts';
+  const tbody=document.getElementById('ph-body');
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text3)">No contacts match</td></tr>';
+    return;
   }
+  tbody.innerHTML=filtered.map(c=>{
+    const cc=catCls(c.cat||'vendor');
+    const cs=catStyle(c.cat||'vendor');
+    const isChk=ckd.has(c.name);
+    const catOpts=cats.map(x=>`<option value="${x}"${c.cat===x?' selected':''}>${cap(x)}</option>`).join('');
+    const dialNum='tel:+'+(c.phone||'').replace(/\D/g,'');
+    const dispPhone=fmtPhone(c.phone)+(c.ext?' x'+c.ext:'');
+    return `<tr id="r-${c.name.replace(/[^a-z0-9]/gi,'_')}"${isChk?' class="ck"':''}>
+      <td style="text-align:center;padding:6px 4px">
+        <input type="checkbox" class="rchk" data-name="${c.name}" onchange="onChk('${c.name}',this.checked)"${isChk?' checked':''}>
+      </td>
+      <td style="font-weight:600;min-width:130px">
+        <span class="ed locked" id="n-${c.name.replace(/[^a-z0-9]/gi,'_')}" contenteditable="false" spellcheck="false"
+          data-name="${c.name}" data-field="name"
+          onblur="onEdit('${c.name}','name',this.innerText.trim());lockN('${c.name}')"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${c.name}</span>
+      </td>
+      <td>
+        <a href="${dialNum}" class="ph-link">${dispPhone}</a>
+      </td>
+      <td style="text-align:center">
+        <select class="cat-sel" onchange="onEdit('${c.name}','cat',this.value);applyCS(this)" onfocus="this.style.borderColor='var(--accent2)'" onblur="this.style.borderColor='transparent'"
+          style="background:${cs[0]};color:${cs[1]};border-color:transparent"
+        >${catOpts}</select>
+      </td>
+      <td>
+        <span class="ed" contenteditable="true" spellcheck="false"
+          onblur="onEdit('${c.name}','title',this.innerText.trim())"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+          style="min-width:140px"
+        >${c.title||''}</span>
+      </td>
+      <td style="padding:6px 8px"></td>
+    </tr>`;
+  }).join('');
+  document.querySelectorAll('.cat-sel').forEach(applyCS);
+}
 
-  // ── SAVE TO SERVER ──
-  async function saveToServer() {
-    try {
-      await fetch(PHONEBOOK_URL, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contacts, null, 2)
+function applyCS(sel) {
+  const st=catStyle(sel.value);
+  sel.style.background=st[0]; sel.style.color=st[1]; sel.style.borderColor='transparent';
+}
+
+function onEdit(name,field,val) {
+  const c=contacts.find(c=>c.name===name);
+  if(c&&c[field]!==val) c[field]=val;
+}
+function lockN(name) {
+  const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
+  const el=document.getElementById(id); if(el){el.contentEditable='false';el.classList.add('locked');}
+}
+function unlockN(name) {
+  const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
+  const el=document.getElementById(id); if(!el) return;
+  el.contentEditable='true'; el.classList.remove('locked'); el.focus();
+  const r=document.createRange(); r.selectNodeContents(el);
+  const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+
+// CHECKBOXES
+let ckd=new Set();
+function onChk(name,checked) {
+  if(checked) ckd.add(name); else ckd.delete(name);
+  const id='r-'+name.replace(/[^a-z0-9]/gi,'_');
+  const row=document.getElementById(id); if(row) row.classList.toggle('ck',checked);
+  if(!checked) lockN(name);
+  updBar();
+  const all=document.querySelectorAll('.rchk'),ca=document.getElementById('chk-all');
+  if(ca){ca.checked=[...all].every(c=>c.checked);ca.indeterminate=ckd.size>0&&!ca.checked;}
+}
+function toggleAll(cb) {
+  document.querySelectorAll('.rchk').forEach(c=>{c.checked=cb.checked;onChk(c.dataset.name,cb.checked);});
+}
+function updBar() {
+  const bar=document.getElementById('act-bar');
+  if(bar) bar.style.display=ckd.size>0?'flex':'none';
+}
+function editCk() { if(ckd.size===1) unlockN([...ckd][0]); }
+function saveCk() {
+  ckd.forEach(name=>{
+    const c=contacts.find(c=>c.name===name);
+    const id='n-'+name.replace(/[^a-z0-9]/gi,'_');
+    const el=document.getElementById(id);
+    if(c&&el) c.name=el.innerText.trim();
+  });
+  save();
+  const btn=document.getElementById('g-save');
+  if(btn){btn.textContent='Saved ✓';btn.style.background='#16a34a';
+    setTimeout(()=>{
+      ckd.clear();
+      document.querySelectorAll('.rchk').forEach(c=>c.checked=false);
+      document.querySelectorAll('tr.ck').forEach(r=>r.classList.remove('ck'));
+      document.querySelectorAll('[id^="n-"]').forEach(el=>{
+        el.contentEditable='false';el.classList.add('locked');
       });
-    } catch (e) {
-      // Fail silently – data lives in memory
-    }
+      const ca=document.getElementById('chk-all');if(ca){ca.checked=false;ca.indeterminate=false;}
+      updBar();btn.textContent='Save';btn.style.background='var(--accent2)';
+    },1000);
   }
+}
+function delCk() {
+  if(!ckd.size) return;
+  if(!confirm('Delete '+ckd.size+' contact(s)?')) return;
+  contacts=contacts.filter(c=>!ckd.has(c.name));
+  ckd.clear(); save(); render();
+}
 
-  // ── FORMAT PHONE ──
-  function formatPhone(p) {
-    const d = String(p).replace(/\D/g, '');
-    if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
-    if (d.length === 11 && d[0] === '1') return `+1 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
-    return d;
-  }
+// ADD CONTACT
+function addContact() {
+  const name=(document.getElementById('a-name').value||'').trim();
+  if(!name){document.getElementById('a-name').focus();return;}
+  if(contacts.find(c=>c.name===name)){alert(name+' already exists');return;}
+  contacts.push({
+    name,
+    phone:(document.getElementById('a-phone').value||'').replace(/\D/g,''),
+    ext:(document.getElementById('a-ext').value||'').trim(),
+    cat:(document.getElementById('a-cat').value||'vendor'),
+    title:(document.getElementById('a-title').value||'').trim()
+  });
+  save(); render();
+  ['a-name','a-phone','a-ext','a-title'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('a-name').focus();
+}
 
-  // ── BADGE HTML ──
-  function badgeHTML(cat) {
-    const map = {
-      vendor: ['badge-vendor', 'Vendor'],
-      store:  ['badge-store',  'Store'],
-      emergency: ['badge-emergency', 'Emergency']
-    };
-    const [cls, label] = map[cat] || ['badge-vendor', cat];
-    return `<span class="card-badge ${cls}">${label}</span>`;
-  }
-
-  // ── RENDER ──
-  function renderCards() {
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const grid = document.getElementById('cardGrid');
-    const empty = document.getElementById('emptyState');
-    const countBadge = document.getElementById('countBadge');
-
-    // Filter
-    const filtered = contacts.filter((c, i) => {
-      const catMatch = activeFilter === 'all' || c.cat === activeFilter;
-      const qMatch   = !q ||
-        c.name.toLowerCase().includes(q) ||
-        (c.title||'').toLowerCase().includes(q) ||
-        c.phone.includes(q);
-      return catMatch && qMatch;
-    });
-
-    // Remove old cards (keep empty state element)
-    Array.from(grid.querySelectorAll('.contact-card')).forEach(el => el.remove());
-
-    countBadge.textContent = filtered.length;
-
-    if (filtered.length === 0) {
-      empty.classList.add('show');
-    } else {
-      empty.classList.remove('show');
-      filtered.forEach(c => {
-        const originalIndex = contacts.indexOf(c);
-        const card = buildCard(c, originalIndex);
-        grid.appendChild(card);
-      });
-    }
-  }
-
-  function buildCard(c, idx) {
-    const div = document.createElement('div');
-    div.className = `contact-card${c.cat === 'emergency' ? ' emergency' : ''}`;
-
-    const phoneClean = c.phone.replace(/\D/g,'');
-    const phoneDisplay = formatPhone(c.phone);
-
-    div.innerHTML = `
-      <div class="card-top">
-        ${badgeHTML(c.cat)}
-        <div class="card-actions">
-          <button class="btn btn-ghost btn-icon" title="Edit" onclick="startEdit(${idx})">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          </button>
-          <button class="btn btn-danger btn-icon" title="Delete" onclick="startDelete(${idx})">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="card-name">${escHtml(c.name)}</div>
-      ${c.title ? `<div class="card-title">${escHtml(c.title)}</div>` : ''}
-      <div class="card-phone-row">
-        <a class="phone-link" href="tel:${phoneClean}${c.ext ? ',' + c.ext : ''}">
-          📞 ${phoneDisplay}
-        </a>
-        ${c.ext ? `<span class="ext-badge">Ext. ${escHtml(c.ext)}</span>` : ''}
-        <button class="copy-btn" onclick="copyPhone('${phoneClean}', this)">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy
-        </button>
-      </div>
-    `;
-    return div;
-  }
-
-  function escHtml(str) {
-    return String(str||'')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-
-  // ── FILTER ──
-  function setFilter(cat) {
-    activeFilter = cat;
-    document.querySelectorAll('.pill').forEach(p => {
-      p.classList.toggle('active', p.dataset.cat === cat);
-    });
-    renderCards();
-  }
-
-  // ── COPY PHONE ──
-  function copyPhone(phone, btn) {
-    navigator.clipboard.writeText(phone).then(() => {
-      btn.classList.add('copied');
-      btn.textContent = '✓ Copied';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0   document.addEventListener('DOMContentLoaded', init);
-</script>E html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phone Directory – Bridgestone Firestone</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:#f8fafc; --surface:#ffffff; --surface2:#f1f5f9; --border:#e2e8f0;
-    --accent:#e8292d; --accent2:#1e3a5f;
-    --text:#0f172a; --text2:#475569; --text3:#94a3b8;
-    --green:#16a34a; --amber:#d97706; --red:#dc2626;
-    --font:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    margin: 0;
-    padding: 20px;
-    background: var(--bg);
-    font-family: var(--font);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
-  .page-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .page-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: var(--accent2);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .page-title span.icon { font-size: 1.3rem; }
-
-  /* ── BUTTONS ── */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: opacity .15s, background .15s, transform .1s;
-    text-decoration: none;
-  }
-  .btn:active { transform: scale(.97); }
-  .btn-primary {
-    background: var(--accent2);
-    color: #fff;
-    border-color: var(--accent2);
-  }
-  .btn-primary:hover { opacity: .88; }
-  .btn-danger {
-    background: #fff;
-    color: var(--red);
-    border-color: var(--red);
-  }
-  .btn-danger:hover { background: #fef2f2; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text2);
-    border-color: var(--border);
-  }
-  .btn-ghost:hover { background: var(--surface2); }
-  .btn-icon {
-    padding: 5px 7px;
-    font-size: 0.8rem;
-    border-radius: 5px;
-  }
-
-  /* ── TOOLBAR ── */
-  .toolbar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-    max-width: 400px;
-  }
-  .search-wrap svg {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text3);
-    pointer-events: none;
-  }
-  .search-input {
-    width: 100%;
-    padding: 9px 12px 9px 34px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.875rem;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .search-input:focus {
-    border-color: var(--accent2);
-    box-shadow: 0 0 0 3px rgba(30,58,95,.12);
-  }
-
-  /* ── FILTER PILLS ── */
-  .filter-pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .pill {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    transition: background .15s, color .15s, border-color .15s;
-    user-select: none;
-  }
-  .pill:hover { background: var(--surface2); }
-  .pill.active {
-    background: var(--accent2);
-    color: #fff;
-    border-color: var(--accent2);
-  }
-
-  /* ── SLIDE-IN FORM ── */
-  .form-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.08);
-    padding: 20px;
-    margin-bottom: 22px;
-    display: none;
-    animation: slideDown .22s ease;
-  }
-  .form-panel.open { display: block; }
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .form-panel h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--accent2);
-    margin-bottom: 14px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-  .form-group { display: flex; flex-direction: column; gap: 4px; }
-  .form-group label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text2);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-  }
-  .form-group input,
-  .form-group select {
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: var(--font);
-    font-size: 0.875rem;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s;
-  }
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: var(--accent2);
-    box-shadow: 0 0 0 2px rgba(30,58,95,.1);
-  }
-  .form-actions { display: flex; gap: 8px; }
-
-  /* ── CARD GRID ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media (max-width: 1024px) {
-    .card-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 600px) {
-    .card-grid { grid-template-columns: 1fr; }
-    .toolbar { flex-direction: column; align-items: stretch; }
-    .search-wrap { max-width: 100%; }
-  }
-
-  /* ── CONTACT CARD ── */
-  .contact-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    position: relative;
-    transition: box-shadow .15s, transform .12s;
-  }
-  .contact-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,.1);
-    transform: translateY(-1px);
-  }
-  .contact-card.emergency {
-    border-color: var(--red);
-    border-width: 2px;
-    box-shadow: 0 1px 3px rgba(220,38,38,.15);
-  }
-  .contact-card.emergency:hover {
-    box-shadow: 0 4px 12px rgba(220,38,38,.2);
-  }
-
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .card-badge {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    flex-shrink: 0;
-  }
-  .badge-vendor  { background: #dbeafe; color: #1d4ed8; }
-  .badge-store   { background: #dcfce7; color: #15803d; }
-  .badge-emergency { background: #fee2e2; color: var(--red); }
-
-  .card-actions {
-    display: flex;
-    gap: 4px;
-    flex-shrink: 0;
-    margin-left: auto;
-  }
-
-  .card-name {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-  }
-  .card-title {
-    font-size: 0.8rem;
-    color: var(--text2);
-    margin-top: -4px;
-  }
-
-  .card-phone-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 4px;
-    flex-wrap: wrap;
-  }
-  .phone-link {
-    font-family: var(--mono);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--accent2);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: color .15s;
-  }
-  .phone-link:hover { color: var(--accent); text-decoration: underline; }
-  .emergency .phone-link { color: var(--red); }
-
-  .ext-badge {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    color: var(--text2);
-    font-weight: 600;
-  }
-
-  .copy-btn {
-    margin-left: auto;
-    padding: 4px 9px;
-    border-radius: 5px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--surface2);
-    color: var(--text2);
-    transition: background .15s, color .15s;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .copy-btn:hover { background: var(--accent2); color: #fff; border-color: var(--accent2); }
-  .copy-btn.copied { background: var(--green); color: #fff; border-color: var(--green); }
-
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    display: none;
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text3);
-    grid-column: 1 / -1;
-  }
-  .empty-state.show { display: block; }
-  .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
-  .empty-state p { font-size: 0.95rem; }
-
-  /* ── COUNT BADGE ── */
-  .count-badge {
-    display: inline-block;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text2);
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 6px;
-  }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--text);
-    color: #fff;
-    padding: 10px 18px;
-    border-radius: 7px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s;
-    z-index: 9999;
-    max-width: 280px;
-  }
-  .toast.show { opacity: 1; }
-
-  /* ── CONFIRM DIALOG ── */
-  .overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.35);
-    z-index: 9000;
-    align-items: center;
-    justify-content: center;
-  }
-  .overlay.show { display: flex; }
-  .dialog {
-    background: var(--surface);
-    border-radius: 10px;
-    padding: 24px;
-    max-width: 340px;
-    width: 90%;
-    box-shadow: 0 8px 32px rgba(0,0,0,.18);
-  }
-  .dialog h4 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-  .dialog p { font-size: 0.875rem; color: var(--text2); margin-bottom: 18px; }
-  .dialog-actions { display: flex; gap: 8px; justify-content: flex-end; }
-</style>
-</head>
-<body><a href="https://646202.com/cdn-cgi/content?id=uUW7dGe1sVnEJ7459lCxnfSmznjZQfYvaGGcTsHZefE-1780874155.32168-1.2.1.1-1c5QuF28FHJhAl5XjizSi56x2AI05.Hm7Za274JQa1E" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
-
-<!-- HEADER -->
-<div class="page-header">
-  <div class="page-title">
-    <span class="icon">📞</span>
-    Phone Directory
-    <span class="count-badge" id="countBadge">0</span>
-  </div>
-  <button class="btn btn-primary" id="addBtn" onclick="toggleAddForm()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-    Add Contact
-  </button>
-</div>
-
-<!-- SLIDE-IN FORM -->
-<div class="form-panel" id="formPanel">
-  <h3 id="formTitle">➕ Add New Contact</h3>
-  <div class="form-grid">
-    <div class="form-group">
-      <label>Name *</label>
-      <input type="text" id="fName" placeholder="e.g. John Smith">
-    </div>
-    <div class="form-group">
-      <label>Title / Description</label>
-      <input type="text" id="fTitle" placeholder="e.g. Parts Vendor">
-    </div>
-    <div class="form-group">
-      <label>Phone Number *</label>
-      <input type="tel" id="fPhone" placeholder="e.g. 5551234567">
-    </div>
-    <div class="form-group">
-      <label>Extension</label>
-      <input type="text" id="fExt" placeholder="e.g. 101">
-    </div>
-    <div class="form-group">
-      <label>Category *</label>
-      <select id="fCat">
-        <option value="vendor">Vendor</option>
-        <option value="store">Store</option>
-        <option value="emergency">Emergency</option>
-      </select>
-    </div>
-  </div>
-  <div class="form-actions">
-    <button class="btn btn-primary" onclick="saveContact()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-      Save Contact
-    </button>
-    <button class="btn btn-ghost" onclick="cancelForm()">Cancel</button>
-  </div>
-</div>
-
-<!-- TOOLBAR -->
-<div class="toolbar">
-  <div class="search-wrap">
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input class="search-input" id="searchInput" type="search" placeholder="Search contacts, numbers…" oninput="renderCards()">
-  </div>
-  <div class="filter-pills" id="filterPills">
-    <span class="pill active" data-cat="all" onclick="setFilter('all')">All</span>
-    <span class="pill" data-cat="vendor" onclick="setFilter('vendor')">Vendors</span>
-    <span class="pill" data-cat="store" onclick="setFilter('store')">Store</span>
-    <span class="pill" data-cat="emergency" onclick="setFilter('emergency')">Emergency</span>
-  </div>
-</div>
-
-<!-- CARD GRID -->
-<div class="card-grid" id="cardGrid">
-  <div class="empty-state" id="emptyState">
-    <div class="empty-icon">🔍</div>
-    <p>No contacts match your search.</p>
-  </div>
-</div>
-
-<!-- CONFIRM DIALOG -->
-<div class="overlay" id="confirmOverlay">
-  <div class="dialog">
-    <h4>Delete Contact</h4>
-    <p id="confirmMsg">Are you sure you want to delete this contact?</p>
-    <div class="dialog-actions">
-      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
-      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-    </div>
-  </div>
-</div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<script>
-  // ── CONSTANTS ──
-  const PHONEBOOK_URL  = '/data/phonebook.json';
-
-  const FALLBACK_DATA = [
-    {"name":"ScrapHappy","phone":"5857368035","cat":"vendor","title":"Scrap/Recycling"},
-    {"name":"Jason (Empire)","phone":"5856673120","cat":"vendor","title":"Empire"},
-    {"name":"Opus","phone":"8666238378","cat":"vendor","title":"Acct#7067451"},
-    {"name":"Helpdesk","phone":"8886880888","cat":"store","title":"IT Helpdesk"},
-    {"name":"Advance Auto","phone":"5857879345","cat":"vendor","title":"Advance Auto Parts"},
-    {"name":"Advance Rob","phone":"5856421466","cat":"vendor","title":"Advance - Rep"},
-    {"name":"AutoZone","phone":"5858725570","cat":"vendor","title":"AutoZone"},
-    {"name":"AutoZone Marisol","phone":"5856736624","cat":"vendor","title":"AutoZone - Rep"},
-    {"name":"Haun","phone":"5852654427","cat":"vendor","title":"Haun"},
-    {"name":"Securitas Alarm","phone":"8006894984","cat":"vendor","title":"Alarm/Security"},
-    {"name":"Hunter Engineering","phone":"8884507100","cat":"vendor","title":"Hunter (Equipment)"},
-    {"name":"Hertz","phone":"8889995980","cat":"vendor","title":"Hertz"},
-    {"name":"ATEQ","phone":"8886218767","cat":"vendor","title":"ATEQ (TPMS)"},
-    {"name":"Autel","phone":"8664960058","cat":"vendor","title":"Autel Diagnostics"},
-    {"name":"Coats","phone":"8006886359","cat":"vendor","title":"Coats (Equipment)"},
-    {"name":"Inventory Services","phone":"8556057324","cat":"vendor","title":"Inventory Services"},
-    {"name":"JS Products","phone":"8002557011","cat":"vendor","title":"JS Products"},
-    {"name":"JohnDow Industries","phone":"8004330708","cat":"vendor","title":"JohnDow"},
-    {"name":"Mitchell 1","phone":"8887246742","cat":"vendor","title":"Mitchell 1 (Software)"},
-    {"name":"Robinair","phone":"8005225561","cat":"vendor","title":"Robinair (AC Equipment)"},
-    {"name":"Rotary","phone":"8009435438","cat":"vendor","title":"Rotary (Lifts)"},
-    {"name":"Staples Advantage","phone":"8778267755","cat":"vendor","title":"Acct#1829070"},
-    {"name":"Launch X431","phone":"8775286249","ext":"4","cat":"vendor","title":"Launch Diagnostics"},
-    {"name":"DOC Floor Scrubbers","phone":"8554852113","cat":"vendor","title":"DOC"},
-    {"name":"Redline Smoke Machines","phone":"7144511411","cat":"vendor","title":"Redline Smoke"},
-    {"name":"Emergency Spill Response","phone":"8443473844","cat":"emergency","title":"Spill Response"}
-  ];
-
-  // ── STATE ──
-  let contacts = [];
-  let activeFilter = 'all';
-  let editingIndex = null;
-  let deleteTargetIndex = null;
-  let toastTimer = null;
-
-  // ── INIT ──
-  async function init() {
-    try {
-      const res = await fetch(PHONEBOOK_URL, { cache: 'no-store' });
-      if (!res.ok) throw new Error('not ok');
-      const data = await res.json();
-      contacts = Array.isArray(data) ? data : FALLBACK_DATA;
-    } catch (e) {
-      contacts = JSON.parse(JSON.stringify(FALLBACK_DATA));
-    }
-    renderCards();
-  }
-
-  // ── SAVE TO SERVER ──
-  async function saveToServer() {
-    try {
-      await fetch(PHONEBOOK_URL, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contacts, null, 2)
-      });
-    } catch (e) {
-      // Fail silently – data lives in memory
-    }
-  }
-
-  // ── FORMAT PHONE ──
-  function formatPhone(p) {
-    const d = String(p).replace(/\D/g, '');
-    if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
-    if (d.length === 11 && d[0] === '1') return `+1 (${d.slice(1,4)}) ${d.slice(4,7)}-${d.slice(7)}`;
-    return d;
-  }
-
-  // ── BADGE HTML ──
-  function badgeHTML(cat) {
-    const map = {
-      vendor: ['badge-vendor', 'Vendor'],
-      store:  ['badge-store',  'Store'],
-      emergency: ['badge-emergency', 'Emergency']
-    };
-    const [cls, label] = map[cat] || ['badge-vendor', cat];
-    return `<span class="card-badge ${cls}">${label}</span>`;
-  }
-
-  // ── RENDER ──
-  function renderCards() {
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const grid = document.getElementById('cardGrid');
-    const empty = document.getElementById('emptyState');
-    const countBadge = document.getElementById('countBadge');
-
-    // Filter
-    const filtered = contacts.filter((c, i) => {
-      const catMatch = activeFilter === 'all' || c.cat === activeFilter;
-      const qMatch   = !q ||
-        c.name.toLowerCase().includes(q) ||
-        (c.title||'').toLowerCase().includes(q) ||
-        c.phone.includes(q);
-      return catMatch && qMatch;
-    });
-
-    // Remove old cards (keep empty state element)
-    Array.from(grid.querySelectorAll('.contact-card')).forEach(el => el.remove());
-
-    countBadge.textContent = filtered.length;
-
-    if (filtered.length === 0) {
-      empty.classList.add('show');
-    } else {
-      empty.classList.remove('show');
-      filtered.forEach(c => {
-        const originalIndex = contacts.indexOf(c);
-        const card = buildCard(c, originalIndex);
-        grid.appendChild(card);
-      });
-    }
-  }
-
-  function buildCard(c, idx) {
-    const div = document.createElement('div');
-    div.className = `contact-card${c.cat === 'emergency' ? ' emergency' : ''}`;
-
-    const phoneClean = c.phone.replace(/\D/g,'');
-    const phoneDisplay = formatPhone(c.phone);
-
-    div.innerHTML = `
-      <div class="card-top">
-        ${badgeHTML(c.cat)}
-        <div class="card-actions">
-          <button class="btn btn-ghost btn-icon" title="Edit" onclick="startEdit(${idx})">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          </button>
-          <button class="btn btn-danger btn-icon" title="Delete" onclick="startDelete(${idx})">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-          </button>
-        </div>
-      </div>
-      <div class="card-name">${escHtml(c.name)}</div>
-      ${c.title ? `<div class="card-title">${escHtml(c.title)}</div>` : ''}
-      <div class="card-phone-row">
-        <a class="phone-link" href="tel:${phoneClean}${c.ext ? ',' + c.ext : ''}">
-          📞 ${phoneDisplay}
-        </a>
-        ${c.ext ? `<span class="ext-badge">Ext. ${escHtml(c.ext)}</span>` : ''}
-        <button class="copy-btn" onclick="copyPhone('${phoneClean}', this)">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-          Copy
-        </button>
-      </div>
-    `;
-    return div;
-  }
-
-  function escHtml(str) {
-    return String(str||'')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-
-  // ── FILTER ──
-  function setFilter(cat) {
-    activeFilter = cat;
-    document.querySelectorAll('.pill').forEach(p => {
-      p.classList.toggle('active', p.dataset.cat === cat);
-    });
-    renderCards();
-  }
-
-  // ── COPY PHONE ──
-  function copyPhone(phone, btn) {
-    navigator.clipboard.writeText(phone).then(() => {
-      btn.classList.add('copied');
-      btn.textContent = '✓ Copied';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        btn.innerHTML = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0
+// INIT
+loadCats(); render();
+fetch('/data/phonebook.json?_='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{
+  serverLoaded=true;
+  if(Array.isArray(d)&&d.length>=BUILTIN.length){contacts=d;render();}
+}).catch(()=>{serverLoaded=true;});
+</script>
+</body>
+</html>
