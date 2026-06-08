@@ -5,11 +5,13 @@
 <title>Parts — Store 646202</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
+:root{--bg:#f8fafc;--surface:#fff;--surface2:#f1f5f9;--border:#e2e8f0;--accent:#e8292d;--accent2:#1e3a5f;--text:#0f172a;--text2:#475569;--text3:#94a3b8;--green:#16a34a;--amber:#d97706;--red:#dc2626;--font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);padding:20px;font-size:14px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
 .card-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);margin-bottom:14px}
+.card-title-lg{font-size:15px;font-weight:700;color:var(--accent2);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.card-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
 .vin-row{display:flex;gap:8px;align-items:flex-end}
 input,select{font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:8px 12px;background:var(--surface);color:var(--text);outline:none}
 input:focus{border-color:var(--accent2)}
@@ -19,29 +21,60 @@ input:focus{border-color:var(--accent2)}
 .result-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:14px}
 .result-item label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:3px}
 .result-item .val{font-size:14px;font-weight:600;font-family:var(--mono)}
-.parts-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.ptab{padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:var(--surface);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2)}
-.ptab.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+/* ── Inner tabs ── */
+.inner-tab-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+.inner-tab-pill{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface2);font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.inner-tab-pill:hover{background:var(--surface);border-color:var(--accent2);color:var(--accent2)}
+.inner-tab-pill.active{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+/* ── Tables ── */
 .ref-table{width:100%;border-collapse:collapse;font-size:13px}
 .ref-table th{text-align:left;padding:7px 10px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3)}
-.ref-table td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.ref-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
 .ref-table tr:last-child td{border-bottom:none}
+.ref-table tr:hover td{background:var(--surface2)}
+.ref-table td:first-child{font-family:var(--mono);font-weight:500}
+.table-wrap{overflow-x:auto}
+/* ── Tags & info blocks ── */
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:3px;background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+.tag.green{background:#dcfce7;color:#15803d;border-color:#86efac}
+.tag.amber{background:#fef9c3;color:#854d0e;border-color:#fde68a}
+.tag.red{background:#fee2e2;color:#b91c1c;border-color:#fca5a5}
+.info-block{background:var(--surface2);border-left:3px solid var(--accent2);border-radius:0 6px 6px 0;padding:10px 14px;margin-bottom:12px;font-size:13px;color:var(--text2)}
+.info-block strong{color:var(--text)}
+.info-block.amber{border-left-color:var(--amber)}
+.info-block.green{border-left-color:var(--green)}
+.info-block.red{border-left-color:var(--red)}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin:14px 0 8px}
+.fluid-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle;border:1px solid rgba(0,0,0,.15)}
+/* ── Spinner ── */
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
 
-/* ── Extra CSS from old backup ── */
-.tag { display:inline-block; font-size:10px; font-weight:700; padding:1px 7px; border-radius:3px; background:var(--surface2); color:var(--text2); border:1px solid var(--border); }
-.tag.green { background:#dcfce7; color:#15803d; border-color:#86efac; }
-.tag.amber { background:#fef9c3; color:#854d0e; border-color:#fde68a; }
-.tag.red   { background:#fee2e2; color:#b91c1c; border-color:#fca5a5; }
-.inner-tab-bar { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:16px; }
-.inner-tab-pill { padding:6px 14px; border-radius:20px; border:1px solid var(--border); background:var(--surface2); font-size:12px; font-weight:600; color:var(<div class="card">
-  <div class="card-title">
-    <span>📚</span> Parts Quick Reference
+<!-- ═══════════════════════════
+     CARD 1 — VIN DECODER
+═══════════════════════════ -->
+<div class="card">
+  <div class="card-title">🔍 VIN Decoder</div>
+  <div class="vin-row">
+    <input id="vin-input" placeholder="Enter 17-character VIN" style="flex:1;font-family:var(--mono);letter-spacing:.05em" maxlength="17">
+    <button class="btn btn-primary" onclick="decodeVIN()">Decode</button>
   </div>
-  <div class="card-sub">Common specs, sizes, and cross-reference notes for the most frequently requested parts</div>
+  <div id="vin-result" style="margin-top:14px"></div>
+</div>
 
-  <div class="inner-tab-bar" id="innerTabBar">
+<!-- ═══════════════════════════
+     CARD 2 — PARTS QUICK REFERENCE (Rich backup)
+═══════════════════════════ -->
+<div class="card">
+  <div class="card-title-lg"><span>📚</span> Parts Quick Reference</div>
+  <div class="card-sub">Common specs, sizes, and cross-reference notes for frequently requested parts</div>
+
+  <div class="inner-tab-bar" id="refTabBar">
     <button class="inner-tab-pill active" data-tab="batteries">🔋 Batteries</button>
     <button class="inner-tab-pill" data-tab="wipers">🌧️ Wiper Blades</button>
     <button class="inner-tab-pill" data-tab="brakes">🛑 Brakes</button>
@@ -58,13 +91,7 @@ input:focus{border-color:var(--accent2)}
     <div class="table-wrap">
       <table class="ref-table">
         <thead>
-          <tr>
-            <th>Group Size</th>
-            <th>CCA Range</th>
-            <th>Typical RC</th>
-            <th>Common Applications</th>
-            <th>Notes</th>
-          </tr>
+          <tr><th>Group Size</th><th>CCA Range</th><th>Typical RC</th><th>Common Applications</th><th>Notes</th></tr>
         </thead>
         <tbody>
           <tr><td>24 / 24F</td><td>550–750 CCA</td><td>90–110 min</td><td>Acura, Honda, Lexus, Nissan, Toyota</td><td><span class="tag">Top-post</span></td></tr>
@@ -75,150 +102,165 @@ input:focus{border-color:var(--accent2)}
           <tr><td>49 (H8)</td><td>850–950 CCA</td><td>150–175 min</td><td>Audi A6/A8, BMW 7-series, Mercedes S-class</td><td><span class="tag amber">AGM req.</span></td></tr>
           <tr><td>51 / 51R</td><td>425–500 CCA</td><td>60–75 min</td><td>Acura, Honda CR-V, Mazda, Mitsubishi</td><td>51R = reverse pos.</td></tr>
           <tr><td>65</td><td>750–850 CCA</td><td>115–130 min</td><td>Ford F-150, Lincoln, Mercury</td><td><span class="tag">Top-post</span></td></tr>
-          <tr><td>75 / 75DT</td><td>525–650 CCA</td><td>85–100 min</td><td>Buick, Chevy, Oldsmobile, Pontiac</td><td>Side-post available</td></tr>
+          <tr><td>75 / 75DT</td><td>525–650 CCA</td><td>85–100 min</td><td>Buick, Chevy, Oldsmobile, Pontiac</td><td>Side-post avail.</td></tr>
           <tr><td>78</td><td>770–900 CCA</td><td>120–145 min</td><td>Chevy, GMC trucks, Saturn</td><td>Side-post terminal</td></tr>
           <tr><td>96R</td><td>590–700 CCA</td><td>90–105 min</td><td>Cadillac CTS, Chevy Camaro 2010+</td><td><span class="tag amber">AGM check</span></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-block amber" style="margin-top:12px;">
-      <strong>⚠️ AGM Vehicles:</strong> Stop/start systems and vehicles with absorbent glass mat (AGM) batteries MUST be replaced with AGM. Installing standard flooded battery will cause early failure and may damage charging system.
+    <div class="info-block amber" style="margin-top:12px">
+      <strong>AGM Batteries:</strong> Vehicles with start-stop systems, heavy electrical loads, or OEM AGM batteries <em>must</em> be replaced with AGM. Do not substitute flooded. Always register battery with scan tool on BMW, Mercedes, Audi, and GM vehicles with BCM battery management.
     </div>
   </div>
 
-  <!-- WIPER BLADES -->
+  <!-- WIPERS -->
   <div class="tab-panel" id="tab-wipers">
     <div class="info-block">
-      <strong>Blade Selection:</strong> Driver side ≠ passenger side. Always specify year, make, model AND trim. Some vehicles use rear wipers — quote separately. Beam blades recommended for newer vehicles.
+      <strong>Blade Selection:</strong> Beam blades recommended for most late-model vehicles. Confirm attachment type (J-hook, pinch tab, top-lock) before ordering. Rear blades vary significantly — always look up by VIN.
     </div>
-    <div class="section-label">Common Vehicle Wiper Size Chart</div>
     <div class="table-wrap">
       <table class="ref-table">
         <thead>
-          <tr>
-            <th>Vehicle</th>
-            <th>Years</th>
-            <th>Driver (in)</th>
-            <th>Passenger (in)</th>
-            <th>Rear (in)</th>
-            <th>Type</th>
-          </tr>
+          <tr><th>Vehicle</th><th>Years</th><th>Driver</th><th>Passenger</th><th>Rear</th></tr>
         </thead>
         <tbody>
-          <tr><td>Honda Accord</td><td>2018–2024</td><td>26"</td><td>20"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Honda Civic</td><td>2016–2021</td><td>26"</td><td>16"</td><td>14"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Honda CR-V</td><td>2017–2022</td><td>26"</td><td>16"</td><td>14"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Toyota Camry</td><td>2018–2024</td><td>26"</td><td>18"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Toyota RAV4</td><td>2019–2024</td><td>26"</td><td>16"</td><td>12"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Toyota Corolla</td><td>2019–2024</td><td>26"</td><td>16"</td><td>12"</td><td>Beam/Conv</td></tr>
-          <tr><td>Ford F-150</td><td>2015–2020</td><td>22"</td><td>22"</td><td>—</td><td>Conv/Beam</td></tr>
-          <tr><td>Ford F-150</td><td>2021–2024</td><td>24"</td><td>20"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Ford Escape</td><td>2020–2023</td><td>26"</td><td>16"</td><td>12"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Chevy Silverado</td><td>2014–2018</td><td>22"</td><td>22"</td><td>—</td><td>Conv/Beam</td></tr>
-          <tr><td>Chevy Silverado</td><td>2019–2024</td><td>22"</td><td>22"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Chevy Equinox</td><td>2018–2023</td><td>24"</td><td>17"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Nissan Altima</td><td>2019–2024</td><td>26"</td><td>16"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Nissan Rogue</td><td>2021–2024</td><td>26"</td><td>17"</td><td>14"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Jeep Grand Cherokee</td><td>2021–2024</td><td>24"</td><td>21"</td><td>—</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>Subaru Outback</td><td>2020–2024</td><td>26"</td><td>18"</td><td>12"</td><td><span class="tag green">Beam</span></td></tr>
-          <tr><td>BMW 3-Series</td><td>2019–2024</td><td>24"</td><td>19"</td><td>—</td><td><span class="tag">Pin-top</span></td></tr>
-          <tr><td>Mercedes C-Class</td><td>2015–2021</td><td>24"</td><td>21"</td><td>—</td><td><span class="tag">Pinch tab</span></td></tr>
+          <tr><td>Honda Civic</td><td>2016–22</td><td>26"</td><td>16"</td><td>14"</td></tr>
+          <tr><td>Honda Accord</td><td>2018–22</td><td>26"</td><td>19"</td><td>—</td></tr>
+          <tr><td>Honda CR-V</td><td>2017–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
+          <tr><td>Toyota Camry</td><td>2018–22</td><td>26"</td><td>16"</td><td>—</td></tr>
+          <tr><td>Toyota Corolla</td><td>2020–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
+          <tr><td>Toyota RAV4</td><td>2019–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
+          <tr><td>Toyota Highlander</td><td>2020–22</td><td>26"</td><td>20"</td><td>14"</td></tr>
+          <tr><td>Ford F-150</td><td>2015–22</td><td>22"</td><td>22"</td><td>—</td></tr>
+          <tr><td>Ford Escape</td><td>2020–22</td><td>26"</td><td>16"</td><td>12"</td></tr>
+          <tr><td>Ford Explorer</td><td>2020–22</td><td>24"</td><td>20"</td><td>12"</td></tr>
+          <tr><td>Chevy Equinox</td><td>2018–22</td><td>24"</td><td>16"</td><td>12"</td></tr>
+          <tr><td>Chevy Silverado</td><td>2019–22</td><td>22"</td><td>22"</td><td>—</td></tr>
+          <tr><td>Nissan Rogue</td><td>2021–22</td><td>26"</td><td>14"</td><td>12"</td></tr>
+          <tr><td>Nissan Altima</td><td>2019–22</td><td>26"</td><td>16"</td><td>—</td></tr>
+          <tr><td>Hyundai Tucson</td><td>2022+</td><td>26"</td><td>14"</td><td>12"</td></tr>
+          <tr><td>Subaru Outback</td><td>2020–22</td><td>26"</td><td>18"</td><td>12"</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="info-block amber" style="margin-top:12px;">
-      <strong>💡 Pro Tip:</strong> Always show the customer both conventional and beam blade options. Beam blades add $3–8 margin and provide better performance in snow/ice — upsell opportunity.
-    </div>
+    <p style="color:var(--text3);font-size:12px;margin-top:8px">⚠️ Always verify with vehicle lookup — sizes vary by trim/package</p>
   </div>
 
   <!-- BRAKES -->
   <div class="tab-panel" id="tab-brakes">
-    <div class="info-block red">
-      <strong>⚠️ Safety Critical:</strong> Always measure rotor thickness with a micrometer. Never resurface a rotor below manufacturer minimum thickness spec. Discard and replace if at or below minimum.
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+      <div>
+        <div class="section-label">Pad Wear Indicators</div>
+        <table class="ref-table">
+          <thead><tr><th>Thickness</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>&gt;6mm</td><td style="color:var(--green);font-weight:600">Good — document</td></tr>
+            <tr><td>3–6mm</td><td style="color:var(--amber);font-weight:600">Monitor / advise</td></tr>
+            <tr><td>&lt;3mm</td><td style="color:var(--red);font-weight:600">Replace now</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="section-label">Common Lug Torques (ft-lb)</div>
+        <table class="ref-table">
+          <thead><tr><th>Make</th><th>Torque</th></tr></thead>
+          <tbody>
+            <tr><td>Chrysler/Dodge/Jeep</td><td>95–115</td></tr>
+            <tr><td>Ford</td><td>100–150</td></tr>
+            <tr><td>GM / Chevy / GMC</td><td>100–140</td></tr>
+            <tr><td>Honda / Acura</td><td>80–95</td></tr>
+            <tr><td>Hyundai / Kia</td><td>65–80</td></tr>
+            <tr><td>Nissan / Infiniti</td><td>80–108</td></tr>
+            <tr><td>Toyota / Lexus</td><td>76–100</td></tr>
+            <tr><td>Subaru</td><td>89</td></tr>
+            <tr><td>VW / Audi</td><td>89–118</td></tr>
+            <tr><td>BMW</td><td>89–100</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <div class="section-label">Pad Wear Indicators &amp; Diagnosis</div>
-    <div class="table-wrap">
-      <table class="ref-table">
-        <thead>
-          <tr><th>Symptom / Indicator</th><th>Likely Cause</th><th>Action</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>High-pitched squeal</td><td>Wear indicator tab contacting rotor</td><td><span class="tag red">Replace pads now</span></td></tr>
-          <tr><td>Metal grinding noise</td><td>Pad fully worn, metal-on-metal</td><td><span class="tag red">Replace pads + rotors</span></td></tr>
-          <tr><td>Pulsation / vibration</td><td>Rotor warped or DTV (disc thickness variation)</td><td>Measure DTV, replace if &gt;0.0005"</td></tr>
-          <tr><td>Pulling to one side</td><td>Stuck caliper, uneven pad wear</td><td>Inspect caliper slides &amp; seals</td></tr>
-          <tr><td>Low pedal / spongy feel</td><td>Air in lines, worn master cylinder</td><td>Bleed system, inspect MC</td></tr>
-          <tr><td>Soft pedal first stop</td><td>Pad compound glazed or bedded improperly</td><td>Perform proper bed-in procedure</td></tr>
-          <tr><td>Pad thickness ≤ 3mm</td><td>Near end of service life</td><td><span class="tag amber">Recommend replacement</span></td></tr>
-          <tr><td>Pad thickness 3–6mm</td><td>50–70% worn (approx)</td><td><span class="tag">Monitor / advise</span></td></tr>
-          <tr><td>Pad thickness &gt; 6mm</td><td>Good condition</td><td><span class="tag green">OK – document</span></td></tr>
-        </tbody>
-      </table>
+    <div class="section-label">Common Brake Symptoms & Causes</div>
+    <table class="ref-table">
+      <thead><tr><th>Symptom</th><th>Likely Cause</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Squealing (cold, first stop)</td><td>Normal — pad backing plate, morning dew</td><td>Monitor; note if persistent</td></tr>
+        <tr><td>Squealing (all stops)</td><td>Wear indicator contact or glazed rotors</td><td>Inspect pads &amp; rotors</td></tr>
+        <tr><td>Grinding</td><td>Pads worn to metal, debris, corroded rotor</td><td>Replace pads &amp; inspect rotors immediately</td></tr>
+        <tr><td>Pulsation / vibration</td><td>Warped or DTV (disc thickness variation)</td><td>Measure DTV, replace if &gt;0.0005"</td></tr>
+        <tr><td>Pulling to one side</td><td>Stuck caliper, uneven pad wear</td><td>Inspect caliper slides &amp; seals</td></tr>
+        <tr><td>Spongy pedal</td><td>Air in lines, worn master cylinder</td><td>Bleed system, inspect MC</td></tr>
+      </tbody>
+    </table>
+    <div class="info-block amber" style="margin-top:12px">
+      <strong>Rotor Minimum Thickness</strong> is cast into the rotor hat or edge. Always verify with vehicle-specific data. Replace if at or below minimum, or if insufficient material remains for machining.
     </div>
+  </div>
 
-    <div class="section-label">Rotor Minimum Thickness Reference</div>
+  <!-- FILTERS -->
+  <div class="tab-panel" id="tab-filters">
     <div class="info-block">
-      Minimum thickness is cast into the rotor hat or edge. <strong>Always verify with vehicle-specific service manual.</strong> Common minimum thicknesses: front rotors typically 20–30mm; rear 9–18mm. Measure at ≥4 points across friction surface. Replace if worn beyond spec OR if insufficient material remains for machining (typical machining removes 0.5–1mm per side).
+      <strong>Filter Intervals:</strong> Engine air — 15,000–30,000 mi or annually. Cabin air — 12,000–15,000 mi or annually (more often in dusty conditions). Oil — per OEM schedule or 5,000–7,500 mi conventional / 10,000–15,000 mi full synthetic.
     </div>
-
-    <div class="section-label">Wheel Torque &amp; Hardware Specs</div>
     <div class="table-wrap">
       <table class="ref-table">
-        <thead>
-          <tr><th>Vehicle Class</th><th>Lug Nut Torque</th><th>Caliper Bracket (Typical)</th><th>Caliper Slide Pin</th></tr>
-        </thead>
+        <thead><tr><th>Filter Type</th><th>Service Interval</th><th>Notes</th></tr></thead>
         <tbody>
-          <tr><td>Compact / Sedan (FWD)</td><td>80–100 ft-lb</td><td>40–85 ft-lb</td><td>25–35 ft-lb</td></tr>
-          <tr><td>Midsize / SUV</td><td>100–120 ft-lb</td><td>55–100 ft-lb</td><td>25–44 ft-lb</td></tr>
-          <tr><td>Full-size Truck / SUV</td><td>120–165 ft-
+          <tr><td>Engine Air Filter</td><td>15,000–30,000 mi</td><td>Inspect at every oil change; replace sooner if visibly dirty</td></tr>
+          <tr><td>Cabin Air Filter</td><td>12,000–15,000 mi</td><td>Often neglected — upsell at every service. Location varies (glove box, under dash, cowl)</td></tr>
+          <tr><td>Oil Filter</td><td>Every oil change</td><td>Always replace with oil. Verify thread pitch and bypass valve spec</td></tr>
+          <tr><td>Fuel Filter (in-tank)</td><td>60,000–100,000 mi</td><td>Many late models have lifetime filters — verify before quoting</td></tr>
+          <tr><td>Fuel Filter (inline)</td><td>30,000 mi</td><td>Common on older vehicles and diesel</td></tr>
+          <tr><td>Transmission Filter</td><td>30,000–60,000 mi</td><td>Often omitted by manufacturers — check fluid condition</td></tr>
+          <tr><td>PCV Valve</td><td>30,000–60,000 mi</td><td>Shake to verify function; replace if stuck or rattling wrong</td></tr>
         </tbody>
       </table>
     </div>
-    <p style="color:var(--text3);font-size:12px;margin-top:8px">⚠️ Always verify specs with vehicle-specific service data</p>
+  </div>
+
+  <!-- BELTS -->
+  <div class="tab-panel" id="tab-belts">
+    <div class="info-block">
+      <strong>Serpentine Belt:</strong> Inspect for cracks, glazing, fraying, and missing ribs. Replace if cracked or at 60,000–100,000 mi. Always replace tensioner and idler pulleys when replacing belt on high-mileage vehicles.
+    </div>
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Belt Type</th><th>Inspection Points</th><th>Typical Interval</th></tr></thead>
+        <tbody>
+          <tr><td>Serpentine / Drive Belt</td><td>Cracks, glazing, fraying, rib missing</td><td>60,000–100,000 mi</td></tr>
+          <tr><td>Timing Belt</td><td>N/A — preventive replacement only</td><td>60,000–105,000 mi (OEM specific)</td></tr>
+          <tr><td>Timing Chain</td><td>Rattle on cold start, stretched check via scan</td><td>Lifetime (but fails on neglected oil)</td></tr>
+          <tr><td>A/C Belt (if separate)</td><td>Same as serpentine</td><td>Same as serpentine or at A/C service</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-block red" style="margin-top:12px">
+      <strong>Timing Belt Failure = Engine Damage.</strong> Always flag overdue timing belts as critical. Check water pump condition and replace simultaneously — labor overlap makes it cost-effective.
+    </div>
+  </div>
+
+  <!-- FLUIDS -->
+  <div class="tab-panel" id="tab-fluids">
+    <div class="table-wrap">
+      <table class="ref-table">
+        <thead><tr><th>Fluid</th><th>Color (new)</th><th>Interval</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Engine Oil</td><td><span class="fluid-dot" style="background:#c8a050"></span>Amber/gold</td><td>Per OEM / 5k–15k mi</td><td>Check viscosity — 0W-20, 5W-20, 5W-30 most common</td></tr>
+          <tr><td>Coolant / Antifreeze</td><td><span class="fluid-dot" style="background:#4ade80"></span>Green or orange</td><td>2 yr / 30k mi (conv.) · 5 yr / 150k mi (OAT)</td><td>Never mix green and orange. Test freeze point &amp; pH</td></tr>
+          <tr><td>Power Steering Fluid</td><td><span class="fluid-dot" style="background:#c084fc"></span>Clear/red</td><td>Inspect annually</td><td>Many late models are EPS — no fluid. Check for leaks &amp; foaming</td></tr>
+          <tr><td>Brake Fluid</td><td><span class="fluid-dot" style="background:#fef08a"></span>Clear/yellow</td><td>2 yr or by moisture content</td><td>DOT3 / DOT4 most common. Test moisture — replace if &gt;3%</td></tr>
+          <tr><td>Transmission Fluid (ATF)</td><td><span class="fluid-dot" style="background:#f87171"></span>Red</td><td>30k–60k mi (service) · OEM "lifetime"</td><td>Verify spec — CVT fluids are NOT interchangeable with ATF</td></tr>
+          <tr><td>Differential / Gear Oil</td><td><span class="fluid-dot" style="background:#94a3b8"></span>Dark amber</td><td>30k–60k mi or if contaminated</td><td>75W-90 or 75W-140 most common. Check for water intrusion</td></tr>
+          <tr><td>Transfer Case Fluid</td><td><span class="fluid-dot" style="background:#94a3b8"></span>Dark amber</td><td>30k–60k mi</td><td>Check OEM spec — some use ATF, some use dedicated fluid</td></tr>
+          <tr><td>Windshield Washer</td><td><span class="fluid-dot" style="background:#60a5fa"></span>Blue</td><td>Top off as needed</td><td>Pre-mixed for cold climates; diluted in summer is fine</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
---text2); cursor:pointer; }
-.inner-tab-pill:hover { background:var(--surface); border-color:var(--accent2); color:var(--accent2); }
-.inner-tab-pill.active { background:var(--accent2); color:#fff; border-color:var(--accent2); }
-.tab-panel { display:none; }
-.tab-panel.active { display:block; }
-.info-block { background:var(--surface2); border-left:3px solid var(--accent2); border-radius:0 6px 6px 0; padding:10px 14px; margin-bottom:12px; font-size:13px; color:var(--text2); }
-.info-block strong { color:var(--text); }
-.info-block.amber { border-left-color:#d97706; }
-.info-block.green { border-left-color:#16a34a; }
-.info-block.red   { border-left-color:#dc2626; }
-.section-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text3); margin:14px 0 8px; }
-.fluid-dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; border:1px solid rgba(0,0,0,.15); }
-.table-wrap { overflow-x:auto; }
-.card-sub { font-size:12px; color:var(--text3); margin-bottom:16px; }
-</style>
-</head>
-<body><a href="https://646202.com/cdn-cgi/content?id=ysp1Ah09tD8wg4tvojKCswzhzS2n6sy1rtUVP4m1nfU-1780886234.0108583-1.2.1.1-iStlBzGSKB0sp6zy_d.ZgC9QK2td24MukY_myN9.Y8s" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
-
-<div class="card">
-  <div class="card-title">🔍 VIN Decoder</div>
-  <div class="vin-row">
-    <input id="vin-input" placeholder="Enter 17-character VIN" style="flex:1;font-family:var(--mono);letter-spacing:.05em" maxlength="17">
-    <button class="btn btn-primary" onclick="decodeVIN()">Decode</button>
-  </div>
-  <div id="vin-result" style="margin-top:14px"></div>
-</div>
-
-<div class="card">
-  <div class="card-title">📋 Parts Quick Reference</div>
-  <div class="parts-tabs">
-    <button class="ptab active" onclick="showPart('batteries',this)">🔋 Batteries</button>
-    <button class="ptab" onclick="showPart('wipers',this)">🪟 Wipers</button>
-    <button class="ptab" onclick="showPart('brakes',this)">🛑 Brakes</button>
-    <button class="ptab" onclick="showPart('filters',this)">🔧 Filters</button>
-    <button class="ptab" onclick="showPart('belts',this)">⚙️ Belts</button>
-    <button class="ptab" onclick="showPart('fluids',this)">💧 Fluids</button>
-  </div>
-  <div id="parts-content"></div>
-</div>
-
+<!-- ═══════════════════════════
+     CARD 3 — NOTES
+═══════════════════════════ -->
 <div class="card">
   <div class="card-title">📝 Notes</div>
   <textarea id="parts-notes" style="width:100%;min-height:100px;resize:vertical;font-family:var(--font);font-size:13px;border:1px solid var(--border);border-radius:6px;padding:10px;outline:none" placeholder="Parts notes..."></textarea>
@@ -226,119 +268,50 @@ input:focus{border-color:var(--accent2)}
 </div>
 
 <script>
-const PARTS_DATA = {
-  batteries: `<table class="ref-table"><thead><tr><th>Group</th><th>CCA Range</th><th>Common Vehicles</th></tr></thead><tbody>
-    <tr><td>24/24F</td><td>550-750</td><td>Acura, Honda, Lexus, Toyota</td></tr>
-    <tr><td>34/78</td><td>650-800</td><td>Chrysler, GM trucks</td></tr>
-    <tr><td>35</td><td>550-640</td><td>Honda, Nissan, Subaru, Toyota</td></tr>
-    <tr><td>47 (H5)</td><td>600-730</td><td>Buick, Chevy, VW, Audi</td></tr>
-    <tr><td>48 (H6)</td><td>680-760</td><td>BMW, Chevy, GMC, Jeep, VW</td></tr>
-    <tr><td>49 (H8)</td><td>800-900</td><td>Audi, BMW, Mercedes</td></tr>
-    <tr><td>51R</td><td>500-600</td><td>Honda, Mazda, Nissan</td></tr>
-    <tr><td>65</td><td>650-850</td><td>Ford F-series, Lincoln, Mercury</td></tr>
-    <tr><td>96R</td><td>590-650</td><td>Buick, Cadillac, Chevy, GMC</td></tr>
-  </tbody></table>`,
-  wipers: `<table class="ref-table"><thead><tr><th>Vehicle</th><th>Driver</th><th>Passenger</th><th>Rear</th></tr></thead><tbody>
-    <tr><td>Honda Civic 2016-22</td><td>26"</td><td>16"</td><td>14"</td></tr>
-    <tr><td>Honda Accord 2018-22</td><td>26"</td><td>19"</td><td>—</td></tr>
-    <tr><td>Toyota Camry 2018-22</td><td>26"</td><td>16"</td><td>—</td></tr>
-    <tr><td>Toyota RAV4 2019-22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-    <tr><td>Ford F-150 2015-22</td><td>22"</td><td>22"</td><td>—</td></tr>
-    <tr><td>Ford Escape 2020-22</td><td>26"</td><td>16"</td><td>12"</td></tr>
-    <tr><td>Chevy Equinox 2018-22</td><td>24"</td><td>16"</td><td>12"</td></tr>
-    <tr><td>Nissan Rogue 2021-22</td><td>26"</td><td>14"</td><td>12"</td></tr>
-  </tbody></table><p style="color:var(--text3);font-size:12px;margin-top:8px">⚠️ Always verify with vehicle lookup tool</p>`,
-  brakes: `<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-    <div><div style="font-weight:600;margin-bottom:8px;font-size:13px">Pad Wear Indicators</div>
-    <table class="ref-table"><thead><tr><th>Thickness</th><th>Status</th></tr></thead><tbody>
-    <tr><td>>4mm</td><td style="color:#16a34a;font-weight:600">Good</td></tr>
-    <tr><td>3–4mm</td><td style="color:#d97706;font-weight:600">Monitor</td></tr>
-    <tr><td>2–3mm</td><td style="color:#ea580c;font-weight:600">Replace Soon</td></tr>
-    <tr><td><2mm</td><td style="color:#dc2626;font-weight:600">Replace Now</td></tr>
-    </tbody></table></div>
-    <div><div style="font-weight:600;margin-bottom:8px;font-size:13px">Common Lug Torques (ft-lb)</div>
-    <table class="ref-table"><thead><tr><th>Make</th><th>Torque</th></tr></thead><tbody>
-    <tr><td>Chrysler/Dodge/Jeep</td><td>95–115</td></tr>
-    <tr><td>Ford</td><td>100–150</td></tr>
-    <tr><td>GM/Chevy/GMC</td><td>100–140</td></tr>
-    <tr><td>Honda/Acura</td><td>80–95</td></tr>
-    <tr><td>Hyundai/Kia</td><td>65–80</td></tr>
-    <tr><td>Nissan/Infiniti</td><td>83–108</td></tr>
-    <tr><td>Toyota/Lexus</td><td>76–103</td></tr>
-    </tbody></table></div></div>`,
-  filters: `<table class="ref-table"><thead><tr><th>Filter Type</th><th>Service Interval</th><th>Notes</th></tr></thead><tbody>
-    <tr><td>Engine Oil Filter</td><td>Every oil change</td><td>Match to oil type (conventional/synthetic)</td></tr>
-    <tr><td>Engine Air Filter</td><td>15,000–30,000 mi</td><td>Inspect at every oil change</td></tr>
-    <tr><td>Cabin Air Filter</td><td>15,000–25,000 mi</td><td>Annually or when restricted</td></tr>
-    <tr><td>Fuel Filter (inline)</td><td>30,000 mi or per spec</td><td>Many modern vehicles have lifetime filters</td></tr>
-    <tr><td>Transmission Filter</td><td>30,000–60,000 mi</td><td>Varies — check OEM specs</td></tr>
-  </tbody></table>`,
-  belts: `<table class="ref-table"><thead><tr><th>Item</th><th>Service Interval</th><th>Notes</th></tr></thead><tbody>
-    <tr><td>Serpentine Belt</td><td>60,000–100,000 mi</td><td>Inspect for cracks, glazing, fraying</td></tr>
-    <tr><td>Timing Belt</td><td>60,000–105,000 mi</td><td>⚠️ Check OEM spec — interference vs non-interference engine</td></tr>
-    <tr><td>Timing Chain</td><td>Lifetime (inspect)</td><td>Listen for rattle on cold start</td></tr>
-    <tr><td>Drive Belt Tensioner</td><td>Replace with serpentine belt</td><td>Always replace together</td></tr>
-    <tr><td>Idler Pulley</td><td>Replace with serpentine belt</td><td>Check for bearing noise</td></tr>
-  </tbody></table>`,
-  fluids: `<table class="ref-table"><thead><tr><th>Fluid</th><th>Color (new)</th><th>Service Interval</th></tr></thead><tbody>
-    <tr><td>Engine Oil</td><td>Amber/gold</td><td>Per OEM spec (3k–10k mi)</td></tr>
-    <tr><td>Coolant/Antifreeze</td><td>Green, orange, pink, blue</td><td>30,000–50,000 mi or 5 years</td></tr>
-    <tr><td>Brake Fluid (DOT3/4)</td><td>Clear/light yellow</td><td>Every 2 years or 30,000 mi</td></tr>
-    <tr><td>Power Steering Fluid</td><td>Clear/red</td><td>Inspect annually — flush per spec</td></tr>
-    <tr><td>Transmission Fluid (ATF)</td><td>Red/pink</td><td>30,000–60,000 mi (check OEM)</td></tr>
-    <tr><td>Differential Fluid</td><td>Amber</td><td>30,000–60,000 mi</td></tr>
-    <tr><td>Transfer Case Fluid</td><td>Amber</td><td>30,000 mi (4WD/AWD)</td></tr>
-  </tbody></table>`
-};
-
-function showPart(id, btn) {
-  document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  document.getElementById('parts-content').innerHTML = PARTS_DATA[id] || '<p style="color:var(--text3)">No data</p>';
-}
-
+// ── VIN Decoder ──
 async function decodeVIN() {
-  const vin = (document.getElementById('vin-input').value || '').trim().toUpperCase();
-  const out = document.getElementById('vin-result');
-  if (vin.length !== 17) { out.innerHTML = '<p style="color:#dc2626">VIN must be exactly 17 characters</p>'; return; }
-  out.innerHTML = '<span class="spinner"></span> Decoding...';
+  const vin = document.getElementById('vin-input').value.trim().toUpperCase();
+  const box = document.getElementById('vin-result');
+  if (vin.length !== 17) { box.innerHTML = '<p style="color:var(--red);font-size:13px">⚠️ VIN must be 17 characters</p>'; return; }
+  box.innerHTML = '<span class="spinner"></span> Decoding...';
   try {
-    const r = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${vin}?format=json`);
+    const r = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin}?format=json`);
     const d = await r.json();
-    const v = d.Results[0];
-    const fields = [
-      ['Year', v.ModelYear], ['Make', v.Make], ['Model', v.Model],
-      ['Trim', v.Trim], ['Body', v.BodyClass], ['Engine', v.DisplacementL ? v.DisplacementL+'L' : v.EngineModel],
-      ['Drive', v.DriveType], ['Fuel', v.FuelTypePrimary], ['Cylinders', v.EngineCylinders]
-    ].filter(([,val]) => val && val !== 'Not Applicable');
-    out.innerHTML = `<div class="result-grid">${fields.map(([l,v]) => `<div class="result-item"><label>${l}</label><div class="val">${v}</div></div>`).join('')}</div>`;
-  } catch(e) {
-    out.innerHTML = '<p style="color:#dc2626">Decode failed — check VIN and try again</p>';
-  }
+    const fields = ['Make','Model','Model Year','Body Class','Drive Type','Engine Configuration','Displacement (L)','Fuel Type - Primary','Number of Cylinders','Transmission Style','Plant Country'];
+    const results = {};
+    d.Results.forEach(x => { if (fields.includes(x.Variable) && x.Value && x.Value !== 'Not Applicable') results[x.Variable] = x.Value; });
+    if (!Object.keys(results).length) { box.innerHTML = '<p style="color:var(--text3);font-size:13px">No results found for this VIN.</p>'; return; }
+    let html = '<div class="result-grid">';
+    Object.entries(results).forEach(([k,v]) => { html += `<div class="result-item"><label>${k}</label><div class="val">${v}</div></div>`; });
+    html += '</div>';
+    box.innerHTML = html;
+  } catch(e) { box.innerHTML = '<p style="color:var(--red);font-size:13px">⚠️ Error contacting NHTSA API. Check connection.</p>'; }
 }
+document.getElementById('vin-input').addEventListener('keydown', e => { if (e.key === 'Enter') decodeVIN(); });
 
+// ── Inner Tabs ──
+document.getElementById('refTabBar').addEventListener('click', e => {
+  const pill = e.target.closest('.inner-tab-pill');
+  if (!pill) return;
+  const tab = pill.dataset.tab;
+  document.querySelectorAll('.inner-tab-pill').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+  const panel = document.getElementById('tab-' + tab);
+  if (panel) panel.classList.add('active');
+});
+
+// ── Notes ──
 function saveNotes() {
   try { localStorage.setItem('partsnotes646202', document.getElementById('parts-notes').value); } catch(e) {}
   const btn = event.target;
-  btn.textContent = 'Saved ✓';
-  setTimeout(() => btn.textContent = 'Save Notes', 2000);
+  const orig = btn.textContent;
+  btn.textContent = '✓ Saved';
+  btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 1500);
 }
-
 document.addEventListener('DOMContentLoaded', () => {
   try { document.getElementById('parts-notes').value = localStorage.getItem('partsnotes646202') || ''; } catch(e) {}
-  showPart('batteries', document.querySelector('.ptab'));
-});
-
-// Inner tab switching for old backup content
-document.querySelectorAll('.inner-tab-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    const tab = pill.dataset.tab;
-    document.querySelectorAll('.inner-tab-pill').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    const panel = document.getElementById('tab-' + tab);
-    if (panel) panel.classList.add('active');
-  });
 });
 </script>
 </body>
