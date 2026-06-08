@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Monitor â Bridgestone Firestone Dashboard</title>
+<title>Monitor  Bridgestone Firestone Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
     min-height: 100vh;
   }
 
-  /* ââ Header ââ */
+  /*  Header  */
   .page-header {
     display: flex;
     align-items: center;
@@ -46,7 +46,7 @@
   }
   .page-title svg { flex-shrink: 0; }
 
-  /* ââ Buttons ââ */
+  /*  Buttons  */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -77,7 +77,7 @@
   .btn-danger:hover { background: #fef2f2; }
   .btn:disabled { opacity: .5; cursor: not-allowed; }
 
-  /* ââ Health Summary Bar ââ */
+  /*  Health Summary Bar  */
   .health-bar-wrap {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -134,7 +134,7 @@
     font-family: var(--mono);
   }
 
-  /* ââ Grid ââ */
+  /*  Grid  */
   .monitor-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -148,7 +148,7 @@
     .monitor-grid { grid-template-columns: 1fr; }
   }
 
-  /* ââ Service Card ââ */
+  /*  Service Card  */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -280,7 +280,7 @@
   }
   .btn-remove:hover { color: var(--red); border-color: var(--red); background: #fef2f2; }
 
-  /* ââ Add Endpoint Form ââ */
+  /*  Add Endpoint Form  */
   .add-section {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -329,7 +329,7 @@
   .form-group input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(30,58,95,.1); }
   .form-group input::placeholder { color: var(--text3); }
 
-  /* ââ Countdown ââ */
+  /*  Countdown  */
   .countdown-chip {
     display: inline-flex;
     align-items: center;
@@ -349,14 +349,14 @@
     text-align: center;
   }
 
-  /* ââ Spinner for refresh btn ââ */
+  /*  Spinner for refresh btn  */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinning { animation: spin .7s linear infinite; }
 </style>
 </head>
 <body><a href="https://646202.com/cdn-cgi/content?id=VmZeFQzFm3oLh_mE.glVcUcNRzwNNFI7bfOpKn9nW.I-1780874268.6872444-1.2.1.1-ojpWxZxLD46pIRcZPgLilDyk3rNUjJCxd47CtQW_3dg" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
 
-<!-- ââ Page Header ââ -->
+<!--  Page Header  -->
 <div class="page-header">
   <div class="page-title">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -378,27 +378,27 @@
   </div>
 </div>
 
-<!-- ââ Health Summary ââ -->
+<!--  Health Summary  -->
 <div class="health-bar-wrap">
   <div class="health-meta">
-    <div class="health-label" id="healthLabel">Checking servicesâ¦</div>
+    <div class="health-label" id="healthLabel">Checking services</div>
     <div class="health-counts">
-      <span class="hc-up">  â <span id="cntUp">0</span> UP</span>
-      <span class="hc-slow">â <span id="cntSlow">0</span> SLOW</span>
-      <span class="hc-down">â <span id="cntDown">0</span> DOWN</span>
-      <span class="hc-chk"> â <span id="cntChk">0</span> CHECKING</span>
+      <span class="hc-up">   <span id="cntUp">0</span> UP</span>
+      <span class="hc-slow"> <span id="cntSlow">0</span> SLOW</span>
+      <span class="hc-down"> <span id="cntDown">0</span> DOWN</span>
+      <span class="hc-chk">  <span id="cntChk">0</span> CHECKING</span>
     </div>
   </div>
   <div class="health-track" id="healthTrack">
     <div class="health-segment seg-chk" id="segChk" style="width:100%"></div>
   </div>
-  <div class="last-ping-note" id="lastPingNote">Last full ping: â</div>
+  <div class="last-ping-note" id="lastPingNote">Last full ping: </div>
 </div>
 
-<!-- ââ Service Cards Grid ââ -->
+<!--  Service Cards Grid  -->
 <div class="monitor-grid" id="monitorGrid"></div>
 
-<!-- ââ Add Endpoint ââ -->
+<!--  Add Endpoint  -->
 <div class="add-section">
   <h3>+ Add Custom Endpoint</h3>
   <div class="add-form">
@@ -417,9 +417,9 @@
 </div>
 
 <script>
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    CONSTANTS
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 const DISPATCH_URL   = 'https://n8n.646202.com/webhook/dispatch';
 const DISPATCH_TOKEN = 'a7fe255af893c3321935d0acc41f199a252e0392de13468cd31f195171baf4c8';
 const SMS_WEBHOOK    = 'https://n8n.646202.com/webhook/sms';
@@ -432,9 +432,9 @@ const LS_KEY         = 'monitors646202';
 const PING_INTERVAL  = 30; // seconds
 const SLOW_THRESHOLD = 2000; // ms
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    DEFAULT ENDPOINTS
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 const DEFAULT_ENDPOINTS = [
   { id: 'def-1', name: '646202.com',   url: 'https://646202.com',                builtin: true },
   { id: 'def-2', name: 'n8n',          url: 'https://n8n.646202.com',             builtin: true },
@@ -446,17 +446,17 @@ const DEFAULT_ENDPOINTS = [
   { id: 'def-8', name: 'mmcp',         url: 'https://mmcp.646202.com',            builtin: true },
 ];
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    STATE
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 let endpoints = [];       // { id, name, url, builtin?, status, responseTime, lastChecked, history[] }
 let countdownVal = PING_INTERVAL;
 let countdownTimer = null;
 let refreshing = false;
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    INIT
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function init() {
   // Load custom endpoints from localStorage
   let custom = [];
@@ -491,17 +491,17 @@ function init() {
   startCountdown();
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    SAVE CUSTOM TO LOCALSTORAGE
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function saveCustomEndpoints() {
   const custom = endpoints.filter(e => !e.builtin).map(e => ({ id: e.id, name: e.name, url: e.url }));
   localStorage.setItem(LS_KEY, JSON.stringify(custom));
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    PING A SINGLE ENDPOINT
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 async function pingEndpoint(ep) {
   ep.status = 'checking';
   updateCard(ep);
@@ -509,7 +509,7 @@ async function pingEndpoint(ep) {
 
   const start = performance.now();
   try {
-    // Use no-cors for cross-origin â we can detect network errors vs success
+    // Use no-cors for cross-origin  we can detect network errors vs success
     // For same-origin we get real response; for cross-origin we get opaque (but no error = likely up)
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 10000);
@@ -536,9 +536,9 @@ async function pingEndpoint(ep) {
   updateSummary();
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    REFRESH ALL
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 async function refreshAll() {
   if (refreshing) return;
   refreshing = true;
@@ -559,9 +559,9 @@ async function refreshAll() {
   refreshing = false;
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    COUNTDOWN
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function startCountdown() {
   countdownTimer = setInterval(() => {
     countdownVal--;
@@ -578,9 +578,9 @@ function resetCountdown() {
   document.getElementById('countdown').textContent = countdownVal;
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    ADD CUSTOM ENDPOINT
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function addCustomEndpoint() {
   const nameEl = document.getElementById('newName');
   const urlEl  = document.getElementById('newUrl');
@@ -604,9 +604,9 @@ function addCustomEndpoint() {
   pingEndpoint(ep);
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    REMOVE ENDPOINT
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function removeEndpoint(id) {
   endpoints = endpoints.filter(e => e.id !== id);
   saveCustomEndpoints();
@@ -615,9 +615,9 @@ function removeEndpoint(id) {
   updateSummary();
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    STATUS HELPERS
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function statusDotClass(status) {
   return { up:'dot-up', slow:'dot-slow', down:'dot-down', checking:'dot-checking' }[status] || 'dot-checking';
 }
@@ -634,9 +634,9 @@ function cardClass(status) {
   return { up:'up', slow:'slow', down:'down', checking:'checking' }[status] || 'checking';
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    SPARKLINE
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function drawSparkline(canvas, history, status) {
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
@@ -688,9 +688,9 @@ function drawSparkline(canvas, history, status) {
   });
 }
 
-/* âââââââââââââââââââââââââââââââââââââââââ
+/* 
    RENDER GRID (full re-render)
-âââââââââââââââââââââââââââââââââââââââââ */
+ */
 function renderGrid() {
   const grid = document.getElementById('monitorGrid');
   grid.innerHTML = '';
@@ -716,12 +716,11 @@ function buildCardEl(ep) {
 }
 
 function cardHTML(ep) {
-  const rtLabel = ep.responseTime !== null ? ep.responseTime + ' ms' : 'â';
+  const rtLabel = ep.responseTime !== null ? ep.responseTime + ' ms' : '';
   const ts      = ep.lastChecked  ? ep.lastChecked.toLocaleTimeString() : 'Not yet checked';
-// ── AUTO-CLOSE FIX ──
+//  AUTO-CLOSE FIX 
 } // end of any unclosed function
 
-document.addEventListener("DOMContentLoaded", () => { typeof init==="function" && init(); typeof startMonitoring==="function" && startMonitoring(); });
 </script>
 </body>
 </html>
