@@ -370,11 +370,12 @@ async function decodeVIN() {
   document.getElementById('decodeBtnText').textContent = 'Decoding...';
   btn.disabled = true;
   try {
-    const r = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin}?format=json`);
+    const r = await fetch(`/api/vin/${vin}?format=json`);
     const d = await r.json();
-    const want = ['Make','Model','Model Year','Body Class','Drive Type','Engine Configuration','Displacement (L)','Fuel Type - Primary','Number of Cylinders','Transmission Style','Plant Country'];
+    const want = ['Make','Model','Model Year','Body Class','Drive Type','Engine Configuration','Displacement (L)','Fuel Type - Primary','Engine Number of Cylinders','Transmission Style','Transmission Speeds','Plant Country','Plant State','Trim','Vehicle Type','Manufacturer Name'];
+    const labels = {'Engine Number of Cylinders':'Cylinders','Manufacturer Name':'Manufacturer','Transmission Speeds':'Trans Speeds','Plant State':'Plant State'};
     const out = {};
-    d.Results.forEach(x => { if(want.includes(x.Variable) && x.Value && x.Value !== 'Not Applicable') out[x.Variable] = x.Value; });
+    d.Results.forEach(x => { if(want.includes(x.Variable) && x.Value && x.Value !== 'Not Applicable' && x.Value !== '0') out[labels[x.Variable]||x.Variable] = x.Value; });
     if(!Object.keys(out).length) { err.textContent = '⚠️ No data found for this VIN.'; err.style.display = 'block'; return; }
     let html = '<div class="result-grid" style="margin-top:14px">';
     Object.entries(out).forEach(([k,v]) => { html += `<div class="result-item"><label>${k}</label><div class="val">${v}</div></div>`; });
